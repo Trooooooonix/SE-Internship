@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main {
 
@@ -12,6 +14,10 @@ public class Main {
         JFrame window = new JFrame("GPS-Tracker GUI");
         window.setSize(1920,1080);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JFrame optionWindow = new JFrame("Options");
+        optionWindow.setSize(1220,980);
+        optionWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
             adding the menubar to the window
          */
@@ -22,8 +28,12 @@ public class Main {
          */
         JMenu navigationMenu = new JMenu("Navigate");
         menuBar.add(navigationMenu);
-        JMenuItem item1 = new JMenuItem("Option");
-        navigationMenu.add(item1);
+        JMenuItem option = new JMenuItem("Option");
+        navigationMenu.add(option);
+        option.addActionListener(e -> {
+            window.setVisible(false);
+            optionWindow.setVisible(true);
+        });
 
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
