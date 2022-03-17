@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,7 +21,7 @@ public class Main {
         optionWindow.setSize(1220,980);
         optionWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
-            adding the menubar to the window
+            adding the menubar to the main WINDOW (variableName = window)
          */
         JMenuBar menuBar = new JMenuBar();
         window.setJMenuBar(menuBar);
@@ -30,6 +32,9 @@ public class Main {
         menuBar.add(navigationMenu);
         JMenuItem option = new JMenuItem("Option");
         navigationMenu.add(option);
+        /*
+            adding ActionListeners to react on click
+         */
         option.addActionListener(a -> {
             window.setVisible(false);
             optionWindow.setVisible(true);
@@ -39,6 +44,10 @@ public class Main {
         menuBar.add(fileMenu);
         JMenuItem refresh = new JMenuItem("Refresh");
         fileMenu.add(refresh);
+        /*
+            adding ActionListeners to react on click
+         */
+        refresh.addActionListener(a -> window.repaint());
 
         JMenu viewMenu = new JMenu("View");
         menuBar.add(viewMenu);
@@ -46,6 +55,17 @@ public class Main {
 
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
+
+
+        JButton doneButton = new JButton("Done");
+        doneButton.setFont(new Font("MV Boli", Font.BOLD, 20));
+        doneButton.setSize(200, 200);
+        optionWindow.add(doneButton, BorderLayout.SOUTH);
+        doneButton.addActionListener(a -> {
+            optionWindow.setVisible(false);
+            window.setVisible(true);
+        });
+
 
 
         window.setVisible(true);
