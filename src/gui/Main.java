@@ -26,24 +26,28 @@ public class Main {
         /*
             adding Menus to the Menubar
          */
-        JMenu navigationMenu = new JMenu("Navigate");
+        JMenu navigationMenu = new JMenu("File");
         menuBar.add(navigationMenu);
         JMenuItem option = new JMenuItem("Option");
         navigationMenu.add(option);
-        option.addActionListener(e -> {
+        option.addActionListener(a -> {
             window.setVisible(false);
             optionWindow.setVisible(true);
         });
 
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu("Edit");
         menuBar.add(fileMenu);
-        JMenuItem refactor = new JMenuItem("Refactor");
-        fileMenu.add(refactor);
         JMenuItem refresh = new JMenuItem("Refresh");
         fileMenu.add(refresh);
 
+        JMenu viewMenu = new JMenu("View");
+        menuBar.add(viewMenu);
+
+
+        JMenu helpMenu = new JMenu("Help");
+        menuBar.add(helpMenu);
+
 
         window.setVisible(true);
-
     }
 }
