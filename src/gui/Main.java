@@ -82,8 +82,6 @@ public class Main {
         window.add(internalFrame, BorderLayout.NORTH);
 
 
-
-
         window.setVisible(true);
     }
 }
