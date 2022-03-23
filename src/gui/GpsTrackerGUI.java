@@ -15,7 +15,6 @@ public class GpsTrackerGUI extends JFrame {
         super(title);
         this.initiateMenuBar(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(panel1);
         this.setContentPane(rootPanel);
         this.pack();
         createTable();
