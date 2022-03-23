@@ -13,7 +13,7 @@ public class GpsTrackerGUI extends JFrame {
 
     public GpsTrackerGUI(String title) {
         super(title);
-        this.initiateMenuBar(this);
+        initiateMenuBar(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(rootPanel);
         this.pack();
