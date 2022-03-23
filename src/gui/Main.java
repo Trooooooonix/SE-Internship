@@ -1,7 +1,5 @@
 package gui;
 
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.resources.JFreeChartResources;
 
 public class Main {
 
