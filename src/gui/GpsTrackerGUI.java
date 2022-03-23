@@ -2,7 +2,6 @@ package gui;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -10,6 +9,8 @@ public class GpsTrackerGUI extends JFrame {
 
     private JPanel rootPanel;
     private JTable trackTable;
+    private JTable segmentTable;
+    private JPanel Tracks;
 
     public GpsTrackerGUI(String title) {
         super(title);
@@ -17,12 +18,10 @@ public class GpsTrackerGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(rootPanel);
         this.pack();
-        createTable();
+        createTrackTable();
+        createSegmentTable();
     }
 
-    public JPanel getRootPanel() {
-        return rootPanel;
-    }
 
     public void initiateMenuBar(JFrame window) {
         JMenuBar menuBar = new JMenuBar();
@@ -57,22 +56,12 @@ public class GpsTrackerGUI extends JFrame {
 
         JMenu columnMenu = new JMenu("Columns");
         menuBar.add(columnMenu);
-        JCheckBoxMenuItem name = new JCheckBoxMenuItem("Name");
-        name.setSelected(true);
-        columnMenu.add(name);
-        JCheckBoxMenuItem date = new JCheckBoxMenuItem("Date");
-        date.setSelected(true);
-        columnMenu.add(date);
         JCheckBoxMenuItem startTime = new JCheckBoxMenuItem("Start");
         startTime.setSelected(true);
         columnMenu.add(startTime);
-        JCheckBoxMenuItem distance = new JCheckBoxMenuItem("Distance");
-        distance.setSelected(true);
-        columnMenu.add(distance);
         JCheckBoxMenuItem pace = new JCheckBoxMenuItem("Pace");
         pace.setSelected(true);
         columnMenu.add(pace);
-
         JCheckBoxMenuItem averageBpm = new JCheckBoxMenuItem("Average Bpm");
         averageBpm.setSelected(true);
         columnMenu.add(averageBpm);
@@ -85,6 +74,8 @@ public class GpsTrackerGUI extends JFrame {
 
         JMenu track = new JMenu("Track");
         menuBar.add(track);
+        JMenuItem allTypes = new JMenuItem("all Types");
+        track.add(allTypes);
         JMenuItem cycling = new JMenuItem("Cycling");
         track.add(cycling);
         JMenuItem driving = new JMenuItem("Driving");
@@ -103,15 +94,24 @@ public class GpsTrackerGUI extends JFrame {
         menuBar.add(helpMenu);
     }
 
-    private void createTable(){
+    private void createTrackTable(){
         Object [][] data = {
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "111"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "111"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "111"}
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
+                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
         };
         trackTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"Name", "Datum", "Startzeit", "Strecke", "Zeit", "BPM"}
+                new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "height"} // String ändern wenn Spalten ausgeblendet werden sollen
         ));
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
@@ -123,8 +123,44 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(3).setCellRenderer(centerRenderer);
         columns.getColumn(4).setCellRenderer(centerRenderer);
         columns.getColumn(5).setCellRenderer(centerRenderer);
+        columns.getColumn(6).setCellRenderer(centerRenderer);
+        columns.getColumn(7).setCellRenderer(centerRenderer);
+        columns.getColumn(8).setCellRenderer(centerRenderer);
     }
 
+
+    private void createSegmentTable(){
+        Object [][] data = {
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+                {"1", "05:00", "8", "111", "180"},
+        };
+        segmentTable.setModel(new DefaultTableModel(
+                data,
+                new String[]{"km", "Time", "height", "avg. BPM", "max. BPM"}
+        ));
+        TableColumnModel columns = segmentTable.getColumnModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        columns.getColumn(0).setCellRenderer(centerRenderer);
+        columns.getColumn(1).setCellRenderer(centerRenderer);
+        columns.getColumn(2).setCellRenderer(centerRenderer);
+        columns.getColumn(3).setCellRenderer(centerRenderer);
+        columns.getColumn(4).setCellRenderer(centerRenderer);
+    }
 
 
 }
