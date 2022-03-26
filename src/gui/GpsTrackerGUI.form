@@ -45,7 +45,15 @@
                 <children>
                   <component id="620f6" class="javax.swing.JTable" binding="segmentTable">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <doubleBuffered value="false"/>
+                      <dragEnabled value="false"/>
+                      <fillsViewportHeight value="true"/>
+                      <gridColor color="-2631721"/>
+                      <inheritsPopupMenu value="false"/>
+                      <requestFocusEnabled value="false"/>
+                      <rowHeight value="22"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
@@ -70,7 +78,7 @@
         <properties>
           <background color="-1"/>
         </properties>
-        <border type="none"/>
+        <border type="line"/>
         <children>
           <component id="327d" class="javax.swing.JLabel">
             <constraints>
@@ -88,7 +96,7 @@
               </grid>
             </constraints>
             <properties/>
-            <border type="line"/>
+            <border type="none"/>
             <children/>
           </grid>
         </children>
@@ -112,7 +120,13 @@
             <children>
               <component id="fd4b7" class="javax.swing.JTable" binding="trackTable">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <fillsViewportHeight value="true"/>
+                  <gridColor color="-2631721"/>
+                  <intercellSpacing width="1" height="1"/>
+                  <requestFocusEnabled value="false"/>
+                  <rowHeight value="22"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

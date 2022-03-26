@@ -213,4 +213,6 @@ public class GpsTrackerGUI extends JFrame {
         //chartPanel.add(chPanel); //add the chart viewer to the JPanel
 
     }
+
+
 }
