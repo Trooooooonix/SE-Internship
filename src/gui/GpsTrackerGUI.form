@@ -3,14 +3,14 @@
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="5" vgap="5">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="163" y="104" width="1000" height="701"/>
+      <xy x="163" y="104" width="1500" height="800"/>
     </constraints>
     <properties>
       <inheritsPopupMenu value="true"/>
-      <maximumSize width="1000" height="500"/>
-      <minimumSize width="1000" height="500"/>
-      <opaque value="false"/>
-      <preferredSize width="1000" height="500"/>
+      <maximumSize width="1500" height="800"/>
+      <minimumSize width="1500" height="800"/>
+      <opaque value="true"/>
+      <preferredSize width="1500" height="800"/>
     </properties>
     <border type="none"/>
     <children>
@@ -62,7 +62,7 @@
           </component>
         </children>
       </grid>
-      <grid id="f26a6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="f26a6" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -70,7 +70,7 @@
         <properties>
           <background color="-1"/>
         </properties>
-        <border type="line"/>
+        <border type="none"/>
         <children>
           <component id="327d" class="javax.swing.JLabel">
             <constraints>
@@ -81,6 +81,16 @@
               <text value="Distance"/>
             </properties>
           </component>
+          <grid id="aca41" binding="chartPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="400"/>
+              </grid>
+            </constraints>
+            <properties/>
+            <border type="line"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="881e" binding="Tracks" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

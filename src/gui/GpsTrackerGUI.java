@@ -1,9 +1,33 @@
 package gui;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.DefaultCategoryItemRenderer;
+import org.jfree.chart.title.DateTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.TextAnchor;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
+
+import static gui.BarChartDemo1.createChart;
+import static gui.BarChartDemo1.createDataset;
+import static org.jfree.chart.ChartFactory.createBarChart;
 
 public class GpsTrackerGUI extends JFrame {
 
@@ -11,6 +35,7 @@ public class GpsTrackerGUI extends JFrame {
     private JTable trackTable;
     private JTable segmentTable;
     private JPanel Tracks;
+    private JPanel chartPanel;
 
     public GpsTrackerGUI(String title) {
         super(title);
@@ -20,6 +45,7 @@ public class GpsTrackerGUI extends JFrame {
         this.pack();
         createTrackTable();
         createSegmentTable();
+        createBarChart();
     }
 
 
@@ -163,4 +189,28 @@ public class GpsTrackerGUI extends JFrame {
     }
 
 
+    private void createBarChart() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.setValue(20, "", "Tag 1");
+        dataset.setValue(15, "", "Tag 2");
+        dataset.setValue(10, "", "Tag 3");
+        dataset.setValue(17, "", "Tag 4");
+        dataset.setValue(25, "", "Tag 5");
+        dataset.setValue(18, "", "Tag 6");
+        dataset.setValue(35, "", "Tag 7");
+
+
+        JFreeChart chart = createChart(dataset);
+
+        ChartPanel chPanel = new ChartPanel(chart); //creating the chart panel, which extends JPanel
+        chPanel.setPreferredSize(new Dimension(800, 250)); //size according to my window
+        chPanel.setMouseWheelEnabled(true);
+        chPanel.setFillZoomRectangle(true);
+
+
+        chartPanel.add(chPanel); //add the chart viewer to the JPanel
+
+        //chartPanel.add(chPanel); //add the chart viewer to the JPanel
+
+    }
 }
