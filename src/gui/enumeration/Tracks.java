@@ -2,5 +2,5 @@ package gui.enumeration;
 
 public enum Tracks {
 
-    HIKING, RUN, CYCLING, FLYING;
+    HIKING, RUN, CYCLING, FLYING, DRIVING, SKIING;
 }
