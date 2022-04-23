@@ -1,14 +1,15 @@
 package parser;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class TrackPoint {
     private double latitude;
     private double longitute;
     private double elevation;
-    private String time;
+    private Date time;
 
-    public TrackPoint(double lat, double lt, double ele, String time){
+    public TrackPoint(double lat, double lt, double ele, Date time){
         this.latitude = lat;
         this.longitute = lt;
         this.elevation = ele;
@@ -27,7 +28,7 @@ public class TrackPoint {
         return elevation;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
