@@ -2,15 +2,9 @@ package parser;
 
 import org.w3c.dom.*;
 
-import javax.swing.text.DateFormatter;
 import javax.xml.parsers.*;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class GpxParser {
 
@@ -22,7 +16,6 @@ public class GpxParser {
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
             NodeList nList = doc.getElementsByTagName("trkpt");
-            DateFormat dateformater = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
 
             for (int counter = 0; counter < nList.getLength(); counter++) {
                 double latitude;
@@ -41,7 +34,7 @@ public class GpxParser {
                     //timeString = timeString.replace("T"," ");
                     timeString = timeString.replace("Z","");
                     time = LocalDateTime.parse(timeString);
-                    TrackPoint tp = new TrackPoint(latitude, longitute, elevation, time);
+                    GpxTrackPoint tp = new GpxTrackPoint(latitude, longitute, elevation, time);
                     System.out.println(tp);
                 }
             }
