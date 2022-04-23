@@ -1,4 +1,4 @@
 package gui;
 
-public class Entries extends Composite{
+public class Entries extends Composite {
 }

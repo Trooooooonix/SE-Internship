@@ -1,7 +1,7 @@
 package gui;
 
 
-import javax.swing.*;
+import parser.GpxParser;
 
 public class Main {
 

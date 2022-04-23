@@ -1,4 +1,4 @@
-package gui.enumeration;
+package gui.enums;
 
 public enum Tracks {
 
