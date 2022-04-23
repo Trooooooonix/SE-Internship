@@ -8,6 +8,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -28,7 +29,7 @@ public class GpxParser {
                 double longitute;
                 double elevation;
                 String timeString;
-                Date time;
+                LocalDateTime time;
                 Node nNode = nList.item(counter);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
@@ -37,16 +38,11 @@ public class GpxParser {
                     elevation = Double.parseDouble(eElement.getElementsByTagName("ele").item(0).getTextContent());
 
                     timeString = eElement.getElementsByTagName("time").item(0).getTextContent();
-                    timeString = timeString.replace("T"," ");
+                    //timeString = timeString.replace("T"," ");
                     timeString = timeString.replace("Z","");
-                    time = (Date) dateformater.parse(timeString);
+                    time = LocalDateTime.parse(timeString);
                     TrackPoint tp = new TrackPoint(latitude, longitute, elevation, time);
                     System.out.println(tp);
-
-                    if (counter == 0){
-
-
-                    }
                 }
             }
         } catch (Exception e) {

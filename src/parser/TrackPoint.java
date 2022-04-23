@@ -7,9 +7,9 @@ public class TrackPoint {
     private double latitude;
     private double longitute;
     private double elevation;
-    private Date time;
+    private LocalDateTime time;
 
-    public TrackPoint(double lat, double lt, double ele, Date time){
+    public TrackPoint(double lat, double lt, double ele, LocalDateTime time){
         this.latitude = lat;
         this.longitute = lt;
         this.elevation = ele;
@@ -28,7 +28,7 @@ public class TrackPoint {
         return elevation;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
