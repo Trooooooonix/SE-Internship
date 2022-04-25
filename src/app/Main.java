@@ -1,6 +1,7 @@
-package gui;
+package app;
 
 
+import gui.GpsTrackerGUI;
 import parser.GpxParser;
 import parser.TcxParser;
 
