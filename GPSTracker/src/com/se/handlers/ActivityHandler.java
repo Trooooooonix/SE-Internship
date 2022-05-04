@@ -11,6 +11,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityHandler extends DefaultHandler {
     private static final String ACTIVITY = "Activity";
@@ -33,20 +34,13 @@ public class ActivityHandler extends DefaultHandler {
     private TrackPoint currTrackPoint;
     private StringBuilder elementValue;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     @Override
     public void startDocument() throws SAXException {
         a = new Activity();
     }
 
     @Override
-    public void endDocument() throws SAXException {
-    }
-
-    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        // here starts the saving of the imported file
         switch (qName) {
             case ACTIVITY:
                 a.setSport(attributes.getValue(0));
@@ -128,7 +122,7 @@ public class ActivityHandler extends DefaultHandler {
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("Wrong DateTime format");
                 }
                 break;
             case LATITUDE:

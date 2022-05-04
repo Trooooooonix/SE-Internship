@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -22,23 +23,37 @@ public class GPSTracker {
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer");
         ui.setVisible(true);
 
-        List<Path> filePathList = new ArrayList<>();
-        try (Stream<Path> paths = Files.walk(Paths.get("D:/testdata"))) {
+        List<Path> filePathList;
+        try (Stream<Path> paths = Files.walk(Paths.get("GPSTracker/tcxFiles/testdata"))) {
             filePathList = paths.filter(Files::isRegularFile).toList();
         }
 
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-            ActivityHandler ah = new ActivityHandler();
-            saxParser.parse(p.toString(), ah);
-            aList.add(ah.getActivity());
+            if (p.toString().endsWith("tcx")) {
+                SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+                SAXParser saxParser = saxParserFactory.newSAXParser();
+                ActivityHandler ah = new ActivityHandler();
+                saxParser.parse(p.toString(), ah);
+                aList.add(ah.getActivity());
+            }
         }
 
-        System.out.println(aList.size());
-        Activity eins = aList.get(0);
-        System.out.println(eins);
+        System.out.println("Loaded files: " + aList.size());
 
+        final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
+        final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Activity acadia = aList.get(0);
+        System.out.println("acadia.tcx");
+        System.out.println("Name: " + acadia.getId());
+        System.out.println("Date: " + acadia.getLaps().get(0).getStartTime().format(viewDateFormatter));
+        System.out.println("Start Time: "+ acadia.getLaps().get(0).getStartTime().format(viewStartTimeFormatter));
+
+        for (Activity a : aList) {
+            System.out.println("Sport: " + a.getSport());
+            System.out.println("Id: " + a.getId());
+            System.out.println("Number of laps: " + a.getLaps().size());
+        }
     }
 }
