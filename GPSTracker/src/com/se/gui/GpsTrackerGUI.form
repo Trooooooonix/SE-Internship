@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.se.gui.GpsTrackerGUI">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="5" vgap="5">
+    <margin top="5" left="5" bottom="5" right="5"/>
+    <constraints>
+      <xy x="163" y="104" width="1500" height="800"/>
+    </constraints>
+    <properties>
+      <inheritsPopupMenu value="true"/>
+      <maximumSize width="1500" height="800"/>
+      <minimumSize width="1500" height="800"/>
+      <opaque value="true"/>
+      <preferredSize width="1500" height="800"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="e8696" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+        </properties>
+        <border type="line" title-justification="2">
+          <font/>
+        </border>
+        <children>
+          <grid id="d670f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <scrollpane id="e9233">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="620f6" class="javax.swing.JTable" binding="segmentTable">
+                    <constraints/>
+                    <properties>
+                      <doubleBuffered value="false"/>
+                      <dragEnabled value="false"/>
+                      <fillsViewportHeight value="true"/>
+                      <gridColor color="-2631721"/>
+                      <inheritsPopupMenu value="false"/>
+                      <requestFocusEnabled value="false"/>
+                      <rowHeight value="22"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <component id="8fb38" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="JetBrains Mono" size="20" style="1"/>
+              <text value="Segments"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="f26a6" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+        </properties>
+        <border type="line"/>
+        <children>
+          <component id="327d" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="JetBrains Mono" size="20" style="1"/>
+              <text value="Distance"/>
+            </properties>
+          </component>
+          <grid id="aca41" binding="chartPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="400"/>
+              </grid>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+      <grid id="881e" binding="Tracks" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+        </properties>
+        <border type="line"/>
+        <children>
+          <scrollpane id="96bb0">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="fd4b7" class="javax.swing.JTable" binding="trackTable">
+                <constraints/>
+                <properties>
+                  <fillsViewportHeight value="true"/>
+                  <gridColor color="-2631721"/>
+                  <intercellSpacing width="1" height="1"/>
+                  <requestFocusEnabled value="false"/>
+                  <rowHeight value="22"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <component id="b63dc" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-4862222"/>
+              <font name="JetBrains Mono" size="20" style="1"/>
+              <text value="Tracks"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
