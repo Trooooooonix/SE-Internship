@@ -121,11 +121,17 @@
               <component id="fd4b7" class="javax.swing.JTable" binding="trackTable">
                 <constraints/>
                 <properties>
+                  <cellSelectionEnabled value="false"/>
+                  <columnSelectionAllowed value="false"/>
                   <fillsViewportHeight value="true"/>
+                  <focusable value="false"/>
                   <gridColor color="-2631721"/>
                   <intercellSpacing width="1" height="1"/>
                   <requestFocusEnabled value="false"/>
                   <rowHeight value="22"/>
+                  <rowSelectionAllowed value="true"/>
+                  <showVerticalLines value="false"/>
+                  <verifyInputWhenFocusTarget value="true"/>
                 </properties>
               </component>
             </children>

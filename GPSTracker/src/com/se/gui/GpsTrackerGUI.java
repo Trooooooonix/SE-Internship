@@ -1,29 +1,23 @@
 package com.se.gui;
 
-import org.jfree.chart.ChartFactory;
+import com.se.tracks.Activity;
+import com.se.tracks.Lap;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.labels.ItemLabelAnchor;
-import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.DefaultCategoryItemRenderer;
-import org.jfree.chart.title.DateTitle;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.TextAnchor;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static com.se.gui.BarChartDemo1.createChart;
 
@@ -32,18 +26,33 @@ public class GpsTrackerGUI extends JFrame {
     private JPanel rootPanel;
     private JTable trackTable;
     private JTable segmentTable;
-    private JPanel Tracks;
     private JPanel chartPanel;
+    private JPanel Tracks;
+    public int row = 0;
+    public JCheckBoxMenuItem startTime;
+    public JCheckBoxMenuItem pace;
+    public JCheckBoxMenuItem averageBpm;
+    public JCheckBoxMenuItem maxBpm;
+    public JCheckBoxMenuItem heightLvl;
 
-    public GpsTrackerGUI(String title) {
+
+    public GpsTrackerGUI(String title, List<Activity> aList) {
         super(title);
         initiateMenuBar(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(rootPanel);
         this.pack();
-        createTrackTable();
-        createSegmentTable();
-        createBarChart();
+        createTrackTable(aList);
+        createSegmentTable(aList);
+        createBarChart(aList);
+
+        trackTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                row = trackTable.getSelectedRow();
+                createSegmentTable(aList);
+                createBarChart(aList);
+            }
+        });
     }
 
 
@@ -80,19 +89,19 @@ public class GpsTrackerGUI extends JFrame {
 
         JMenu columnMenu = new JMenu("Columns");
         menuBar.add(columnMenu);
-        JCheckBoxMenuItem startTime = new JCheckBoxMenuItem("Start");
+        startTime = new JCheckBoxMenuItem("Start");
         startTime.setSelected(true);
         columnMenu.add(startTime);
-        JCheckBoxMenuItem pace = new JCheckBoxMenuItem("Pace");
+        pace = new JCheckBoxMenuItem("Pace");
         pace.setSelected(true);
         columnMenu.add(pace);
-        JCheckBoxMenuItem averageBpm = new JCheckBoxMenuItem("Average Bpm");
+        averageBpm = new JCheckBoxMenuItem("avg. Bpm");
         averageBpm.setSelected(true);
         columnMenu.add(averageBpm);
-        JCheckBoxMenuItem maxBpm = new JCheckBoxMenuItem("max Bpm");
+        maxBpm = new JCheckBoxMenuItem("max. Bpm");
         maxBpm.setSelected(true);
         columnMenu.add(maxBpm);
-        JCheckBoxMenuItem heightLvl = new JCheckBoxMenuItem("height");
+        heightLvl = new JCheckBoxMenuItem("Altitude");
         heightLvl.setSelected(true);
         columnMenu.add(heightLvl);
 
@@ -118,24 +127,37 @@ public class GpsTrackerGUI extends JFrame {
         menuBar.add(helpMenu);
     }
 
-    private void createTrackTable(){
-        Object [][] data = {
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-                {"test1", "11.11.1111", "11:11", "11", "11:11", "5", "111", "160", "60"},
-        };
+    private void createTrackTable(List<Activity> aList) {
+
+        final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Object[][] data = new Object[aList.size()][9];
+        int counter = 0;
+        double activityDistanceMeters;
+        double activityTotalTimeSeconds;
+
+        for (Activity a : aList) {
+            data[counter][0] = a.getId();
+            data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
+            data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
+            activityDistanceMeters = a.getActivityDistanceMeters();
+            data[counter][3] = activityDistanceMeters;
+            activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
+            data[counter][4] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
+            data[counter][5] = Math.round((activityDistanceMeters / activityTotalTimeSeconds) * 100.00) / 100.00;
+            data[counter][6] = a.getId();
+            data[counter][7] = a.getId();
+            data[counter][8] = a.getActivityTotalAltitude();
+            counter++;
+        }
+
+
+        trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
+        trackTable.setRowSelectionAllowed(true);
         trackTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "height"} // String ändern wenn Spalten ausgeblendet werden sollen
+                new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "Altitude"} // String ändern wenn Spalten ausgeblendet werden sollen
         ));
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
@@ -150,31 +172,41 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(6).setCellRenderer(centerRenderer);
         columns.getColumn(7).setCellRenderer(centerRenderer);
         columns.getColumn(8).setCellRenderer(centerRenderer);
+
+
+     /*   if (startTime.isSelected()) {
+            trackTable.getColumnModel().getColumn(0).setMinWidth(0);
+            trackTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        } else {
+            trackTable.getColumnModel().getColumn(0).setMinWidth(0);
+            trackTable.getColumnModel().getColumn(0).setMaxWidth(999);
+        }     */
     }
 
 
-    private void createSegmentTable(){
-        Object [][] data = {
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-                {"1", "05:00", "8", "111", "180"},
-        };
+
+
+    private void createSegmentTable(List<Activity> aList){
+
+        segmentTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
+        segmentTable.setRowSelectionAllowed(true);
+
+        Object [][] data = new Object [aList.get(row).getLaps().size()][6];
+        int counter =0;
+
+        for (Lap l : aList.get(row).getLaps()) {
+            data [counter][0] = counter+1;
+            data [counter][1] = Math.round(l.getDistanceMeters()*100.00)/100.00;
+            data [counter][2] = l.getTotalTimeHHmmSS(aList.get(row).getLaps().get(counter).getTotalTimeSeconds());
+            data [counter][3] = l.getLapTotalAltitude();
+            data [counter][4] = counter+1;
+            data [counter][5] = counter+1;
+            counter++;
+        }
+
         segmentTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"km", "Time", "height", "avg. BPM", "max. BPM"}
+                new String[]{"Lap", "Distance", "Time", "Altitude", "avg. BPM", "max. BPM"}
         ));
         TableColumnModel columns = segmentTable.getColumnModel();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -184,31 +216,28 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(2).setCellRenderer(centerRenderer);
         columns.getColumn(3).setCellRenderer(centerRenderer);
         columns.getColumn(4).setCellRenderer(centerRenderer);
+        columns.getColumn(5).setCellRenderer(centerRenderer);
     }
 
-
-    private void createBarChart() {
+    private void createBarChart(List<Activity> aList) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(20, "", "Tag 1");
-        dataset.setValue(15, "", "Tag 2");
-        dataset.setValue(10, "", "Tag 3");
-        dataset.setValue(17, "", "Tag 4");
-        dataset.setValue(25, "", "Tag 5");
-        dataset.setValue(18, "", "Tag 6");
-        dataset.setValue(35, "", "Tag 7");
+        int counter = 1;
+        Activity currActivity = aList.get(row);
+        for (Lap l : currActivity.getLaps()) {
+            double activityDistanceMeters = l.getDistanceMeters();
+            double activityTotalTimeSeconds = l.getTotalTimeSeconds();
+            dataset.setValue(Math.round((activityDistanceMeters/activityTotalTimeSeconds)*100.00)/100.00, "", "Lap "+ counter++);
+        }
 
-
-        JFreeChart chart = createChart(dataset);
-
-        ChartPanel chPanel = new ChartPanel(chart); //creating the chart panel, which extends JPanel
+        ChartPanel chPanel = new ChartPanel(createChart(dataset));
         chPanel.setPreferredSize(new Dimension(800, 250)); //size according to my window
         chPanel.setMouseWheelEnabled(true);
         chPanel.setFillZoomRectangle(true);
 
-
-        chartPanel.add(chPanel); //add the chart viewer to the JPanel
-
-        //chartPanel.add(chPanel); //add the chart viewer to the JPanel
+        chartPanel.removeAll();
+        chartPanel.add(chPanel);
+        chartPanel.repaint();
+        chartPanel.updateUI();
 
     }
 

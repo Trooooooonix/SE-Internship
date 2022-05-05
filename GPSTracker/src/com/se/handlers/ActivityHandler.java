@@ -27,6 +27,9 @@ public class ActivityHandler extends DefaultHandler {
     private static final String LATITUDE = "LatitudeDegrees";
     private static final String LONGITUDE = "LongitudeDegrees";
     private static final String ALTITUDE = "AltitudeMeters";
+    private static final String MAXIMUMBPM = "MaximumHeartRateBpm";
+    private static final String AVERAGEBPM = "AverageHeartRateBpm xsi:type=\"HeartRateInBeatsPerMinute_t\"";
+    private static final String VALUE = "Value";
 
     private Activity a;
     private Lap currLap;
@@ -85,6 +88,14 @@ public class ActivityHandler extends DefaultHandler {
             case ALTITUDE:
                 elementValue = new StringBuilder();
                 break;
+            case AVERAGEBPM:
+                switch (qName) {
+                    case VALUE:
+                        elementValue = new StringBuilder();
+                        break;
+                }
+                break;
+
         }
     }
 
@@ -133,6 +144,13 @@ public class ActivityHandler extends DefaultHandler {
                 break;
             case ALTITUDE:
                 currTrackPoint.setAltitude(Double.parseDouble(elementValue.toString()));
+                break;
+            case VALUE :
+                switch (qName) {
+                    case AVERAGEBPM:
+                        currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
+                        break;
+                }
                 break;
         }
     }

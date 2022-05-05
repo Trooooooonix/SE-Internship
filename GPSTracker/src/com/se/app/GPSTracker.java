@@ -4,6 +4,7 @@ package com.se.app;
 import com.se.gui.GpsTrackerGUI;
 import com.se.handlers.ActivityHandler;
 import com.se.tracks.Activity;
+import com.se.tracks.Lap;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,8 +21,7 @@ import java.util.stream.Stream;
 
 public class GPSTracker {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer");
-        ui.setVisible(true);
+
 
         List<Path> filePathList;
         try (Stream<Path> paths = Files.walk(Paths.get("GPSTracker/tcxFiles/testdata"))) {
@@ -41,7 +41,7 @@ public class GPSTracker {
 
         System.out.println("Loaded files: " + aList.size());
 
-        final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
+        final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         Activity acadia = aList.get(0);
@@ -55,5 +55,8 @@ public class GPSTracker {
             System.out.println("Id: " + a.getId());
             System.out.println("Number of laps: " + a.getLaps().size());
         }
+
+        GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
+        ui.setVisible(true);
     }
 }

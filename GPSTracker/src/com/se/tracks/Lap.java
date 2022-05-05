@@ -9,6 +9,7 @@ public class Lap {
     private double distanceMeters;
     private double maxSpeed;
     private double calories;
+    private double averageBPM;
     private List<Track> tracks;
 
     public void addTrack(Track track) {
@@ -47,6 +48,10 @@ public class Lap {
         return totalTimeSeconds;
     }
 
+    public String getTotalTimeHHmmSS(double seconds){
+        return String.format("%02d:%02d:%02d", (int)seconds / 3600, ((int)seconds % 3600) / 60, ((int)seconds % 60));
+    }
+
     public void setTotalTimeSeconds(double totalTimeSeconds) {
         this.totalTimeSeconds = totalTimeSeconds;
     }
@@ -73,5 +78,30 @@ public class Lap {
 
     public void setCalories(double calories) {
         this.calories = calories;
+    }
+
+    public double getAverageBPM() {
+        return averageBPM;
+    }
+
+    public void setAverageBPM(double averageBPM) {
+        this.averageBPM = averageBPM;
+    }
+
+    public double getLapTotalAltitude() {
+        double sum = 0;
+        double prevAltitude = 0;
+        boolean firstTrackpoint = true;
+        for (Track t : getTracks()) {
+            for (TrackPoint tp : t.getTrackPoints()) {
+                if (!firstTrackpoint && (tp.getAltitude() > prevAltitude)) {
+                    sum += tp.getAltitude() - prevAltitude;
+                }
+                prevAltitude = tp.getAltitude();
+                firstTrackpoint = false;
+            }
+        }
+
+        return Math.round(sum * 100.0) / 100.0;
     }
 }
