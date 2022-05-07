@@ -65,7 +65,7 @@
             </constraints>
             <properties>
               <font name="JetBrains Mono" size="20" style="1"/>
-              <text value="Segments"/>
+              <text value="Laps"/>
             </properties>
           </component>
         </children>
@@ -86,7 +86,7 @@
             </constraints>
             <properties>
               <font name="JetBrains Mono" size="20" style="1"/>
-              <text value="Distance"/>
+              <text value="Pace"/>
             </properties>
           </component>
           <grid id="aca41" binding="chartPanel" layout-manager="BorderLayout" hgap="0" vgap="0">

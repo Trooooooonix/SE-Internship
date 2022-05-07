@@ -113,7 +113,7 @@ public class BarChartDemo1 extends ApplicationFrame {
     public static JFreeChart createChart(CategoryDataset dataset) {
         JFreeChart chart = ChartFactory.createBarChart(
             " ", null /* x-axis label*/,
-                "Kilometer" /* y-axis label */, dataset);
+                "Pace" /* y-axis label */, dataset);
     //    chart.addSubtitle(new TextTitle("Time to generate 1000 charts in SVG "
       //          + "format (lower bars = better performance)"));
         chart.setBackgroundPaint(Color.white);

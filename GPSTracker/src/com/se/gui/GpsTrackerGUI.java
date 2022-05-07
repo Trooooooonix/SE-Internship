@@ -67,12 +67,8 @@ public class GpsTrackerGUI extends JFrame {
         navigationMenu.add(option);
         JMenuItem refresh = new JMenuItem("Refresh");
         navigationMenu.add(refresh);
-
-
         JMenu viewMenu = new JMenu("View");
         menuBar.add(viewMenu);
-
-
         JMenu groupMenu = new JMenu("Group by");
         menuBar.add(groupMenu);
         JMenuItem year = new JMenuItem("Year");
