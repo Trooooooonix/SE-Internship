@@ -3,8 +3,6 @@ package com.se.gui;
 import com.se.tracks.Activity;
 import com.se.tracks.Lap;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
@@ -14,8 +12,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -234,8 +230,5 @@ public class GpsTrackerGUI extends JFrame {
         chartPanel.add(chPanel);
         chartPanel.repaint();
         chartPanel.updateUI();
-
     }
-
-
 }
