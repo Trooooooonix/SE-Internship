@@ -1,7 +1,7 @@
-package com.se.gui;
+package gui;
 
-import com.se.tracks.Activity;
-import com.se.tracks.Lap;
+import tracks.Activity;
+import tracks.Lap;
 import org.jfree.chart.ChartPanel;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -15,7 +15,7 @@ import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static com.se.gui.BarChartDemo1.createChart;
+import static gui.BarChartDemo1.createChart;
 
 public class GpsTrackerGUI extends JFrame {
 

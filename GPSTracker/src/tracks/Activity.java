@@ -1,4 +1,4 @@
-package com.se.tracks;
+package tracks;
 
 import java.util.List;
 

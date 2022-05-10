@@ -1,4 +1,4 @@
-package com.se.oldParser;
+package oldParser;
 
 import org.w3c.dom.*;
 

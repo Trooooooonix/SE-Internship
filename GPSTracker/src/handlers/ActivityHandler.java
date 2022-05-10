@@ -1,17 +1,15 @@
-package com.se.handlers;
+package handlers;
 
-import com.se.tracks.Activity;
-import com.se.tracks.Lap;
-import com.se.tracks.Track;
-import com.se.tracks.TrackPoint;
+import tracks.Activity;
+import tracks.Lap;
+import tracks.Track;
+import tracks.TrackPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ActivityHandler extends DefaultHandler {
     private static final String ACTIVITY = "Activity";

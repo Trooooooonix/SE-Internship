@@ -1,10 +1,9 @@
-package com.se.app;
+package app;
 
 
-import com.se.gui.GpsTrackerGUI;
-import com.se.handlers.ActivityHandler;
-import com.se.tracks.Activity;
-import com.se.tracks.Lap;
+import gui.GpsTrackerGUI;
+import handlers.ActivityHandler;
+import tracks.Activity;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
