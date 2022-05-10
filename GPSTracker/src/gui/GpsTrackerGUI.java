@@ -23,6 +23,7 @@ public class GpsTrackerGUI extends JFrame {
     private JTable trackTable;
     private JTable segmentTable;
     private JPanel chartPanel;
+    private JPanel Tracks;
     public int row = 0;
     public JCheckBoxMenuItem startTime;
     public JCheckBoxMenuItem pace;
