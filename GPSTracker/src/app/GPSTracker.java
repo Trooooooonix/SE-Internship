@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 public class GPSTracker {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
-
         List<Path> filePathList;
         try (Stream<Path> paths = Files.walk(Paths.get("GPSTracker/tcxFiles/testdata"))) {
             filePathList = paths.filter(Files::isRegularFile).toList();
@@ -38,24 +37,28 @@ public class GPSTracker {
             }
         }
 
-        System.out.println("Loaded files: " + aList.size());
+        //checkParser(aList);
+
+        GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
+        ui.setVisible(true);
+    }
+
+    public static void checkParser(List<Activity> list){
+        System.out.println("Loaded files: " + list.size());
 
         final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        Activity acadia = aList.get(0);
+        Activity acadia = list.get(0);
         System.out.println("acadia.tcx");
         System.out.println("Name: " + acadia.getId());
         System.out.println("Date: " + acadia.getLaps().get(0).getStartTime().format(viewDateFormatter));
         System.out.println("Start Time: "+ acadia.getLaps().get(0).getStartTime().format(viewStartTimeFormatter));
 
-        for (Activity a : aList) {
+        for (Activity a : list) {
             System.out.println("Sport: " + a.getSport());
             System.out.println("Id: " + a.getId());
             System.out.println("Number of laps: " + a.getLaps().size());
         }
-
-        GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
-        ui.setVisible(true);
     }
 }

@@ -25,9 +25,8 @@ public class ActivityHandler extends DefaultHandler {
     private static final String LATITUDE = "LatitudeDegrees";
     private static final String LONGITUDE = "LongitudeDegrees";
     private static final String ALTITUDE = "AltitudeMeters";
-    private static final String MAXIMUMBPM = "MaximumHeartRateBpm";
-    private static final String AVERAGEBPM = "AverageHeartRateBpm xsi:type=\"HeartRateInBeatsPerMinute_t\"";
-    private static final String VALUE = "Value";
+    //private static final String MAXIMUMBPM = "MaximumHeartRateBpm";     to be done
+    //private static final String AVERAGEBPM = "AverageHeartRateBpm";     to be done
 
     private Activity a;
     private Lap currLap;
@@ -86,14 +85,6 @@ public class ActivityHandler extends DefaultHandler {
             case ALTITUDE:
                 elementValue = new StringBuilder();
                 break;
-            case AVERAGEBPM:
-                switch (qName) {
-                    case VALUE:
-                        elementValue = new StringBuilder();
-                        break;
-                }
-                break;
-
         }
     }
 
@@ -131,7 +122,7 @@ public class ActivityHandler extends DefaultHandler {
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
                 } catch (Exception e) {
-                    System.out.println("Wrong DateTime format");
+                    //System.out.println("Wrong DateTime format");
                 }
                 break;
             case LATITUDE:
@@ -142,13 +133,6 @@ public class ActivityHandler extends DefaultHandler {
                 break;
             case ALTITUDE:
                 currTrackPoint.setAltitude(Double.parseDouble(elementValue.toString()));
-                break;
-            case VALUE :
-                switch (qName) {
-                    case AVERAGEBPM:
-                        currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
-                        break;
-                }
                 break;
         }
     }

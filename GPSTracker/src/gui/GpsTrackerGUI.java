@@ -15,7 +15,7 @@ import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static gui.BarChartDemo1.createChart;
+import static gui.BarChart.createChart;
 
 public class GpsTrackerGUI extends JFrame {
 
@@ -23,7 +23,6 @@ public class GpsTrackerGUI extends JFrame {
     private JTable trackTable;
     private JTable segmentTable;
     private JPanel chartPanel;
-    private JPanel Tracks;
     public int row = 0;
     public JCheckBoxMenuItem startTime;
     public JCheckBoxMenuItem pace;

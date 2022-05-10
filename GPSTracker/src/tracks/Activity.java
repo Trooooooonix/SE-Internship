@@ -41,7 +41,7 @@ public class Activity {
         double sum= 0;
         for(Lap l : laps){
             sum += l.getDistanceMeters();
-            //System.out.println("average BPM: " + l.getAverageBPM()); // TEST
+            //System.out.println("average BPM: " + l.getAverageBPM());      // TEST
         }
         return Math.round(sum*100.0)/100.0;
     }
@@ -60,7 +60,6 @@ public class Activity {
 
 
     public double getActivityTotalAltitude(){
-       // return  laps.get(laps.size()-1).getTracks().get(laps.get(laps.size()-1).getTracks().size()-1).getTrackPoints().get(laps.get(laps.size()-1).getTracks().get(laps.get(laps.size()-1).getTracks().size()-1).getTrackPoints().size()-1).getAltitude() - laps.get(0).getTracks().get(0).getTrackPoints().get(0).getAltitude();
         double sum= 0;
         double prevAltitude = 0;
         boolean firstTrackpoint = true;
