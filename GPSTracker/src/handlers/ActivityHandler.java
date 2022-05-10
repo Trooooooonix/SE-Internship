@@ -47,27 +47,11 @@ public class ActivityHandler extends DefaultHandler {
                 a.setSport(attributes.getValue(0));
                 a.setLaps(new ArrayList<>());
                 break;
-            case ID:
-                elementValue = new StringBuilder();
-                break;
             case LAP:
                 currLap = new Lap();
                 currLap.setTracks(new ArrayList<>());
                 currLap.setStartTime(LocalDateTime.parse(attributes.getValue(0).substring(0, attributes.getValue(0).length() - 1)));
                 distanceMetersLap = true;
-                break;
-            case TOTALTIMESECONDS:
-                elementValue = new StringBuilder();
-                break;
-            case DISTANCEMETERS:
-
-                    elementValue = new StringBuilder();
-                break;
-            case MAXIMUMSPEED:
-                elementValue = new StringBuilder();
-                break;
-            case CALORIES:
-                elementValue = new StringBuilder();
                 break;
             case TRACK:
                 currTrack = new Track();
@@ -76,15 +60,14 @@ public class ActivityHandler extends DefaultHandler {
             case TRACKPOINT:
                 currTrackPoint = new TrackPoint();
                 break;
+            case ID:
+            case TOTALTIMESECONDS:
+            case DISTANCEMETERS:
+            case MAXIMUMSPEED:
+            case CALORIES:
             case TIME:
-                elementValue = new StringBuilder();
-                break;
             case LATITUDE:
-                elementValue = new StringBuilder();
-                break;
             case LONGITUDE:
-                elementValue = new StringBuilder();
-                break;
             case ALTITUDE:
                 elementValue = new StringBuilder();
                 break;

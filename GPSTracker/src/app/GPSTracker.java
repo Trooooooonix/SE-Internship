@@ -41,8 +41,6 @@ public class GPSTracker {
 
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setVisible(true);
-
-        checkParser(aList);
     }
 
     public static void checkParser(List<Activity> list){
