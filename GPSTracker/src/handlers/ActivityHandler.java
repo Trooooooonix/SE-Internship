@@ -33,6 +33,7 @@ public class ActivityHandler extends DefaultHandler {
     private Track currTrack;
     private TrackPoint currTrackPoint;
     private StringBuilder elementValue;
+    private boolean distanceMetersLap = false;
 
     @Override
     public void startDocument() throws SAXException {
@@ -53,12 +54,14 @@ public class ActivityHandler extends DefaultHandler {
                 currLap = new Lap();
                 currLap.setTracks(new ArrayList<>());
                 currLap.setStartTime(LocalDateTime.parse(attributes.getValue(0).substring(0, attributes.getValue(0).length() - 1)));
+                distanceMetersLap = true;
                 break;
             case TOTALTIMESECONDS:
                 elementValue = new StringBuilder();
                 break;
             case DISTANCEMETERS:
-                elementValue = new StringBuilder();
+
+                    elementValue = new StringBuilder();
                 break;
             case MAXIMUMSPEED:
                 elementValue = new StringBuilder();
@@ -103,7 +106,10 @@ public class ActivityHandler extends DefaultHandler {
                 currLap.setTotalTimeSeconds(Double.parseDouble(elementValue.toString()));
                 break;
             case DISTANCEMETERS:
-                currLap.setDistanceMeters(Double.parseDouble(elementValue.toString()));
+                if (currLap.getTracks().size() == 0) {
+                    currLap.setDistanceMeters(Double.parseDouble(elementValue.toString()));
+                    distanceMetersLap = false;
+                }
                 break;
             case MAXIMUMSPEED:
                 currLap.setMaxSpeed(Double.parseDouble(elementValue.toString()));
@@ -122,7 +128,8 @@ public class ActivityHandler extends DefaultHandler {
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
                 } catch (Exception e) {
-                    //System.out.println("Wrong DateTime format");
+                    //e.printStackTrace();
+                    System.out.println("Wrong DateTime format");
                 }
                 break;
             case LATITUDE:

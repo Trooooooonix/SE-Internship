@@ -186,14 +186,16 @@ public class GpsTrackerGUI extends JFrame {
         Object [][] data = new Object [aList.get(row).getLaps().size()][6];
         int counter =0;
 
+        double prevDistanceMeters = 0.0;
         for (Lap l : aList.get(row).getLaps()) {
             data [counter][0] = counter+1;
-            data [counter][1] = Math.round(l.getDistanceMeters()*100.00)/100.00;
+            data [counter][1] = Math.round((l.getDistanceMeters()-prevDistanceMeters)*100.00)/100.00;
             data [counter][2] = l.getTotalTimeHHmmSS(aList.get(row).getLaps().get(counter).getTotalTimeSeconds());
             data [counter][3] = l.getLapTotalAltitude();
             data [counter][4] = counter+1;
             data [counter][5] = counter+1;
             counter++;
+            prevDistanceMeters = Math.round(l.getDistanceMeters()*100.00)/100.00;
         }
 
         segmentTable.setModel(new DefaultTableModel(
@@ -216,9 +218,7 @@ public class GpsTrackerGUI extends JFrame {
         int counter = 1;
         Activity currActivity = aList.get(row);
         for (Lap l : currActivity.getLaps()) {
-            double activityDistanceMeters = l.getDistanceMeters();
-            double activityTotalTimeSeconds = l.getTotalTimeSeconds();
-            dataset.setValue(Math.round((activityDistanceMeters/activityTotalTimeSeconds)*100.00)/100.00, "", "Lap "+ counter++);
+            dataset.setValue((Number) segmentTable.getModel().getValueAt(counter-1,3), "", "Lap "+ counter++);
         }
 
         ChartPanel chPanel = new ChartPanel(createChart(dataset));

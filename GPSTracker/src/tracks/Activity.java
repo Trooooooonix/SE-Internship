@@ -38,12 +38,12 @@ public class Activity {
     }
 
     public double getActivityDistanceMeters(){
-        double sum= 0;
+        /*double sum= 0;
         for(Lap l : laps){
             sum += l.getDistanceMeters();
-            //System.out.println("average BPM: " + l.getAverageBPM());      // TEST
         }
-        return Math.round(sum*100.0)/100.0;
+        //return Math.round(sum*100.0)/100.0;*/
+        return Math.round(this.laps.get(this.laps.size()-1).getDistanceMeters()*100.00)/100.00;
     }
 
     public double getActivityTotalTimeSeconds(){
