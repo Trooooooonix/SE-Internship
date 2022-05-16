@@ -42,7 +42,7 @@ public class GPSTracker {
 
 
         List<Path> filePathList;
-        try (Stream<Path> paths = Files.walk(Paths.get("GPSTracker/tcxFiles/testdata"))) {
+        try (Stream<Path> paths = Files.walk(Paths.get("GPSTracker/tcxFiles"))) {
             filePathList = paths.filter(Files::isRegularFile).toList();
         }
 

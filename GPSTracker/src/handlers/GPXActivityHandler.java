@@ -32,6 +32,8 @@ public class GPXActivityHandler extends DefaultHandler {
     private TrackPoint currTrackPoint;
     private StringBuilder elementValue;
 
+    /*
+    //please DO NOT use this trash code
     //used for formatting those ("01.04.2021  7:31 pm") formats into a classic LocalDateTime format
     //used in gpx for Value in Tag <desc>VALUE</desc>
     public static LocalDateTime format(String dateTime) {
@@ -43,7 +45,7 @@ public class GPXActivityHandler extends DefaultHandler {
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH:mm");
         return LocalDateTime.parse(date + "T" + time, dtf);
-    }
+    }*/
 
     @Override
     public void startDocument() throws SAXException {
