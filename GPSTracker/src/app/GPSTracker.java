@@ -7,10 +7,14 @@ import handlers.ActivityHandler;
 import tracks.Activity;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +27,7 @@ public class GPSTracker {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
 
-        LoadingFrame lf = new LoadingFrame("Loading");
+        LoadingFrame lf = new LoadingFrame("Loading...");
         lf.setSize(350, 450);
         lf.setLocationRelativeTo(null);
         lf.setVisible(true);

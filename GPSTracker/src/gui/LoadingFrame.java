@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class LoadingFrame extends JFrame {
     private JPanel rootPanel;
