@@ -14,6 +14,8 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -33,6 +35,9 @@ public class GpsTrackerGUI extends JFrame {
     public JCheckBoxMenuItem maxBpm;
     public JCheckBoxMenuItem heightLvl;
     public int tableWidth = 97;
+    NumberFormat paceFormatter = new DecimalFormat("#0.00");
+    NumberFormat distanceFormatter = new DecimalFormat("#0,000");
+
 
     class MenuActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -204,23 +209,23 @@ public class GpsTrackerGUI extends JFrame {
             data[counter][0] = a.getId();
             data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
             data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
-            activityDistanceMeters = a.getActivityDistanceMeters();
-            data[counter][3] = activityDistanceMeters;
+            activityDistanceMeters = Math.round(a.getActivityDistanceMeters());
+            if (activityDistanceMeters >= 1000) data[counter][3] = distanceFormatter.format(activityDistanceMeters);
+            else data[counter][3] = activityDistanceMeters;
             activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
             data[counter][4] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
-            data[counter][5] = Math.round((activityDistanceMeters / activityTotalTimeSeconds) * 100.00) / 100.00;
-            data[counter][6] = a.getId();
-            data[counter][7] = a.getId();
-            data[counter][8] = a.getActivityTotalAltitude();
+            data[counter][5] = paceFormatter.format(activityDistanceMeters / activityTotalTimeSeconds);
+            data[counter][6] = Math.round(a.getAvgBPM());
+            data[counter][7] = Math.round(a.getMaxBPM());
+            data[counter][8] = Math.round(a.getActivityTotalAltitude());
             counter++;
         }
-
 
         trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         trackTable.setRowSelectionAllowed(true);
         trackTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "Altitude"} // String ändern wenn Spalten ausgeblendet werden sollen
+                new String[]{"Name", "Date", "Start", "Distance [m]", "Time", "Pace [min/km]", "avg. BPM", "max. BPM", "Altitude [m]"} // String ändern wenn Spalten ausgeblendet werden sollen
         ));
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
@@ -235,13 +240,7 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(6).setCellRenderer(centerRenderer);
         columns.getColumn(7).setCellRenderer(centerRenderer);
         columns.getColumn(8).setCellRenderer(centerRenderer);
-
-
-
     }
-
-
-
 
     private void createSegmentTable(List<Activity> aList){
 
@@ -254,18 +253,19 @@ public class GpsTrackerGUI extends JFrame {
         double prevDistanceMeters = 0.0;
         for (Lap l : aList.get(row).getLaps()) {
             data [counter][0] = counter+1;
-            data [counter][1] = Math.round((l.getDistanceMeters()-prevDistanceMeters)*100.00)/100.00;
+            if ((l.getDistanceMeters()-prevDistanceMeters) >= 1000) data [counter][1] = distanceFormatter.format(Math.round((l.getDistanceMeters()-prevDistanceMeters)));
+            else data [counter][1] = Math.round((l.getDistanceMeters()-prevDistanceMeters));
             data [counter][2] = l.getTotalTimeHHmmSS(aList.get(row).getLaps().get(counter).getTotalTimeSeconds());
-            data [counter][3] = l.getLapTotalAltitude();
-            data [counter][4] = counter+1;
-            data [counter][5] = counter+1;
+            data [counter][3] = Math.round(l.getLapTotalAltitude());
+            data [counter][4] = Math.round(l.getAverageBPM());
+            data [counter][5] = Math.round(l.getMaxBPM());
             counter++;
-            prevDistanceMeters = Math.round(l.getDistanceMeters()*100.00)/100.00;
+            prevDistanceMeters = Math.round(l.getDistanceMeters());
         }
 
         segmentTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"Lap", "Distance", "Time", "Altitude", "avg. BPM", "max. BPM"}
+                new String[]{"Lap", "Distance [m]", "Time", "Altitude [m]", "avg. BPM", "max. BPM"}
         ));
         TableColumnModel columns = segmentTable.getColumnModel();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -276,6 +276,8 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(3).setCellRenderer(centerRenderer);
         columns.getColumn(4).setCellRenderer(centerRenderer);
         columns.getColumn(5).setCellRenderer(centerRenderer);
+
+
     }
 
     private void createBarChart(List<Activity> aList) {
@@ -296,4 +298,5 @@ public class GpsTrackerGUI extends JFrame {
         chartPanel.repaint();
         chartPanel.updateUI();
     }
+
 }

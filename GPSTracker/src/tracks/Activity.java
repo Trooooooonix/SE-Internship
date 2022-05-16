@@ -57,8 +57,6 @@ public class Activity {
         return String.format("%02d:%02d:%02d", (int)seconds / 3600, ((int)seconds % 3600) / 60, ((int)seconds % 60));
     }
 
-
-
     public double getActivityTotalAltitude(){
         double sum= 0;
         double prevAltitude = 0;
@@ -77,6 +75,21 @@ public class Activity {
         return Math.round(sum*100.0)/100.0;
 
     }
+    public double getMaxBPM(){
+        double max= 0;
+        for(Lap l : laps){
+            if (max < l.getMaxBPM()) max = l.getMaxBPM();
+        }
+        return max;
+    }
+
+    public double getAvgBPM(){
+        double sum= 0;
+        for(Lap l : laps){
+            sum += l.getAverageBPM();
+        }
+        return sum/ laps.size();
+    }
 
     public void setLaps(List<Lap> laps) {
         this.laps = laps;
@@ -85,4 +98,6 @@ public class Activity {
     public void addLap(Lap lap) {
         this.laps.add(lap);
     }
+
+
 }
