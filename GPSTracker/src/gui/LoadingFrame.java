@@ -14,7 +14,7 @@ public class LoadingFrame extends JFrame {
         this.setContentPane(rootPanel);
         this.pack();
 
-        Icon icon = new ImageIcon("RunningMan_small.gif");
+        Icon icon = new ImageIcon("animations/RunningMan_small.gif");
         JLabel gif = new JLabel(icon);
         iconLabel.add(gif);
         this.getContentPane().add(gif);
