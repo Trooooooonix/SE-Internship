@@ -112,10 +112,10 @@ public class ActivityHandler extends DefaultHandler {
                 maxBPM_bool = false;
                 break;
             case VALUE:
-                if (maxBPM_bool)
-                    currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
-                if (avgBPM_bool)
-                    currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
+                    if (maxBPM_bool)
+                        currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
+                    if (avgBPM_bool)
+                        currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
                 break;
             case TRACK:
                 currLap.addTrack(currTrack);

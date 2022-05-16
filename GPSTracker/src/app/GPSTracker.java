@@ -3,6 +3,7 @@ package app;
 
 import gui.GpsTrackerGUI;
 import handlers.ActivityHandler;
+import handlers.GPXActivityHandler;
 import tracks.Activity;
 import org.xml.sax.SAXException;
 
@@ -28,16 +29,19 @@ public class GPSTracker {
 
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            SAXParser saxParser = saxParserFactory.newSAXParser();
             if (p.toString().endsWith("tcx")) {
-                SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-                SAXParser saxParser = saxParserFactory.newSAXParser();
                 ActivityHandler ah = new ActivityHandler();
                 saxParser.parse(p.toString(), ah);
                 aList.add(ah.getActivity());
+            }else if (p.toString().endsWith("gpx")){
+                GPXActivityHandler gh = new GPXActivityHandler();
+                saxParser.parse(p.toString(),gh);
+                aList.add((gh.getActivity()));
             }
         }
         checkParser(aList);
-
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setVisible(true);
     }
