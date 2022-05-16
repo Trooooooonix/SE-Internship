@@ -128,14 +128,14 @@ public class GpsTrackerGUI extends JFrame {
         window.setJMenuBar(menuBar);
 
         //adding Menus to the Menubar
-        JMenu navigationMenu = new JMenu("File");
-        menuBar.add(navigationMenu);
-        JMenuItem option = new JMenuItem("Option");
-        navigationMenu.add(option);
-        JMenuItem refresh = new JMenuItem("Refresh");
-        navigationMenu.add(refresh);
-        JMenu viewMenu = new JMenu("View");
-        menuBar.add(viewMenu);
+    //    JMenu navigationMenu = new JMenu("File");
+    //    menuBar.add(navigationMenu);
+    //    JMenuItem option = new JMenuItem("Option");
+    //    navigationMenu.add(option);
+    //    JMenuItem refresh = new JMenuItem("Refresh");
+    //    navigationMenu.add(refresh);
+    //    JMenu viewMenu = new JMenu("View");
+    //    menuBar.add(viewMenu);
         JMenu groupMenu = new JMenu("Group by");
         menuBar.add(groupMenu);
         JMenuItem year = new JMenuItem("Year");
@@ -145,10 +145,6 @@ public class GpsTrackerGUI extends JFrame {
         JMenuItem day = new JMenuItem("Day");
         groupMenu.add(day);
 
-        /*
-            Default: checked
-            if checked column is shown
-         */
 
         JMenu columnMenu = new JMenu("Columns");
         menuBar.add(columnMenu);
@@ -191,8 +187,8 @@ public class GpsTrackerGUI extends JFrame {
         track.add(skiing);
 
 
-        JMenu helpMenu = new JMenu("Help");
-        menuBar.add(helpMenu);
+    //    JMenu helpMenu = new JMenu("Help");
+    //    menuBar.add(helpMenu);
     }
 
     private void createTrackTable(List<Activity> aList) {
@@ -204,6 +200,7 @@ public class GpsTrackerGUI extends JFrame {
         int counter = 0;
         double activityDistanceMeters;
         double activityTotalTimeSeconds;
+
 
         for (Activity a : aList) {
             data[counter][0] = a.getId();
@@ -276,8 +273,6 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(3).setCellRenderer(centerRenderer);
         columns.getColumn(4).setCellRenderer(centerRenderer);
         columns.getColumn(5).setCellRenderer(centerRenderer);
-
-
     }
 
     private void createBarChart(List<Activity> aList) {

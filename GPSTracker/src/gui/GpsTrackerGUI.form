@@ -65,7 +65,7 @@
             </constraints>
             <properties>
               <font name="JetBrains Mono" size="20" style="1"/>
-              <text value="Laps"/>
+              <text value="Segments"/>
             </properties>
           </component>
         </children>

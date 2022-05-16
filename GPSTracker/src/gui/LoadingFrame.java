@@ -5,13 +5,12 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LoadingFrame extends JFrame {
     private JPanel rootPanel;
     private JLabel loadingText;
-    private JLabel iconPanel;
+    private JLabel iconLabel;
 
     public LoadingFrame(String title){
         super(title);
@@ -19,14 +18,14 @@ public class LoadingFrame extends JFrame {
         this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         this.setContentPane(rootPanel);
         this.pack();
-        File file = new File("RunningMan.gif");
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ImageIcon ii = new ImageIcon(image);
-        iconPanel.setIcon(ii);
+
+        Icon icon = new ImageIcon("RunningMan_small.gif");
+        JLabel gif = new JLabel(icon);
+        iconLabel.add(gif);
+        this.getContentPane().add(gif);
+        this.pack();
+        this.setVisible(true);
+
+
     }
 }
