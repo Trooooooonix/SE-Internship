@@ -30,12 +30,13 @@ public class GPSTracker {
         LoadingFrame lf = new LoadingFrame("Loading");
         lf.setLocationRelativeTo(null);
         lf.pack();
-        try {
+        /*try {
             //to enjoy the running man more :D
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+         */
         lf.setVisible(true);
 
 
