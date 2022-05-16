@@ -73,10 +73,10 @@ public class BarChart extends ApplicationFrame {
     /**
      * Creates a sample chart.
      */
-    public static JFreeChart createChart(CategoryDataset dataset) {
+    public static JFreeChart createChart(CategoryDataset dataset, String yAxis) {
         JFreeChart chart = ChartFactory.createBarChart(
-            " ", null /* x-axis label*/,
-                "Altitude" /* y-axis label */, dataset);
+            " ", "Segment" /* x-axis label*/,
+                yAxis /* y-axis label */, dataset);
     //    chart.addSubtitle(new TextTitle("Time to generate 1000 charts in SVG "
       //          + "format (lower bars = better performance)"));
         chart.setBackgroundPaint(Color.white);
