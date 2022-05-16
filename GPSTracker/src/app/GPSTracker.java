@@ -71,10 +71,10 @@ public class GPSTracker {
                 aList.add(ah.getActivity());
             }
         }
-        lf.setVisible(false);
 
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
+        lf.setVisible(false);
         ui.setVisible(true);
     }
 
