@@ -1,5 +1,14 @@
 package gui;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.ui.ApplicationFrame;
 import tracks.Activity;
 import tracks.Lap;
 import org.jfree.chart.ChartPanel;
@@ -21,7 +30,7 @@ import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static gui.BarChart.createChart;
+import static gui.GpsTrackerGUI.BarChart.createChart;
 
 public class GpsTrackerGUI extends JFrame {
     public String yAxis;
@@ -352,5 +361,42 @@ public class GpsTrackerGUI extends JFrame {
         chartPanel.add(chPanel);
         chartPanel.repaint();
         chartPanel.updateUI();
+    }
+
+    public static class BarChart extends ApplicationFrame {
+
+        private static final long serialVersionUID = 1L;
+
+        static {
+            ChartFactory.setChartTheme(new StandardChartTheme("JFree/Shadow",
+                    true));
+        }
+
+        /**
+         * Creates a new instance.
+         */
+        public BarChart(String title) {
+            super(title);
+        }
+
+        /**
+         * Creates a sample chart.
+         */
+        public static JFreeChart createChart(CategoryDataset dataset, String yAxis) {
+            JFreeChart chart = ChartFactory.createBarChart(
+                " ", "Segment" /* x-axis label*/,
+                    yAxis /* y-axis label */, dataset);
+        //    chart.addSubtitle(new TextTitle("Time to generate 1000 charts in SVG "
+          //          + "format (lower bars = better performance)"));
+            chart.setBackgroundPaint(Color.white);
+            CategoryPlot plot = (CategoryPlot) chart.getPlot();
+            NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+            rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            BarRenderer renderer = (BarRenderer) plot.getRenderer();
+            renderer.setDrawBarOutline(true);
+            chart.getLegend().setFrame(BlockBorder.NONE);
+            return chart;
+        }
+
     }
 }
