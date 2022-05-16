@@ -17,7 +17,7 @@ public class LoadingFrame extends JFrame {
         this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         this.setContentPane(rootPanel);
         this.pack();
-        File file = new File("C:\\Dev\\IntelliJ Ultimate\\Projects\\SE-Internship\\GPSTracker\\RunningMan.gif");
+        File file = new File("RunningMan.gif");
         BufferedImage image = null;
         try {
             image = ImageIO.read(file);
