@@ -36,8 +36,7 @@ public class GPSTracker {
                 aList.add(ah.getActivity());
             }
         }
-
-        //checkParser(aList);
+        checkParser(aList);
 
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setVisible(true);
@@ -55,7 +54,10 @@ public class GPSTracker {
         System.out.println("Date: " + acadia.getLaps().get(0).getStartTime().format(viewDateFormatter));
         System.out.println("Start Time: "+ acadia.getLaps().get(0).getStartTime().format(viewStartTimeFormatter));
         for (int i = 0; i < acadia.getLaps().size(); i++) {
-            System.out.println(acadia.getLaps().get(i).getDistanceMeters());
+            System.out.println("DistanceMeters:" + acadia.getLaps().get(i).getDistanceMeters());
+            System.out.println("AVGBPM: " + acadia.getLaps().get(i).getAverageBPM());
+            System.out.println("MAXBPM: "+ acadia.getLaps().get(i).getMaxBPM());
+
         }
         /*
         for (Activity a : list) {

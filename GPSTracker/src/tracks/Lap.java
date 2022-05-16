@@ -10,6 +10,7 @@ public class Lap {
     private double maxSpeed;
     private double calories;
     private double averageBPM;
+    private double maxBPM;
     private List<Track> tracks;
 
     public void addTrack(Track track) {
@@ -28,12 +29,22 @@ public class Lap {
     public String toString() {
         return "Lap{" +
                 "startTime=" + startTime +
-                ", \ntotalTimeSeconds=" + totalTimeSeconds +
-                ", \ndistanceMeters=" + distanceMeters +
-                ", \nmaxSpeed=" + maxSpeed +
-                ", \ncalories=" + calories +
-                ", \ntracks=" + tracks +
-                "}\n";
+                ", totalTimeSeconds=" + totalTimeSeconds +
+                ", distanceMeters=" + distanceMeters +
+                ", maxSpeed=" + maxSpeed +
+                ", calories=" + calories +
+                ", averageBPM=" + averageBPM +
+                ", maxBPM=" + maxBPM +
+                ", tracks=" + tracks +
+                '}';
+    }
+
+    public double getMaxBPM() {
+        return maxBPM;
+    }
+
+    public void setMaxBPM(double maxBPM) {
+        this.maxBPM = maxBPM;
     }
 
     public LocalDateTime getStartTime() {
@@ -48,12 +59,12 @@ public class Lap {
         return totalTimeSeconds;
     }
 
-    public String getTotalTimeHHmmSS(double seconds){
-        return String.format("%02d:%02d:%02d", (int)seconds / 3600, ((int)seconds % 3600) / 60, ((int)seconds % 60));
-    }
-
     public void setTotalTimeSeconds(double totalTimeSeconds) {
         this.totalTimeSeconds = totalTimeSeconds;
+    }
+
+    public String getTotalTimeHHmmSS(double seconds) {
+        return String.format("%02d:%02d:%02d", (int) seconds / 3600, ((int) seconds % 3600) / 60, ((int) seconds % 60));
     }
 
     public double getDistanceMeters() {

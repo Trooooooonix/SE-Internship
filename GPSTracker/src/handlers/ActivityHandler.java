@@ -25,15 +25,17 @@ public class ActivityHandler extends DefaultHandler {
     private static final String LATITUDE = "LatitudeDegrees";
     private static final String LONGITUDE = "LongitudeDegrees";
     private static final String ALTITUDE = "AltitudeMeters";
-    //private static final String MAXIMUMBPM = "MaximumHeartRateBpm";     to be done
-    //private static final String AVERAGEBPM = "AverageHeartRateBpm";     to be done
+    private static final String MAXIMUMBPM = "MaximumHeartRateBpm";
+    private static final String AVERAGEBPM = "AverageHeartRateBpm";
+    private static final String VALUE = "Value";
 
     private Activity a;
     private Lap currLap;
     private Track currTrack;
     private TrackPoint currTrackPoint;
     private StringBuilder elementValue;
-    private boolean distanceMetersLap = false;
+    private boolean maxBPM_bool = false;
+    private boolean avgBPM_bool = false;
 
     @Override
     public void startDocument() throws SAXException {
@@ -51,7 +53,6 @@ public class ActivityHandler extends DefaultHandler {
                 currLap = new Lap();
                 currLap.setTracks(new ArrayList<>());
                 currLap.setStartTime(LocalDateTime.parse(attributes.getValue(0).substring(0, attributes.getValue(0).length() - 1)));
-                distanceMetersLap = true;
                 break;
             case TRACK:
                 currTrack = new Track();
@@ -59,6 +60,12 @@ public class ActivityHandler extends DefaultHandler {
                 break;
             case TRACKPOINT:
                 currTrackPoint = new TrackPoint();
+                break;
+            case MAXIMUMBPM:
+                maxBPM_bool = true;
+                break;
+            case AVERAGEBPM:
+                avgBPM_bool = true;
                 break;
             case ID:
             case TOTALTIMESECONDS:
@@ -69,6 +76,7 @@ public class ActivityHandler extends DefaultHandler {
             case LATITUDE:
             case LONGITUDE:
             case ALTITUDE:
+            case VALUE:
                 elementValue = new StringBuilder();
                 break;
         }
@@ -77,8 +85,6 @@ public class ActivityHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         switch (qName) {
-            case ACTIVITY:
-                break;
             case ID:
                 a.setId(elementValue.toString());
                 break;
@@ -91,7 +97,6 @@ public class ActivityHandler extends DefaultHandler {
             case DISTANCEMETERS:
                 if (currLap.getTracks().size() == 0) {
                     currLap.setDistanceMeters(Double.parseDouble(elementValue.toString()));
-                    distanceMetersLap = false;
                 }
                 break;
             case MAXIMUMSPEED:
@@ -99,6 +104,18 @@ public class ActivityHandler extends DefaultHandler {
                 break;
             case CALORIES:
                 currLap.setCalories(Double.parseDouble(elementValue.toString()));
+                break;
+            case AVERAGEBPM:
+                avgBPM_bool = false;
+                break;
+            case MAXIMUMBPM:
+                maxBPM_bool = false;
+                break;
+            case VALUE:
+                if (maxBPM_bool)
+                    currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
+                if (avgBPM_bool)
+                    currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
                 break;
             case TRACK:
                 currLap.addTrack(currTrack);
