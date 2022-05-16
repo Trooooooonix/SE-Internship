@@ -73,7 +73,7 @@ public class GPSTracker {
         }
 
         //checkParser(aList);
-        //loading.setVisible(false);
+        lf.setVisible(false);
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
         ui.setVisible(true);
