@@ -7,14 +7,10 @@ import handlers.ActivityHandler;
 import tracks.Activity;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
-import javax.swing.text.IconView;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.awt.*;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,29 +22,6 @@ import java.util.stream.Stream;
 public class GPSTracker {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
-        /*
-        JFrame loading = new JFrame();
-        loading.setLocationRelativeTo(null);
-        JPanel jp = new JPanel();
-
-        loading.add(jp, BorderLayout.CENTER);
-
-        JLabel loadText = new JLabel("Loading...", SwingConstants.CENTER);
-        jp.add(loadText, BorderLayout.CENTER);
-        loadText.setFont(new Font("Serif", Font.BOLD, 35));
-        loadText.setVisible(true);
-        ImageIcon icon = new ImageIcon("jetbrains://idea/navigate/reference?project=SE-Internship&path=RunningMan.gif");
-
-
-
-        loading.setUndecorated(true);
-        loading.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-
-        loading.setSize(300,75);
-        loading.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        loading.setLocationRelativeTo(null);
-        loading.setVisible(true);
-        */
 
         LoadingFrame lf = new LoadingFrame("Loading");
         lf.setSize(350, 450);
