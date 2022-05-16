@@ -21,39 +21,21 @@ import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class GPSTracker {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
-        /*
-        JFrame loading = new JFrame();
-        loading.setLocationRelativeTo(null);
-        JPanel jp = new JPanel();
-
-        loading.add(jp, BorderLayout.CENTER);
-
-        JLabel loadText = new JLabel("Loading...", SwingConstants.CENTER);
-        jp.add(loadText, BorderLayout.CENTER);
-        loadText.setFont(new Font("Serif", Font.BOLD, 35));
-        loadText.setVisible(true);
-        ImageIcon icon = new ImageIcon("jetbrains://idea/navigate/reference?project=SE-Internship&path=RunningMan.gif");
-
-
-
-        loading.setUndecorated(true);
-        loading.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-
-        loading.setSize(300,75);
-        loading.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        loading.setLocationRelativeTo(null);
-        loading.setVisible(true);
-        */
-
         LoadingFrame lf = new LoadingFrame("Loading");
-        lf.setSize(350, 450);
         lf.setLocationRelativeTo(null);
         lf.pack();
+        try {
+            //to enjoy the running man more :D
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         lf.setVisible(true);
 
 
@@ -79,7 +61,7 @@ public class GPSTracker {
         ui.setVisible(true);
     }
 
-    public static void checkParser(List<Activity> list){
+    public static void checkParser(List<Activity> list) {
         System.out.println("Loaded files: " + list.size());
 
         final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -89,11 +71,11 @@ public class GPSTracker {
         System.out.println("acadia.tcx");
         System.out.println("Name: " + acadia.getId());
         System.out.println("Date: " + acadia.getLaps().get(0).getStartTime().format(viewDateFormatter));
-        System.out.println("Start Time: "+ acadia.getLaps().get(0).getStartTime().format(viewStartTimeFormatter));
+        System.out.println("Start Time: " + acadia.getLaps().get(0).getStartTime().format(viewStartTimeFormatter));
         for (int i = 0; i < acadia.getLaps().size(); i++) {
             System.out.println("DistanceMeters:" + acadia.getLaps().get(i).getDistanceMeters());
             System.out.println("AVGBPM: " + acadia.getLaps().get(i).getAverageBPM());
-            System.out.println("MAXBPM: "+ acadia.getLaps().get(i).getMaxBPM());
+            System.out.println("MAXBPM: " + acadia.getLaps().get(i).getMaxBPM());
 
         }
         /*
