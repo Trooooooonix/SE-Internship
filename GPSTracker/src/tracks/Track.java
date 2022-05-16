@@ -8,6 +8,7 @@ public class Track {
     public void addTrackPoint(TrackPoint trackPoint){
         trackPoints.add(trackPoint);
     }
+
     public List<TrackPoint> getTrackPoints() {
         return trackPoints;
     }
