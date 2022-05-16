@@ -22,13 +22,15 @@ import java.util.List;
 import static gui.BarChart.createChart;
 
 public class GpsTrackerGUI extends JFrame {
-
+    public String yAxis;
     private JPanel rootPanel;
     private JTable trackTable;
     private JTable segmentTable;
     private JPanel chartPanel;
     private JPanel Tracks;      //needed
-    public int row = 0;
+    private JLabel nameLabel;
+    public int trackRow = 0;
+    public int segmentColumn = 1;
     public JCheckBoxMenuItem startTime;
     public JCheckBoxMenuItem pace;
     public JCheckBoxMenuItem averageBpm;
@@ -115,8 +117,17 @@ public class GpsTrackerGUI extends JFrame {
 
         trackTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                row = trackTable.getSelectedRow();
+                trackRow = trackTable.getSelectedRow();
+                System.out.print(trackRow);
                 createSegmentTable(aList);
+                createBarChart(aList);
+            }
+        });
+
+        segmentTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                segmentColumn = segmentTable.getSelectedColumn();
+                System.out.print(segmentColumn);
                 createBarChart(aList);
             }
         });
@@ -220,9 +231,10 @@ public class GpsTrackerGUI extends JFrame {
 
         trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         trackTable.setRowSelectionAllowed(true);
+        trackTable.setColumnSelectionAllowed(false);
         trackTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"Name", "Date", "Start", "Distance [m]", "Time", "Pace [min/km]", "avg. BPM", "max. BPM", "Altitude [m]"} // String ändern wenn Spalten ausgeblendet werden sollen
+                new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "Altitude"} // String ändern wenn Spalten ausgeblendet werden sollen
         ));
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
@@ -241,30 +253,31 @@ public class GpsTrackerGUI extends JFrame {
 
     private void createSegmentTable(List<Activity> aList){
 
-        segmentTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
-        segmentTable.setRowSelectionAllowed(true);
 
-        Object [][] data = new Object [aList.get(row).getLaps().size()][6];
+        Object [][] data = new Object [aList.get(trackRow).getLaps().size()][6];
         int counter =0;
 
         double prevDistanceMeters = 0.0;
-        for (Lap l : aList.get(row).getLaps()) {
+        for (Lap l : aList.get(trackRow).getLaps()) {
             data [counter][0] = counter+1;
             if ((l.getDistanceMeters()-prevDistanceMeters) >= 1000) data [counter][1] = distanceFormatter.format(Math.round((l.getDistanceMeters()-prevDistanceMeters)));
             else data [counter][1] = Math.round((l.getDistanceMeters()-prevDistanceMeters));
-            data [counter][2] = l.getTotalTimeHHmmSS(aList.get(row).getLaps().get(counter).getTotalTimeSeconds());
+            data [counter][2] = l.getTotalTimeHHmmSS(aList.get(trackRow).getLaps().get(counter).getTotalTimeSeconds());
             data [counter][3] = Math.round(l.getLapTotalAltitude());
             data [counter][4] = Math.round(l.getAverageBPM());
             data [counter][5] = Math.round(l.getMaxBPM());
             counter++;
             prevDistanceMeters = Math.round(l.getDistanceMeters());
         }
-
+        segmentTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
+        segmentTable.setRowSelectionAllowed(false);
+        segmentTable.setColumnSelectionAllowed(true);
         segmentTable.setModel(new DefaultTableModel(
                 data,
-                new String[]{"Lap", "Distance [m]", "Time", "Altitude [m]", "avg. BPM", "max. BPM"}
+                new String[]{"Segment", "Distance", "Time", "Altitude", "avg. BPM", "max. BPM"}
         ));
         TableColumnModel columns = segmentTable.getColumnModel();
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         columns.getColumn(0).setCellRenderer(centerRenderer);
@@ -276,15 +289,56 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createBarChart(List<Activity> aList) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset distanceDataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset timeDataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset altitudeDataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset avgBpmDataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset maxBpmDataset = new DefaultCategoryDataset();
+
         int counter = 1;
-        Activity currActivity = aList.get(row);
+        double prevDistanceMeters = 0.0;
+        Activity currActivity = aList.get(trackRow);
         for (Lap l : currActivity.getLaps()) {
-            dataset.setValue((Number) segmentTable.getModel().getValueAt(counter-1,3), "", "Lap "+ counter++);
+            distanceDataset.setValue((Number) (l.getDistanceMeters()- prevDistanceMeters), "meter", counter);
+            timeDataset.setValue((Number) l.getTotalTimeSeconds(), "seconds",  counter);
+            altitudeDataset.setValue((Number) segmentTable.getModel().getValueAt(counter-1,3), "meter", counter);
+            avgBpmDataset.setValue((Number) segmentTable.getModel().getValueAt(counter-1,4), "beats/min", counter);
+            maxBpmDataset.setValue((Number) segmentTable.getModel().getValueAt(counter-1,5), "beats/min", counter);
+            prevDistanceMeters = Math.round(l.getDistanceMeters());
+            counter++;
+        }
+        DefaultCategoryDataset dataset = distanceDataset;
+
+        switch (segmentColumn) {
+            case 1 :
+                dataset = distanceDataset;
+                yAxis = "Distance  [m]";
+                nameLabel.setText("Distance");
+                break;
+            case 2 :
+                dataset = timeDataset;
+                yAxis = "Time  [sec]";
+                nameLabel.setText("Time");
+                break;
+            case 3 :
+                dataset = altitudeDataset;
+                yAxis = "Altitude  [m]";
+                nameLabel.setText("Altitude");
+                break;
+            case 4 :
+                dataset = avgBpmDataset;
+                yAxis = "Average BPM  [beats/min]";
+                nameLabel.setText("Average BPM");
+                break;
+            case 5 :
+                dataset = maxBpmDataset;
+                yAxis = "Max. BPM  [beats/min]";
+                nameLabel.setText("Max. BPM");
+                break;
         }
 
-        ChartPanel chPanel = new ChartPanel(createChart(dataset));
-        chPanel.setPreferredSize(new Dimension(800, 250)); //size according to my window
+        ChartPanel chPanel = new ChartPanel(createChart(dataset, yAxis));
+        chPanel.setPreferredSize(new Dimension(800, 300)); //size according to my window
         chPanel.setMouseWheelEnabled(true);
         chPanel.setFillZoomRectangle(true);
 
@@ -293,5 +347,4 @@ public class GpsTrackerGUI extends JFrame {
         chartPanel.repaint();
         chartPanel.updateUI();
     }
-
 }

@@ -62,6 +62,7 @@ public class GPSTracker {
         }
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
+        ui.setIconImage(new ImageIcon("icon.png").getImage());
         lf.setVisible(false);
         ui.setVisible(true);
     }

@@ -46,13 +46,19 @@
                   <component id="620f6" class="javax.swing.JTable" binding="segmentTable">
                     <constraints/>
                     <properties>
+                      <autoResizeMode value="2"/>
+                      <cellSelectionEnabled value="false"/>
+                      <columnSelectionAllowed value="false"/>
                       <doubleBuffered value="false"/>
                       <dragEnabled value="false"/>
                       <fillsViewportHeight value="true"/>
+                      <focusable value="false"/>
                       <gridColor color="-2631721"/>
                       <inheritsPopupMenu value="false"/>
                       <requestFocusEnabled value="false"/>
                       <rowHeight value="22"/>
+                      <showHorizontalLines value="true"/>
+                      <showVerticalLines value="true"/>
                     </properties>
                   </component>
                 </children>
@@ -80,13 +86,13 @@
         </properties>
         <border type="line"/>
         <children>
-          <component id="327d" class="javax.swing.JLabel">
+          <component id="327d" class="javax.swing.JLabel" binding="nameLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font name="JetBrains Mono" size="20" style="1"/>
-              <text value="Altitude"/>
+              <text value=""/>
             </properties>
           </component>
           <grid id="aca41" binding="chartPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -130,7 +136,7 @@
                   <requestFocusEnabled value="false"/>
                   <rowHeight value="22"/>
                   <rowSelectionAllowed value="true"/>
-                  <showVerticalLines value="false"/>
+                  <showVerticalLines value="true"/>
                   <verifyInputWhenFocusTarget value="true"/>
                 </properties>
               </component>
