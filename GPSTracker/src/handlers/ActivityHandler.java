@@ -128,8 +128,6 @@ public class ActivityHandler extends DefaultHandler {
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
                 } catch (Exception e) {
-                    //e.printStackTrace();
-                    System.out.println("Wrong DateTime format");
                 }
                 break;
             case LATITUDE:
