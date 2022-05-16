@@ -14,6 +14,8 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -105,6 +107,9 @@ public class GpsTrackerGUI extends JFrame {
         }
     }
 
+
+
+
     public GpsTrackerGUI(String title, List<Activity> aList) {
         super(title);
         initiateMenuBar(this);
@@ -118,16 +123,7 @@ public class GpsTrackerGUI extends JFrame {
         trackTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 trackRow = trackTable.getSelectedRow();
-                System.out.print(trackRow);
                 createSegmentTable(aList);
-                createBarChart(aList);
-            }
-        });
-
-        segmentTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                segmentColumn = segmentTable.getSelectedColumn();
-                System.out.print(segmentColumn);
                 createBarChart(aList);
             }
         });
@@ -272,6 +268,16 @@ public class GpsTrackerGUI extends JFrame {
         segmentTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         segmentTable.setRowSelectionAllowed(false);
         segmentTable.setColumnSelectionAllowed(true);
+
+        segmentTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    segmentColumn = segmentTable.getSelectedColumn();
+                    createBarChart(aList);
+                }
+            }
+        });
+
         segmentTable.setModel(new DefaultTableModel(
                 data,
                 new String[]{"Segment", "Distance", "Time", "Altitude", "avg. BPM", "max. BPM"}
