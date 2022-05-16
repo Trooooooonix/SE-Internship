@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -30,7 +32,71 @@ public class GpsTrackerGUI extends JFrame {
     public JCheckBoxMenuItem averageBpm;
     public JCheckBoxMenuItem maxBpm;
     public JCheckBoxMenuItem heightLvl;
+    public int tableWidth = 97;
 
+    class MenuActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (!startTime.isSelected()) {
+                trackTable.getColumnModel().getColumn(2).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
+                System.out.println("JMenuItemAction: startTime deselected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
+            } else{
+                trackTable.getColumnModel().getColumn(2).setMinWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(2).setMaxWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(2).setPreferredWidth(tableWidth);
+                System.out.println("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
+            }
+
+            if (!pace.isSelected()) {
+                trackTable.getColumnModel().getColumn(5).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(5).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(5).setMaxWidth(0);
+                System.out.println("JMenuItemAction: pace deselected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
+            } else{
+                trackTable.getColumnModel().getColumn(5).setMinWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(5).setMaxWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(5).setPreferredWidth(tableWidth);
+                System.out.println("JMenuItemAction: pace selected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
+            }
+
+            if (!averageBpm.isSelected()) {
+                trackTable.getColumnModel().getColumn(6).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(6).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(6).setMaxWidth(0);
+                System.out.println("JMenuItemAction: averageBpm deselected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
+            } else{
+                trackTable.getColumnModel().getColumn(6).setMinWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(6).setMaxWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(6).setPreferredWidth(tableWidth);
+                System.out.println("JMenuItemAction: averageBpm selected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
+            }
+
+            if (!maxBpm.isSelected()) {
+                trackTable.getColumnModel().getColumn(7).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(7).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(7).setMaxWidth(0);
+                System.out.println("JMenuItemAction: maxBpm deselected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
+            } else{
+                trackTable.getColumnModel().getColumn(7).setMinWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(7).setMaxWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(7).setPreferredWidth(tableWidth);
+                System.out.println("JMenuItemAction: maxBpm selected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
+            }
+
+            if (!heightLvl.isSelected()) {
+                trackTable.getColumnModel().getColumn(8).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(8).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(8).setMaxWidth(0);
+                System.out.println("JMenuItemAction: heightLvl deselected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
+            } else{
+                trackTable.getColumnModel().getColumn(8).setMinWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(8).setMaxWidth(tableWidth);
+                trackTable.getColumnModel().getColumn(8).setPreferredWidth(tableWidth);
+                System.out.println("JMenuItemAction: heightLvl selected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
+            }
+        }
+    }
 
     public GpsTrackerGUI(String title, List<Activity> aList) {
         super(title);
@@ -49,8 +115,8 @@ public class GpsTrackerGUI extends JFrame {
                 createBarChart(aList);
             }
         });
-    }
 
+    }
 
     public void initiateMenuBar(JFrame window) {
         JMenuBar menuBar = new JMenuBar();
@@ -83,18 +149,23 @@ public class GpsTrackerGUI extends JFrame {
         menuBar.add(columnMenu);
         startTime = new JCheckBoxMenuItem("Start");
         startTime.setSelected(true);
+        startTime.addActionListener(new MenuActionListener());
         columnMenu.add(startTime);
         pace = new JCheckBoxMenuItem("Pace");
         pace.setSelected(true);
+        pace.addActionListener(new MenuActionListener());
         columnMenu.add(pace);
         averageBpm = new JCheckBoxMenuItem("avg. Bpm");
         averageBpm.setSelected(true);
+        averageBpm.addActionListener(new MenuActionListener());
         columnMenu.add(averageBpm);
         maxBpm = new JCheckBoxMenuItem("max. Bpm");
         maxBpm.setSelected(true);
+        maxBpm.addActionListener(new MenuActionListener());
         columnMenu.add(maxBpm);
         heightLvl = new JCheckBoxMenuItem("Altitude");
         heightLvl.setSelected(true);
+        heightLvl.addActionListener(new MenuActionListener());
         columnMenu.add(heightLvl);
 
         JMenu track = new JMenu("Track");
@@ -166,13 +237,7 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(8).setCellRenderer(centerRenderer);
 
 
-     /*   if (startTime.isSelected()) {
-            trackTable.getColumnModel().getColumn(0).setMinWidth(0);
-            trackTable.getColumnModel().getColumn(0).setMaxWidth(0);
-        } else {
-            trackTable.getColumnModel().getColumn(0).setMinWidth(0);
-            trackTable.getColumnModel().getColumn(0).setMaxWidth(999);
-        }     */
+
     }
 
 
