@@ -1,11 +1,6 @@
 package gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class LoadingFrame extends JFrame {
     private JPanel rootPanel;
@@ -25,7 +20,5 @@ public class LoadingFrame extends JFrame {
         this.getContentPane().add(gif);
         this.pack();
         this.setVisible(true);
-
-
     }
 }
