@@ -51,7 +51,7 @@ public class GPSTracker {
         */
 
         LoadingFrame lf = new LoadingFrame("Loading");
-        lf.setSize(350, 450);
+  //      lf.setSize(350, 450);
         lf.setLocationRelativeTo(null);
         lf.pack();
         lf.setVisible(true);
