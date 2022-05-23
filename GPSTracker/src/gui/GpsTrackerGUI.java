@@ -521,14 +521,15 @@ public class GpsTrackerGUI extends JFrame {
     }
 
 
-    private List<Activity> getGroupOfDate(List<Activity> aList) {
-
-
+    private List<List> getGroupOfDate(List<Activity> aList) {
 
         Set<Integer> dates = new HashSet<>();
         for (Activity a : aList) {
             dates.add(a.getLaps().get(0).getStartTime().getYear());
         } // liefert die verschiedenen Jahre aus Liste -> stimmt
+
+        System.out.println(dates.toString());
+
 
         List<Activity> group = new ArrayList<Activity>();
         List<List> gList = new ArrayList<>();   // Liste von Gruppen nach Jahren
@@ -540,14 +541,17 @@ public class GpsTrackerGUI extends JFrame {
             }
 
             gList.add(group);
-            for (List gL : gList) {
-                for (int i=0; i < group.size(); i++){
-                    System.out.println(d + ": " + gL.get(i).toString());
-                }
-            }
-
-
+            //for (List gL : gList) {
+               // for (int i=0; i < group.size(); i++){
+                    //System.out.println(d + ": " + gL.get(i).toString());
+                  //  System.out.println(d);
+                //}
+            //}
         }
-        return group;
+
+
+
+
+        return gList;
     }
 }
