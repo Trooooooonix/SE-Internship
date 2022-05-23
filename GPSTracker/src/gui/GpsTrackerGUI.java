@@ -52,6 +52,7 @@ public class GpsTrackerGUI extends JFrame {
     public JMenuItem running, cycling, driving, allTypes, flying, hiking, skiing ;
     public int tableWidth = 97;
     public String sportType = "all";
+    public String groupBy = "day";
 
 
     NumberFormat paceFormatter = new DecimalFormat("#0.00");
@@ -187,10 +188,35 @@ public class GpsTrackerGUI extends JFrame {
                 updateGUI(aList);
             }
         });
+
+        year.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                System.out.println("Group by Year selected");
+                groupBy= "Year";
+                updateGUI(aList);
+            }
+        });
+
+        month.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                System.out.println("Group by Month selected");
+                groupBy = "Month";
+                updateGUI(aList);
+            }
+        });
+
+        day.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                System.out.println("Group by Day selected");
+                groupBy = "Day";
+                updateGUI(aList);
+            }
+        });
     }
 
     public void updateGUI(List<Activity> aList){
         createTrackTable(aList);
+        // Gruppieren nach Zeitraum
         trackRow = 0;
         createSegmentTable(getListOfSport(aList, sportType));
         segmentColumn = 1;
@@ -200,16 +226,6 @@ public class GpsTrackerGUI extends JFrame {
     public void initiateMenuBar(JFrame window) {
         JMenuBar menuBar = new JMenuBar();
         window.setJMenuBar(menuBar);
-
-        //adding Menus to the Menubar
-    //    JMenu navigationMenu = new JMenu("File");
-    //    menuBar.add(navigationMenu);
-    //    JMenuItem option = new JMenuItem("Option");
-    //    navigationMenu.add(option);
-    //    JMenuItem refresh = new JMenuItem("Refresh");
-    //    navigationMenu.add(refresh);
-    //    JMenu viewMenu = new JMenu("View");
-    //    menuBar.add(viewMenu);
         JMenu groupMenu = new JMenu("Group by");
         menuBar.add(groupMenu);
         year = new JMenuItem("Year");
