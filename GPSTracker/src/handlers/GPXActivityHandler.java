@@ -32,7 +32,9 @@ public class GPXActivityHandler extends DefaultHandler {
     private TrackPoint currTrackPoint;
     private StringBuilder elementValue;
 
-    /*//used for formatting those ("01.04.2021  7:31 pm") formats into a classic LocalDateTime format
+    /*
+    //please DO NOT use this trash code
+    //used for formatting those ("01.04.2021  7:31 pm") formats into a classic LocalDateTime format
     //used in gpx for Value in Tag <desc>VALUE</desc>
     public static LocalDateTime format(String dateTime) {
         String date = dateTime.substring(0, 10);

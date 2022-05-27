@@ -2,7 +2,7 @@
 <TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.garmin.com/xmlschemas/ActivityExtension/v2 http://www.garmin.com/xmlschemas/ActivityExtensionv2.xsd http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">
 
   <Activities>
-    <Activity Sport="Running">
+    <Activity Sport="Cycling">
       <Id>Grado</Id>
       <Lap StartTime="2020-08-31T06:09:56Z">
         <TotalTimeSeconds>359.0990000</TotalTimeSeconds>

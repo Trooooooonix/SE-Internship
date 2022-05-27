@@ -65,6 +65,8 @@ public class GPSTracker {
         ui.setIconImage(new ImageIcon("icon.png").getImage());
         lf.setVisible(false);
         ui.setVisible(true);
+
+        checkParser(aList);
     }
 
     public static void checkParser(List<Activity> list) {
@@ -73,7 +75,7 @@ public class GPSTracker {
         final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        Activity acadia = list.get(0);
+        Activity acadia = list.get(9);
         System.out.println("acadia.tcx");
         System.out.println("Name: " + acadia.getId());
         System.out.println("Date: " + acadia.getLaps().get(0).getStartTime().format(viewDateFormatter));

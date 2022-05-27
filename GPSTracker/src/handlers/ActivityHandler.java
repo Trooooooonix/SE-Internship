@@ -95,7 +95,8 @@ public class ActivityHandler extends DefaultHandler {
                 currLap.setTotalTimeSeconds(Double.parseDouble(elementValue.toString()));
                 break;
             case DISTANCEMETERS:
-                if (currLap.getTracks().size() == 0) {
+                // look at lesbos for || argument
+                if (currLap.getTracks().size() == 0 || !currLap.getTracks().contains(currTrack)) {
                     currLap.setDistanceMeters(Double.parseDouble(elementValue.toString()));
                 }
                 break;
@@ -128,6 +129,9 @@ public class ActivityHandler extends DefaultHandler {
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
                 } catch (Exception e) {
+
+                    //e.printStackTrace();
+                    //System.out.println("Wrong DateTime format");
                 }
                 break;
             case LATITUDE:

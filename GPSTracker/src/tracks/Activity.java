@@ -99,5 +99,4 @@ public class Activity {
         this.laps.add(lap);
     }
 
-
 }
