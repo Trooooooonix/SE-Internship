@@ -12,7 +12,7 @@ public class PropertiesHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if(qName.equals(FILEPATH))
+        if (qName.equals(FILEPATH))
             elementValue = new StringBuilder();
     }
 
@@ -27,7 +27,7 @@ public class PropertiesHandler extends DefaultHandler {
         else elementValue.append(ch, start, length);
     }
 
-    public String getFilePath(){
+    public String getFilePath() {
         return filePath;
     }
 }
