@@ -26,7 +26,6 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAmount;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +40,8 @@ public class GpsTrackerGUI extends JFrame {
     private JPanel chartPanel;
     private JPanel Tracks;      //needed
     private JLabel nameLabel;
+    private JPanel SegmentPanel;
+    private JPanel barChartPanel;
     public int trackRow = 0;
     public int segmentColumn = 1;
     public DefaultCategoryDataset dataset;
@@ -48,8 +49,8 @@ public class GpsTrackerGUI extends JFrame {
     public JMenuItem location, year, month, activity;
     public JMenuItem running, cycling, driving, allTypes, flying, hiking, skiing;
     public int tableWidth = 75;
-    public String sportType = "all";
-    public String groupBy = "activity";
+    public SportType sportType = SportType.all;
+    public Period groupBy = Period.ACTIVITY;
 
 
     NumberFormat paceFormatter = new DecimalFormat("#0.00");
@@ -155,85 +156,64 @@ public class GpsTrackerGUI extends JFrame {
         System.out.println(segmentTable.getColumnModel().getColumn(4).getWidth());
         System.out.println(trackTable.getColumnModel().getColumn(4).getWidth());
 
-        allTypes.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("All Types selected");
-                sportType = "all";
-                updateGUI(aList);
-            }
+        allTypes.addActionListener(ev -> {
+            //System.out.println("All Types selected");
+            sportType = SportType.all;
+            updateGUI(aList);
         });
 
-        cycling.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Cycling selected");
-                sportType = "Cycling";
-                updateGUI(aList);
-            }
+        cycling.addActionListener(ev -> {
+            //System.out.println("Cycling selected");
+            sportType = SportType.Cycling;
+            updateGUI(aList);
         });
 
-        driving.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Driving selected");
-                sportType = "Driving";
-                updateGUI(aList);
-            }
+        driving.addActionListener(ev -> {
+            //System.out.println("Driving selected");
+            sportType = SportType.Driving;
+            updateGUI(aList);
         });
 
-        flying.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Flying selected");
-                sportType = "Flying";
-                updateGUI(aList);
-            }
+        flying.addActionListener(ev -> {
+            //System.out.println("Flying selected");
+            sportType = SportType.Flying;
+            updateGUI(aList);
         });
 
-        hiking.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Hiking selected");
-                sportType = "Hiking";
-                updateGUI(aList);
-            }
+        hiking.addActionListener(ev -> {
+            //System.out.println("Hiking selected");
+            sportType = SportType.Hiking;
+            updateGUI(aList);
         });
 
-        running.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Running selected");
-                sportType = "Running";
-                updateGUI(aList);
-            }
+        running.addActionListener(ev -> {
+            //System.out.println("Running selected");
+            sportType = SportType.Running;
+            updateGUI(aList);
         });
 
-        skiing.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Skiing selected");
-                sportType = "Skiing";
-                updateGUI(aList);
-            }
+        skiing.addActionListener(ev -> {
+            //System.out.println("Skiing selected");
+            sportType = SportType.Skiing;
+            updateGUI(aList);
         });
 
-        year.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Group by Year selected");
-                groupBy = "Year";
-                getGroupOfDate(aList);
-                updateGUI(aList);
-            }
+        year.addActionListener(ev -> {
+            //System.out.println("Group by Year selected");
+            groupBy = Period.YEAR;
+            updateGUI(aList);
         });
 
-        month.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Group by Month selected");
-                groupBy = "Month";
-                updateGUI(aList);
-            }
+        month.addActionListener(ev -> {
+            //System.out.println("Group by Month selected");
+            groupBy = Period.MONTH;
+            updateGUI(aList);
         });
 
-        activity.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                System.out.println("Group by Activity selected");
-                groupBy = "Activity";
-                updateGUI(aList);
-            }
+        activity.addActionListener(ev -> {
+            //System.out.println("Group by Activity selected");
+            groupBy = Period.ACTIVITY;
+            updateGUI(aList);
         });
     }
 
@@ -241,9 +221,9 @@ public class GpsTrackerGUI extends JFrame {
         createTrackTable(aList);
         // Gruppieren nach Zeitraum
         trackRow = 0;
-        createSegmentTable(getListOfSport(aList, sportType));
+        createSegmentTable(getTrackListSports(aList, sportType));
         segmentColumn = 1;
-        createBarChart(getListOfSport(aList, sportType));
+        createBarChart(getTrackListSports(aList, sportType));
     }
 
     public void initiateMenuBar(JFrame window) {
@@ -311,32 +291,38 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createTrackTable(List<Activity> aList) {
-
+        for (Activity a : aList) {
+            a.setDate();
+        }
         final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        Object[][] data = new Object[getSizeOfSportList(aList, sportType)][9];
-        int counter = 0;
-        double activityDistanceMeters;
-        double activityTotalTimeSeconds;
-
         List<Activity> bList = getTrackListSports(aList, sportType);
-        for (Activity a : bList) {
-            data[counter][0] = a.getId();
-            data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
-            data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
-            activityDistanceMeters = Math.round(a.getActivityDistanceMeters());
-            if (activityDistanceMeters >= 1000) data[counter][3] = distanceFormatter.format(activityDistanceMeters);
-            else data[counter][3] = activityDistanceMeters;
-            activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
-            data[counter][4] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
-            data[counter][5] = paceFormatter.format(activityDistanceMeters / activityTotalTimeSeconds);
-            data[counter][6] = Math.round(a.getAvgBPM());
-            data[counter][7] = Math.round(a.getMaxBPM());
-            data[counter][8] = Math.round(a.getActivityTotalAltitude());
-            counter++;
+        Object[][] data = new Object[bList.size()][9];
+
+        if (groupBy != Period.ACTIVITY) {
+            data = groupingByPeriod(aList, sportType);
+        } else {
+            int counter = 0;
+            double activityDistanceMeters;
+            double activityTotalTimeSeconds;
+
+            for (Activity a : bList) {
+                data[counter][0] = a.getId();
+                data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
+                data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
+                activityDistanceMeters = Math.round(a.getActivityDistanceMeters());
+                if (activityDistanceMeters >= 1000) data[counter][3] = distanceFormatter.format(activityDistanceMeters);
+                else data[counter][3] = activityDistanceMeters;
+                activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
+                data[counter][4] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
+                data[counter][5] = paceFormatter.format(activityDistanceMeters / activityTotalTimeSeconds);
+                data[counter][6] = Math.round(a.getAvgBPM());
+                data[counter][7] = Math.round(a.getMaxBPM());
+                data[counter][8] = Math.round(a.getActivityTotalAltitude());
+                counter++;
+            }
         }
-        data = groupingByYear(aList);
 
         trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         trackTable.setRowSelectionAllowed(true);
@@ -345,6 +331,25 @@ public class GpsTrackerGUI extends JFrame {
                 data,
                 new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "Altitude"}
         ));
+
+        if(groupBy == Period.YEAR || groupBy == Period.MONTH){
+            trackTable.getColumnModel().getColumn(1).setMinWidth(0);
+            trackTable.getColumnModel().getColumn(1).setPreferredWidth(0);
+            trackTable.getColumnModel().getColumn(1).setMaxWidth(0);
+            trackTable.getColumnModel().getColumn(2).setMinWidth(0);
+            trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
+            trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
+            SegmentPanel.setVisible(false);
+        } else{
+            trackTable.getColumnModel().getColumn(1).setMinWidth(tableWidth);
+            trackTable.getColumnModel().getColumn(1).setPreferredWidth(tableWidth);
+            trackTable.getColumnModel().getColumn(1).setMaxWidth(tableWidth);
+            trackTable.getColumnModel().getColumn(2).setMinWidth(tableWidth);
+            trackTable.getColumnModel().getColumn(2).setPreferredWidth(tableWidth);
+            trackTable.getColumnModel().getColumn(2).setMaxWidth(tableWidth);
+            SegmentPanel.setVisible(true);
+        }
+
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
 
@@ -445,36 +450,36 @@ public class GpsTrackerGUI extends JFrame {
         }
 
         switch (segmentColumn) {
-            case 1:
+            case 1 -> {
                 dataset = distanceDataset;
                 yAxis = "Distance  [m]";
                 nameLabel.setText("Distance");
-                break;
-            case 2:
+            }
+            case 2 -> {
                 dataset = timeDataset;
                 yAxis = "Time  [min]";
                 nameLabel.setText("Time");
-                break;
-            case 3:
+            }
+            case 3 -> {
                 dataset = paceDataset;
                 yAxis = "Pace  [min/km]";
                 nameLabel.setText("Pace");
-                break;
-            case 4:
+            }
+            case 4 -> {
                 dataset = altitudeDataset;
                 yAxis = "Altitude  [m]";
                 nameLabel.setText("Altitude");
-                break;
-            case 5:
+            }
+            case 5 -> {
                 dataset = avgBpmDataset;
                 yAxis = "Average BPM  [beats/min]";
                 nameLabel.setText("Average BPM");
-                break;
-            case 6:
+            }
+            case 6 -> {
                 dataset = maxBpmDataset;
                 yAxis = "Max. BPM  [beats/min]";
                 nameLabel.setText("Max. BPM");
-                break;
+            }
         }
 
         ChartPanel chPanel = new ChartPanel(createChart(dataset, yAxis));
@@ -539,59 +544,30 @@ public class GpsTrackerGUI extends JFrame {
         return count;
     }
 
+    public List<Activity> getTrackListSports(List<Activity> aList, SportType sportType) {
+        if (sportType == SportType.all) return aList;
+        return aList.stream().filter(a -> a.getSport().equals(String.valueOf(sportType)))
+                .collect(Collectors.toList());
+    }
 
-    private List<Activity> getListOfSport(List<Activity> aList, String sportType) {
-
-        if (Objects.equals(sportType, "all")) return aList;
-        List<Activity> sportsList = new ArrayList<>();
-        for (Activity a : aList) {
-            if (a.getSport().equals(sportType)) {
-                sportsList.add(a);
-            }
+    public List<List<Activity>> getListOfList(List<Activity> aList, SportType sportType) {
+        List<Activity> filteredBySportList = getTrackListSports(aList, sportType);
+        List<List<Activity>> temp = new ArrayList<>();
+        if (groupBy == Period.YEAR) {
+            temp = filteredBySportList.stream()
+                    .collect(Collectors.groupingBy(a -> a.getDate().getYear()))
+                    .values().stream().toList();
+        } else if (groupBy == Period.MONTH) {
+            temp = filteredBySportList.stream()
+                    .collect(Collectors.groupingBy(a -> a.getDate().getMonth()))
+                    .values().stream().toList();
         }
-        return sportsList;
+        return temp;
     }
 
+    public Object[][] groupingByPeriod(List<Activity> aList, SportType sportType) {
+        List<List<Activity>> temp = getListOfList(aList, sportType);
 
-    private List<List> getGroupOfDate(List<Activity> aList) {
-
-        Set<Integer> dates = new HashSet<>();
-        for (Activity a : aList) {
-            dates.add(a.getLaps().get(0).getStartTime().getYear());
-        } // liefert die verschiedenen Jahre aus Liste -> stimmt
-
-        System.out.println(dates.toString());
-
-
-        List<Activity> group = new ArrayList<Activity>();
-        List<List> gList = new ArrayList<>();   // Liste von Gruppen nach Jahren
-        for (int d : dates) {
-            for (Activity a2 : aList) {
-                if (d == (a2.getLaps().get(0).getStartTime().getYear())) {
-                    group.add(a2);
-                }
-            }
-
-            gList.add(group);
-            //for (List gL : gList) {
-            // for (int i=0; i < group.size(); i++){
-            //System.out.println(d + ": " + gL.get(i).toString());
-            //  System.out.println(d);
-            //}
-            //}
-        }
-        return gList;
-    }
-
-    public List<Activity> getTrackListSports(List<Activity> aList, String sportType) {
-        if (sportType.equals("all")) return aList;
-        return aList.stream().filter(a -> a.getSport().equals(sportType)).collect(Collectors.toList());
-    }
-
-    public Object[][] groupingByYear(List<Activity> aList) {
-        List<List<Activity>> temp = new ArrayList<>(aList.stream()
-                .collect(Collectors
-                        .groupingBy(a -> a.getLaps().get(0).getStartTime().getYear())).values());
         Object[][] data = new Object[temp.size()][9];
         int counter = 0;
         double totalDistance = 0;
@@ -601,21 +577,22 @@ public class GpsTrackerGUI extends JFrame {
         int maxBPM = Integer.MIN_VALUE;
         double totalAltitude = 0;
 
-        for(List<Activity> list : temp){
-            for(Activity a : list){
+        for (List<Activity> list : temp) {
+            for (Activity a : list) {
                 totalDistance += a.getActivityDistanceMeters();
                 totalTime += a.getActivityTotalTimeSeconds();
                 totalPace += totalDistance / totalTime;
                 avgBPM += a.getAvgBPM();
-                if(a.getMaxBPM() > maxBPM) maxBPM = (int) a.getMaxBPM();
+                if (a.getMaxBPM() > maxBPM) maxBPM = (int) a.getMaxBPM();
                 totalAltitude += a.getActivityTotalAltitude();
             }
             avgBPM /= list.size();
-            data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
+            if(groupBy == Period.YEAR) data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
+            else data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getMonth();
             data[counter][1] = -1;  //date
             data[counter][2] = -1;  //start
             data[counter][3] = distanceFormatter.format(totalDistance);
-            data[counter][4] = String.format("%02d:%02d:%02d", (int)totalTime / 3600, ((int)totalTime % 3600) / 60, ((int)totalTime % 60));
+            data[counter][4] = String.format("%02d:%02d:%02d", (int) totalTime / 3600, ((int) totalTime % 3600) / 60, ((int) totalTime % 60));
             data[counter][5] = paceFormatter.format(totalPace);
             data[counter][6] = avgBPM;
             data[counter][7] = maxBPM;
@@ -625,4 +602,5 @@ public class GpsTrackerGUI extends JFrame {
         }
         return data;
     }
+
 }

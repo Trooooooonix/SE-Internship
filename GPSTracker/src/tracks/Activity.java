@@ -1,11 +1,13 @@
 package tracks;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Activity {
     private String id;
     private String sport;
     private List<Lap> laps;
+    private LocalDateTime date;
 
 
     @Override
@@ -89,6 +91,14 @@ public class Activity {
             sum += l.getAverageBPM();
         }
         return sum/ laps.size();
+    }
+
+    public void setDate(){
+        this.date = laps.get(0).getStartTime();
+    }
+
+    public LocalDateTime getDate(){
+        return this.date;
     }
 
     public void setLaps(List<Lap> laps) {
