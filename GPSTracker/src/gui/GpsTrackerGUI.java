@@ -340,6 +340,7 @@ public class GpsTrackerGUI extends JFrame {
             trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
             trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
             SegmentPanel.setVisible(false);
+            barChartPanel.setVisible(false);
         } else{
             trackTable.getColumnModel().getColumn(1).setMinWidth(tableWidth);
             trackTable.getColumnModel().getColumn(1).setPreferredWidth(tableWidth);
@@ -348,6 +349,7 @@ public class GpsTrackerGUI extends JFrame {
             trackTable.getColumnModel().getColumn(2).setPreferredWidth(tableWidth);
             trackTable.getColumnModel().getColumn(2).setMaxWidth(tableWidth);
             SegmentPanel.setVisible(true);
+            barChartPanel.setVisible(true);
         }
 
         TableColumnModel columns = trackTable.getColumnModel();
