@@ -26,8 +26,10 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAmount;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static gui.GpsTrackerGUI.BarChart.createChart;
 
@@ -248,7 +250,7 @@ public class GpsTrackerGUI extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         window.setJMenuBar(menuBar);
 
-        JMenu fileMenu =  new JMenu("File");
+        JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
         location = new JMenuItem("Change folder");
         fileMenu.add(location);
@@ -318,23 +320,23 @@ public class GpsTrackerGUI extends JFrame {
         double activityDistanceMeters;
         double activityTotalTimeSeconds;
 
-        for (Activity a : aList) {
-            if (a.getSport().equals(sportType) || sportType.equals("all")) {
-                data[counter][0] = a.getId();
-                data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
-                data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
-                activityDistanceMeters = Math.round(a.getActivityDistanceMeters());
-                if (activityDistanceMeters >= 1000) data[counter][3] = distanceFormatter.format(activityDistanceMeters);
-                else data[counter][3] = activityDistanceMeters;
-                activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
-                data[counter][4] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
-                data[counter][5] = paceFormatter.format(activityDistanceMeters / activityTotalTimeSeconds);
-                data[counter][6] = Math.round(a.getAvgBPM());
-                data[counter][7] = Math.round(a.getMaxBPM());
-                data[counter][8] = Math.round(a.getActivityTotalAltitude());
-                counter++;
-            }
+        List<Activity> bList = getTrackListSports(aList, sportType);
+        for (Activity a : bList) {
+            data[counter][0] = a.getId();
+            data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
+            data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
+            activityDistanceMeters = Math.round(a.getActivityDistanceMeters());
+            if (activityDistanceMeters >= 1000) data[counter][3] = distanceFormatter.format(activityDistanceMeters);
+            else data[counter][3] = activityDistanceMeters;
+            activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
+            data[counter][4] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
+            data[counter][5] = paceFormatter.format(activityDistanceMeters / activityTotalTimeSeconds);
+            data[counter][6] = Math.round(a.getAvgBPM());
+            data[counter][7] = Math.round(a.getMaxBPM());
+            data[counter][8] = Math.round(a.getActivityTotalAltitude());
+            counter++;
         }
+        data = groupingByYear(aList);
 
         trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         trackTable.setRowSelectionAllowed(true);
@@ -372,8 +374,6 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createSegmentTable(List<Activity> aList) {
-
-
         Object[][] data = new Object[aList.get(trackRow).getLaps().size()][7];
         int counter = 0;
 
@@ -574,16 +574,55 @@ public class GpsTrackerGUI extends JFrame {
 
             gList.add(group);
             //for (List gL : gList) {
-               // for (int i=0; i < group.size(); i++){
-                    //System.out.println(d + ": " + gL.get(i).toString());
-                  //  System.out.println(d);
-                //}
+            // for (int i=0; i < group.size(); i++){
+            //System.out.println(d + ": " + gL.get(i).toString());
+            //  System.out.println(d);
+            //}
             //}
         }
-
-
-
-
         return gList;
+    }
+
+    public List<Activity> getTrackListSports(List<Activity> aList, String sportType) {
+        if (sportType.equals("all")) return aList;
+        return aList.stream().filter(a -> a.getSport().equals(sportType)).collect(Collectors.toList());
+    }
+
+    public Object[][] groupingByYear(List<Activity> aList) {
+        List<List<Activity>> temp = new ArrayList<>(aList.stream()
+                .collect(Collectors
+                        .groupingBy(a -> a.getLaps().get(0).getStartTime().getYear())).values());
+        Object[][] data = new Object[temp.size()][9];
+        int counter = 0;
+        double totalDistance = 0;
+        double totalTime = 0;
+        double totalPace = 0;
+        int avgBPM = 0;
+        int maxBPM = Integer.MIN_VALUE;
+        double totalAltitude = 0;
+
+        for(List<Activity> list : temp){
+            for(Activity a : list){
+                totalDistance += a.getActivityDistanceMeters();
+                totalTime += a.getActivityTotalTimeSeconds();
+                totalPace += totalDistance / totalTime;
+                avgBPM += a.getAvgBPM();
+                if(a.getMaxBPM() > maxBPM) maxBPM = (int) a.getMaxBPM();
+                totalAltitude += a.getActivityTotalAltitude();
+            }
+            avgBPM /= list.size();
+            data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
+            data[counter][1] = -1;  //date
+            data[counter][2] = -1;  //start
+            data[counter][3] = distanceFormatter.format(totalDistance);
+            data[counter][4] = String.format("%02d:%02d:%02d", (int)totalTime / 3600, ((int)totalTime % 3600) / 60, ((int)totalTime % 60));
+            data[counter][5] = paceFormatter.format(totalPace);
+            data[counter][6] = avgBPM;
+            data[counter][7] = maxBPM;
+            if (totalAltitude >= 1000) data[counter][8] = distanceFormatter.format(totalAltitude);
+            else data[counter][8] = totalAltitude;
+            counter++;
+        }
+        return data;
     }
 }
