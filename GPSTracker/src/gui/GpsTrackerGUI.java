@@ -45,7 +45,7 @@ public class GpsTrackerGUI extends JFrame {
     public JCheckBoxMenuItem startTime, pace, averageBpm, maxBpm, heightLvl;
     public JMenuItem location, year, month, activity;
     public JMenuItem running, cycling, driving, allTypes, flying, hiking, skiing;
-    public int tableWidth = 97;
+    public int tableWidth = 75;
     public String sportType = "all";
     public String groupBy = "activity";
 
@@ -150,7 +150,8 @@ public class GpsTrackerGUI extends JFrame {
         createTrackTable(aList);
         createSegmentTable(aList);
         createBarChart(aList);
-
+        System.out.println(segmentTable.getColumnModel().getColumn(4).getWidth());
+        System.out.println(trackTable.getColumnModel().getColumn(4).getWidth());
 
         allTypes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
@@ -534,6 +535,7 @@ public class GpsTrackerGUI extends JFrame {
                 count++;
             }
         }
+
         return count;
     }
 
