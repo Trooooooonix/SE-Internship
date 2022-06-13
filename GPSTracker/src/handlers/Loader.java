@@ -1,5 +1,6 @@
 package handlers;
 
+import app.GPSTracker;
 import gui.LoadingFrame;
 import gui.GpsTrackerGUI;
 import org.w3c.dom.Document;
@@ -43,7 +44,7 @@ public class Loader {
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
         ui.setIconImage(new ImageIcon("icon.png").getImage());
-        lf.setVisible(false);
+        lf.dispose();
         ui.setVisible(true);
     }
 
