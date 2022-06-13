@@ -12,13 +12,19 @@ public class PropertiesHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if (qName.equals(FILEPATH))
-            elementValue = new StringBuilder();
+        switch (qName) {
+            case FILEPATH:
+                elementValue = new StringBuilder();
+                break;
+        }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        filePath = elementValue.toString();
+        switch (qName){
+            case FILEPATH:
+                filePath = elementValue.toString();
+        }
     }
 
     @Override

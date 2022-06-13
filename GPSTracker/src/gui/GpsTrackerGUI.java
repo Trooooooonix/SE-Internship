@@ -53,7 +53,7 @@ public class GpsTrackerGUI extends JFrame {
     public int segmentColumn = 1;
     public DefaultCategoryDataset dataset;
     public JCheckBoxMenuItem startTime, pace, averageBpm, maxBpm, heightLvl;
-    public JMenuItem location, year, month, activity;
+    public JMenuItem refresh, location, year, month, activity;
     public JMenuItem running, cycling, driving, allTypes, flying, hiking, skiing;
     public int tableWidth = 75;
     public SportType sportType = SportType.all;
@@ -246,6 +246,23 @@ public class GpsTrackerGUI extends JFrame {
                 }
             }
         });
+
+        refresh.addActionListener(ev -> {
+            this.dispose();
+            try {
+                Loader.initLoading();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (XPathExpressionException e) {
+                e.printStackTrace();
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void updateGUI(List<Activity> aList) {
@@ -265,6 +282,8 @@ public class GpsTrackerGUI extends JFrame {
         menuBar.add(fileMenu);
         location = new JMenuItem("Change folder");
         fileMenu.add(location);
+        refresh = new JMenuItem("Refresh");
+        fileMenu.add(refresh);
 
         JMenu groupMenu = new JMenu("Group by");
         menuBar.add(groupMenu);

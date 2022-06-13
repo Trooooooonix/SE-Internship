@@ -21,4 +21,14 @@ public class LoadingFrame extends JFrame {
         this.pack();
         this.setVisible(true);
     }
+
+    public void initFrame(){
+        this.setLocationRelativeTo(null);
+        this.pack();
+        this.setVisible(true);
+    }
+
+    public void deleteFrame(){
+        this.dispose();
+    }
 }

@@ -28,15 +28,15 @@ import java.util.stream.Stream;
 
 public class Loader {
     private static final String PROPERTIES = "GPSTracker/src/properties.xml";
+    private static final String DEMO = "GPSTracker/src/Demo.tcx";
 
     public static void initLoading() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException {
         //loading window, so user does not open the app again
         LoadingFrame lf = new LoadingFrame("Loading");
-        lf.setLocationRelativeTo(null);
-        lf.pack();
-        lf.setVisible(true);
+        lf.initFrame();
         String rootDir = readProperties();
-        if (rootDir.equals("empty"))
+        //only used when user opens application first time OR User deleted directory (if directory is changed in application standard directory will be created)
+        if (rootDir.equals("empty") || !new File(rootDir).exists())
             rootDir = initFolder();
         List<Path> filePaths = getFilePaths(rootDir);
         List<Activity> aList = loadData(filePaths);
@@ -44,21 +44,11 @@ public class Loader {
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
         ui.setIconImage(new ImageIcon("icon.png").getImage());
-        lf.dispose();
+        lf.deleteFrame();
         ui.setVisible(true);
     }
 
-    public static boolean dirContainsTcxFile(List<Path> filePathList) {
-        if (filePathList.isEmpty())
-            return false;
-        for (Path p : filePathList) {
-            if (p.toString().endsWith("tcx"))
-                return true;
-        }
-        return false;
-    }
-
-    public static String initFolder() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException, TransformerException {
+    private static String initFolder() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException, TransformerException {
         StringBuilder path = new StringBuilder();
         path.append("C:\\Users\\");
         path.append(System.getProperty("user.name"));
@@ -90,36 +80,15 @@ public class Loader {
 
     }
 
-    public static void createReadMe(String path) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append(path);
-        sb.append("\\README.txt");
-        File readMe = new File(sb.toString());
-        readMe.createNewFile();
-        FileWriter fw = new FileWriter(sb.toString());
-        fw.write("For further information look at user manuel. You can download it here : LINK\nYou can delete the Demo file after you have inserted your track files.\nFor now this application only supports tcx file format");
-        fw.close();
-    }
-
-    public static void createDemoTcx(String path) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append(path);
-        sb.append("\\Demo.tcx");
-        File demoTcx = new File(sb.toString());
-        demoTcx.createNewFile();
-        Files.copy(new File("GPSTracker/src/Demo.tcx").toPath(), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-    }
-
-    public static String readProperties() throws ParserConfigurationException, SAXException, IOException {
+    private static String readProperties() throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = saxParserFactory.newSAXParser();
         PropertiesHandler ph = new PropertiesHandler();
-        saxParser.parse("GPSTracker/src/properties.xml", ph);
+        saxParser.parse(PROPERTIES, ph);
         return ph.getFilePath();
     }
 
-    public static List<Activity> loadData(List<Path> filePathList) throws IOException, SAXException, ParserConfigurationException {
+    private static List<Activity> loadData(List<Path> filePathList) throws IOException, SAXException, ParserConfigurationException {
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
@@ -138,15 +107,52 @@ public class Loader {
         return aList;
     }
 
-    public static List<Path> getFilePaths(String rootDir) throws IOException {
+    private static List<Path> getFilePaths(String rootDir) throws IOException {
         List<Path> filePathList = new ArrayList<>();
         try (Stream<Path> paths = Files.walk(Paths.get(rootDir))) {
             filePathList = paths.filter(Files::isRegularFile).toList();
-            if (!dirContainsTcxFile(filePathList))
+            if (!dirContainsTcxFile(filePathList)) {
                 createDemoTcx(rootDir);
+                try (Stream<Path> path = Files.walk(Paths.get(rootDir))) {
+                    filePathList = path.filter(Files::isRegularFile).toList();
+                }
+            }
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         return filePathList;
+    }
+
+    private static boolean dirContainsTcxFile(List<Path> filePathList) {
+        for (Path p : filePathList)
+            System.out.println(p.toString());
+        if (filePathList.isEmpty())
+            return false;
+        for (Path p : filePathList) {
+            if (p.toString().endsWith("tcx"))
+                return true;
+        }
+        return false;
+    }
+
+    private static void createReadMe(String path) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(path);
+        sb.append("\\ReadMe.txt");
+        File readMe = new File(sb.toString());
+        readMe.createNewFile();
+        FileWriter fw = new FileWriter(sb.toString());
+        fw.write("For further information look at user manuel. You can download it here : LINK\nYou can delete the Demo file after you have inserted your track files.\nFor now this application only supports tcx file format");
+        fw.close();
+    }
+
+    private static void createDemoTcx(String path) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(path);
+        sb.append("\\Demo.tcx");
+        File demoTcx = new File(sb.toString());
+        demoTcx.createNewFile();
+        Files.copy(new File(DEMO).toPath(), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
     }
 }
