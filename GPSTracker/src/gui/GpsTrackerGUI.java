@@ -1,6 +1,7 @@
 package gui;
 
 import handlers.Loader;
+import handlers.Logging;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -67,12 +68,12 @@ public class GpsTrackerGUI extends JFrame {
                 trackTable.getColumnModel().getColumn(2).setMinWidth(0);
                 trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
                 trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
-                System.out.println("JMenuItemAction: startTime deselected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
+                Logging.print("JMenuItemAction: startTime deselected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
             } else {
                 trackTable.getColumnModel().getColumn(2).setMinWidth(tableWidth);
                 trackTable.getColumnModel().getColumn(2).setMaxWidth(tableWidth);
                 trackTable.getColumnModel().getColumn(2).setPreferredWidth(tableWidth);
-                System.out.println("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
+                Logging.print("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
             }
 
             if (!pace.isSelected()) {
@@ -82,7 +83,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(3).setMinWidth(0);
                 segmentTable.getColumnModel().getColumn(3).setPreferredWidth(0);
                 segmentTable.getColumnModel().getColumn(3).setMaxWidth(0);
-                System.out.println("JMenuItemAction: pace deselected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
+                Logging.print("JMenuItemAction: pace deselected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
             } else {
                 trackTable.getColumnModel().getColumn(5).setMinWidth(tableWidth);
                 trackTable.getColumnModel().getColumn(5).setMaxWidth(tableWidth);
@@ -90,7 +91,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(3).setMinWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(3).setMaxWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(3).setPreferredWidth(tableWidth);
-                System.out.println("JMenuItemAction: pace selected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
+                Logging.print("JMenuItemAction: pace selected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
             }
 
             if (!averageBpm.isSelected()) {
@@ -100,7 +101,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(5).setMinWidth(0);
                 segmentTable.getColumnModel().getColumn(5).setPreferredWidth(0);
                 segmentTable.getColumnModel().getColumn(5).setMaxWidth(0);
-                System.out.println("JMenuItemAction: averageBpm deselected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
+                Logging.print("JMenuItemAction: averageBpm deselected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
             } else {
                 trackTable.getColumnModel().getColumn(6).setMinWidth(tableWidth);
                 trackTable.getColumnModel().getColumn(6).setMaxWidth(tableWidth);
@@ -108,7 +109,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(5).setMinWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(5).setMaxWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(5).setPreferredWidth(tableWidth);
-                System.out.println("JMenuItemAction: averageBpm selected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
+                Logging.print("JMenuItemAction: averageBpm selected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
             }
 
             if (!maxBpm.isSelected()) {
@@ -118,7 +119,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(6).setMinWidth(0);
                 segmentTable.getColumnModel().getColumn(6).setPreferredWidth(0);
                 segmentTable.getColumnModel().getColumn(6).setMaxWidth(0);
-                System.out.println("JMenuItemAction: maxBpm deselected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
+                Logging.print("JMenuItemAction: maxBpm deselected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
             } else {
                 trackTable.getColumnModel().getColumn(7).setMinWidth(tableWidth);
                 trackTable.getColumnModel().getColumn(7).setMaxWidth(tableWidth);
@@ -126,7 +127,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(6).setMinWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(6).setMaxWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(6).setPreferredWidth(tableWidth);
-                System.out.println("JMenuItemAction: maxBpm selected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
+                Logging.print("JMenuItemAction: maxBpm selected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
             }
 
             if (!heightLvl.isSelected()) {
@@ -136,7 +137,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(4).setMinWidth(0);
                 segmentTable.getColumnModel().getColumn(4).setPreferredWidth(0);
                 segmentTable.getColumnModel().getColumn(4).setMaxWidth(0);
-                System.out.println("JMenuItemAction: heightLvl deselected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
+                Logging.print("JMenuItemAction: heightLvl deselected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
             } else {
                 trackTable.getColumnModel().getColumn(8).setMinWidth(tableWidth);
                 trackTable.getColumnModel().getColumn(8).setMaxWidth(tableWidth);
@@ -144,7 +145,7 @@ public class GpsTrackerGUI extends JFrame {
                 segmentTable.getColumnModel().getColumn(4).setMinWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(4).setMaxWidth(tableWidth);
                 segmentTable.getColumnModel().getColumn(4).setPreferredWidth(tableWidth);
-                System.out.println("JMenuItemAction: heightLvl selected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
+                Logging.print("JMenuItemAction: heightLvl selected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
             }
         }
     }
@@ -170,8 +171,8 @@ public class GpsTrackerGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1) {
                     trackRow = trackTable.getSelectedRow();
+                    Logging.print(trackRow + ". Zeile in Tracktable ausgewählt");
                     List<Activity> xList = getCurrList();
-                    System.out.println ("tT Mouselistener: " + xList.size());
                     createSegmentTable(xList);
                     createBarChart(xList);
                 }
@@ -183,8 +184,8 @@ public class GpsTrackerGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1) {
                     segmentColumn = segmentTable.getSelectedColumn();
+                    Logging.print(segmentColumn + ". Spalte in Segmenttable ausgewählt");
                     List<Activity> xList = getCurrList();
-                    System.out.println ("sT Mouselistener: " + xList.size());
                     createBarChart(xList);
                 }
             }
@@ -195,61 +196,61 @@ public class GpsTrackerGUI extends JFrame {
         createBarChart(getTrackListSports(aList, sportType));
 
         allTypes.addActionListener(ev -> {
-            //System.out.println("All Types selected");
+            Logging.print("All Types selected");
             sportType = SportType.all;
             updateGUI(aList);
         });
 
         cycling.addActionListener(ev -> {
-            //System.out.println("Cycling selected");
+            Logging.print("Cycling selected");
             sportType = SportType.Cycling;
             updateGUI(aList);
         });
 
         driving.addActionListener(ev -> {
-            //System.out.println("Driving selected");
+            Logging.print("Driving selected");
             sportType = SportType.Driving;
             updateGUI(aList);
         });
 
         flying.addActionListener(ev -> {
-            //System.out.println("Flying selected");
+            Logging.print("Flying selected");
             sportType = SportType.Flying;
             updateGUI(aList);
         });
 
         hiking.addActionListener(ev -> {
-            //System.out.println("Hiking selected");
+            Logging.print("Hiking selected");
             sportType = SportType.Hiking;
             updateGUI(aList);
         });
 
         running.addActionListener(ev -> {
-            //System.out.println("Running selected");
+            Logging.print("Running selected");
             sportType = SportType.Running;
             updateGUI(aList);
         });
 
         skiing.addActionListener(ev -> {
-            //System.out.println("Skiing selected");
+            Logging.print("Skiing selected");
             sportType = SportType.Skiing;
             updateGUI(aList);
         });
 
         year.addActionListener(ev -> {
-            //System.out.println("Group by Year selected");
+            Logging.print("Group by Year selected");
             groupBy = Period.YEAR;
             updateGUI(aList);
         });
 
         month.addActionListener(ev -> {
-            //System.out.println("Group by Month selected");
+            Logging.print("Group by Month selected");
             groupBy = Period.MONTH;
             updateGUI(aList);
         });
 
         activity.addActionListener(ev -> {
-            //System.out.println("Group by Activity selected");
+            Logging.print("Group by Activity selected");
             groupBy = Period.ACTIVITY;
             updateGUI(aList);
         });
@@ -292,7 +293,7 @@ public class GpsTrackerGUI extends JFrame {
                 e.printStackTrace();
             }
         });
-
+        Logging.print("GUI Update ausgeführt");
     }
 
     public void initiateMenuBar(JFrame window) {
@@ -362,7 +363,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createTrackTable(List<Activity> aList) {
-        System.out.println("TrackTable: " + aList.size());
+        //Logging.print("aList size in TrackTable: " + aList.size());
         for (Activity a : aList) {
             a.setDate();
         }
@@ -445,7 +446,7 @@ public class GpsTrackerGUI extends JFrame {
 
     private void createSegmentTable(List<Activity> aList) {
         if (trackTable.getRowCount() < 1) {segmentPanel.setVisible(false); return;} // Falls keine Daten vorhanden sind
-        System.out.println("SegmentTable: " + aList.size());
+        //Logging.print("aList size in SegmentTable: " + aList.size());
         Object[][] data = new Object[aList.get(trackRow).getLaps().size()][7];
         int counter = 0;
 

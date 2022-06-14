@@ -41,7 +41,7 @@ public class Loader {
             rootDir = initFolder();
         List<Path> filePaths = getFilePaths(rootDir);
         List<Activity> aList = loadData(filePaths);
-        System.out.println(aList.size());
+        Logging.print(aList.size() + " Files eingelesen");
         ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
         ui.setIconImage(new ImageIcon("icon.png").getImage());
@@ -135,8 +135,9 @@ public class Loader {
     }
 
     private static boolean dirContainsTcxFile(List<Path> filePathList) {
+        Logging.print("Files werden eingelesen: ");
         for (Path p : filePathList)
-            Logging.print(p.toString());
+            Logging.print("   -" + p.toString());
         if (filePathList.isEmpty())
             return false;
         for (Path p : filePathList) {
