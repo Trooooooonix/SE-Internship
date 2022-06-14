@@ -40,7 +40,7 @@ public class Loader {
             rootDir = initFolder();
         List<Path> filePaths = getFilePaths(rootDir);
         List<Activity> aList = loadData(filePaths);
-        System.out.println(aList.size());
+        System.out.println(aList.size() + " File(s) eingelesen");
         GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
         ui.setIconImage(new ImageIcon("icon.png").getImage());
