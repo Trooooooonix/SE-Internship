@@ -616,11 +616,11 @@ public class GpsTrackerGUI extends JFrame {
 
     public Object[][] groupingByPeriod(List<Activity> aList, SportType sportType) {
         List<List<Activity>> temp = getListOfList(aList, sportType);
-
+        //System.out.println(temp.size()); stimmt
         Object[][] data = new Object[temp.size()][9];
+        int counter = 0;
 
         for (List<Activity> list : temp) {
-            int counter = 0;
             double totalDistance = 0;
             double totalTime = 0;
             double totalPace = 0;
