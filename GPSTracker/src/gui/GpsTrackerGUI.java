@@ -231,8 +231,7 @@ public class GpsTrackerGUI extends JFrame {
                 File file = fileChooser.getSelectedFile();
                 try {
                     Loader.updateRootDirectory(file.toPath().toString());
-                    this.dispose();
-                    Loader.initLoading();
+                    Loader.reloadData();
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -248,9 +247,8 @@ public class GpsTrackerGUI extends JFrame {
         });
 
         refresh.addActionListener(ev -> {
-            this.dispose();
             try {
-                Loader.initLoading();
+                Loader.reloadData();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParserConfigurationException e) {

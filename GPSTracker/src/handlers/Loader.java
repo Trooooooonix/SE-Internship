@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 public class Loader {
     private static final String PROPERTIES = "GPSTracker/src/properties.xml";
     private static final String DEMO = "GPSTracker/src/Demo.tcx";
+    private static GpsTrackerGUI ui;
 
     public static void initLoading() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException {
         //loading window, so user does not open the app again
@@ -41,11 +42,21 @@ public class Loader {
         List<Path> filePaths = getFilePaths(rootDir);
         List<Activity> aList = loadData(filePaths);
         System.out.println(aList.size());
-        GpsTrackerGUI ui = new GpsTrackerGUI("GPS-Viewer", aList);
+        ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
         ui.setIconImage(new ImageIcon("icon.png").getImage());
         lf.deleteFrame();
         ui.setVisible(true);
+    }
+
+    public static void reloadData() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
+        String rootDir = readProperties();
+        if (rootDir.equals("empty") || !new File(rootDir).exists())
+            rootDir = initFolder();
+        List<Path> filePaths = getFilePaths(rootDir);
+        List<Activity> aList = loadData(filePaths);
+        if (ui != null)
+            ui.updateGUI(aList);
     }
 
     private static String initFolder() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException, TransformerException {
@@ -125,7 +136,7 @@ public class Loader {
 
     private static boolean dirContainsTcxFile(List<Path> filePathList) {
         for (Path p : filePathList)
-            System.out.println(p.toString());
+            Logging.print(p.toString());
         if (filePathList.isEmpty())
             return false;
         for (Path p : filePathList) {
