@@ -47,7 +47,7 @@ public class GpsTrackerGUI extends JFrame {
     private JPanel chartPanel;
     private JPanel Tracks;      //needed
     private JLabel nameLabel;
-    private JPanel SegmentPanel;
+    private JPanel segmentPanel;
     private JPanel barChartPanel;
     public int trackRow = 0;
     public int segmentColumn = 1;
@@ -160,8 +160,6 @@ public class GpsTrackerGUI extends JFrame {
         createTrackTable(aList);
         createSegmentTable(aList);
         createBarChart(aList);
-        System.out.println(segmentTable.getColumnModel().getColumn(4).getWidth());
-        System.out.println(trackTable.getColumnModel().getColumn(4).getWidth());
 
         allTypes.addActionListener(ev -> {
             //System.out.println("All Types selected");
@@ -387,7 +385,7 @@ public class GpsTrackerGUI extends JFrame {
             trackTable.getColumnModel().getColumn(2).setMinWidth(0);
             trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
             trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
-            SegmentPanel.setVisible(false);
+            segmentPanel.setVisible(false);
             barChartPanel.setVisible(false);
         } else{
             trackTable.getColumnModel().getColumn(1).setMinWidth(tableWidth);
@@ -396,7 +394,7 @@ public class GpsTrackerGUI extends JFrame {
             trackTable.getColumnModel().getColumn(2).setMinWidth(tableWidth);
             trackTable.getColumnModel().getColumn(2).setPreferredWidth(tableWidth);
             trackTable.getColumnModel().getColumn(2).setMaxWidth(tableWidth);
-            SegmentPanel.setVisible(true);
+            segmentPanel.setVisible(true);
             barChartPanel.setVisible(true);
         }
 
@@ -414,7 +412,7 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(7).setCellRenderer(centerRenderer);
         columns.getColumn(8).setCellRenderer(centerRenderer);
 
-        trackTable.setRowSelectionInterval(0, 0);
+        if (trackTable.getRowCount() > 0) trackTable.setRowSelectionInterval(0, 0);
         trackRow = 0;
 
         trackTable.addMouseListener(new MouseAdapter() {
@@ -429,6 +427,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createSegmentTable(List<Activity> aList) {
+        if (trackTable.getRowCount() < 1) {segmentPanel.setVisible(false); return;}
         Object[][] data = new Object[aList.get(trackRow).getLaps().size()][7];
         int counter = 0;
 
@@ -478,6 +477,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createBarChart(List<Activity> aList) {
+        if (trackTable.getRowCount() < 1){barChartPanel.setVisible(false); return;}
         DefaultCategoryDataset distanceDataset = new DefaultCategoryDataset();
         DefaultCategoryDataset timeDataset = new DefaultCategoryDataset();
         DefaultCategoryDataset paceDataset = new DefaultCategoryDataset();
@@ -578,20 +578,6 @@ public class GpsTrackerGUI extends JFrame {
             return chart;
         }
 
-    }
-
-    private int getSizeOfSportList(List<Activity> aList, String sportType) {
-        int count = 0;
-
-        if (Objects.equals(sportType, "all")) return aList.size();
-
-        for (Activity a : aList) {
-            if (a.getSport().equals(sportType)) {
-                count++;
-            }
-        }
-
-        return count;
     }
 
     public List<Activity> getTrackListSports(List<Activity> aList, SportType sportType) {
