@@ -24,10 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -49,6 +46,7 @@ public class GpsTrackerGUI extends JFrame {
     private JLabel nameLabel;
     private JPanel segmentPanel;
     private JPanel barChartPanel;
+    private List<Activity> currList;
     public int trackRow = 0;
     public int segmentColumn = 1;
     public DefaultCategoryDataset dataset;
@@ -157,9 +155,44 @@ public class GpsTrackerGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(rootPanel);
         this.pack();
+        updateGUI(aList);
+
+    }
+
+    public void updateGUI(List<Activity> aList) {
+        initiateMenuBar(this);
+        trackRow = 0;
+        segmentColumn = 1;
+        setCurrList(aList);
+
+        trackTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    trackRow = trackTable.getSelectedRow();
+                    List<Activity> xList = getCurrList();
+                    System.out.println ("tT Mouselistener: " + xList.size());
+                    createSegmentTable(xList);
+                    createBarChart(xList);
+                }
+            }
+        });
+
+        segmentTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    segmentColumn = segmentTable.getSelectedColumn();
+                    List<Activity> xList = getCurrList();
+                    System.out.println ("sT Mouselistener: " + xList.size());
+                    createBarChart(xList);
+                }
+            }
+        });
+
         createTrackTable(aList);
-        createSegmentTable(aList);
-        createBarChart(aList);
+        createSegmentTable(getTrackListSports(aList, sportType));
+        createBarChart(getTrackListSports(aList, sportType));
 
         allTypes.addActionListener(ev -> {
             //System.out.println("All Types selected");
@@ -259,15 +292,7 @@ public class GpsTrackerGUI extends JFrame {
                 e.printStackTrace();
             }
         });
-    }
 
-    public void updateGUI(List<Activity> aList) {
-        createTrackTable(aList);
-        // Gruppieren nach Zeitraum
-        trackRow = 0;
-        createSegmentTable(getTrackListSports(aList, sportType));
-        segmentColumn = 1;
-        createBarChart(getTrackListSports(aList, sportType));
     }
 
     public void initiateMenuBar(JFrame window) {
@@ -337,6 +362,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void createTrackTable(List<Activity> aList) {
+        System.out.println("TrackTable: " + aList.size());
         for (Activity a : aList) {
             a.setDate();
         }
@@ -415,19 +441,11 @@ public class GpsTrackerGUI extends JFrame {
         if (trackTable.getRowCount() > 0) trackTable.setRowSelectionInterval(0, 0);
         trackRow = 0;
 
-        trackTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    trackRow = trackTable.getSelectedRow();
-                    createSegmentTable(aList);
-                    createBarChart(aList);
-                }
-            }
-        });
     }
 
     private void createSegmentTable(List<Activity> aList) {
-        if (trackTable.getRowCount() < 1) {segmentPanel.setVisible(false); return;}
+        if (trackTable.getRowCount() < 1) {segmentPanel.setVisible(false); return;} // Falls keine Daten vorhanden sind
+        System.out.println("SegmentTable: " + aList.size());
         Object[][] data = new Object[aList.get(trackRow).getLaps().size()][7];
         int counter = 0;
 
@@ -466,18 +484,10 @@ public class GpsTrackerGUI extends JFrame {
         segmentColumn = 1;
         segmentTable.setColumnSelectionInterval(segmentColumn, segmentColumn);
 
-        segmentTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    segmentColumn = segmentTable.getSelectedColumn();
-                    createBarChart(aList);
-                }
-            }
-        });
     }
 
     private void createBarChart(List<Activity> aList) {
-        if (trackTable.getRowCount() < 1){barChartPanel.setVisible(false); return;}
+        if (trackTable.getRowCount() < 1){barChartPanel.setVisible(false); return;} // Falls keine Daten vorhanden sind
         DefaultCategoryDataset distanceDataset = new DefaultCategoryDataset();
         DefaultCategoryDataset timeDataset = new DefaultCategoryDataset();
         DefaultCategoryDataset paceDataset = new DefaultCategoryDataset();
@@ -605,15 +615,16 @@ public class GpsTrackerGUI extends JFrame {
         List<List<Activity>> temp = getListOfList(aList, sportType);
 
         Object[][] data = new Object[temp.size()][9];
-        int counter = 0;
-        double totalDistance = 0;
-        double totalTime = 0;
-        double totalPace = 0;
-        int avgBPM = 0;
-        int maxBPM = Integer.MIN_VALUE;
-        double totalAltitude = 0;
 
         for (List<Activity> list : temp) {
+            int counter = 0;
+            double totalDistance = 0;
+            double totalTime = 0;
+            double totalPace = 0;
+            int avgBPM = 0;
+            int maxBPM = Integer.MIN_VALUE;
+            double totalAltitude = 0;
+
             for (Activity a : list) {
                 totalDistance += a.getActivityDistanceMeters();
                 totalTime += a.getActivityTotalTimeSeconds();
@@ -637,6 +648,14 @@ public class GpsTrackerGUI extends JFrame {
             counter++;
         }
         return data;
+    }
+
+    public void setCurrList (List<Activity> aList){
+     currList = aList;
+    }
+
+    public List<Activity> getCurrList (){
+        return currList;
     }
 
 }
