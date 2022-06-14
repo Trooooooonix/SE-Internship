@@ -160,8 +160,6 @@ public class GpsTrackerGUI extends JFrame {
         createTrackTable(aList);
         createSegmentTable(aList);
         createBarChart(aList);
-        System.out.println(segmentTable.getColumnModel().getColumn(4).getWidth());
-        System.out.println(trackTable.getColumnModel().getColumn(4).getWidth());
 
         allTypes.addActionListener(ev -> {
             //System.out.println("All Types selected");
@@ -580,20 +578,6 @@ public class GpsTrackerGUI extends JFrame {
             return chart;
         }
 
-    }
-
-    private int getSizeOfSportList(List<Activity> aList, String sportType) {
-        int count = 0;
-
-        if (Objects.equals(sportType, "all")) return aList.size();
-
-        for (Activity a : aList) {
-            if (a.getSport().equals(sportType)) {
-                count++;
-            }
-        }
-
-        return count;
     }
 
     public List<Activity> getTrackListSports(List<Activity> aList, SportType sportType) {
