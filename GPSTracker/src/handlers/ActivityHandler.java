@@ -43,7 +43,7 @@ public class ActivityHandler extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes){
         switch (qName) {
             case ACTIVITY:
                 a.setSport(attributes.getValue(0));
@@ -83,7 +83,7 @@ public class ActivityHandler extends DefaultHandler {
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName){
         switch (qName) {
             case ID:
                 a.setId(elementValue.toString());
@@ -128,10 +128,7 @@ public class ActivityHandler extends DefaultHandler {
                 String eV = elementValue.toString();
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
-                } catch (Exception e) {
-
-                    //e.printStackTrace();
-                    //System.out.println("Wrong DateTime format");
+                } catch (Exception ignored){
                 }
                 break;
             case LATITUDE:

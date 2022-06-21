@@ -40,11 +40,6 @@ public class Activity implements Comparable<LocalDateTime> {
     }
 
     public double getActivityDistanceMeters(){
-        /*double sum= 0;
-        for(Lap l : laps){
-            sum += l.getDistanceMeters();
-        }
-        //return Math.round(sum*100.0)/100.0;*/
         return Math.round(this.laps.get(this.laps.size()-1).getDistanceMeters()*100.00)/100.00;
     }
 
