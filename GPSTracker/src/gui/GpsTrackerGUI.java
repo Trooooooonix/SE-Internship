@@ -323,7 +323,9 @@ public class GpsTrackerGUI extends JFrame {
         JMenu columnMenu = new JMenu("Hide Columns");
         menuBar.add(columnMenu);
         startTime = new JCheckBoxMenuItem("Start");
-        startTime.setSelected(true);
+        if(groupBy == Period.ACTIVITY){
+            startTime.setSelected(true);
+        }
         startTime.addActionListener(new MenuActionListener());
         columnMenu.add(startTime);
         pace = new JCheckBoxMenuItem("Pace");
