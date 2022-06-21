@@ -3,7 +3,7 @@ package tracks;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Activity {
+public class Activity implements Comparable<LocalDateTime> {
     private String id;
     private String sport;
     private List<Lap> laps;
@@ -109,4 +109,10 @@ public class Activity {
         this.laps.add(lap);
     }
 
+    @Override
+    public int compareTo(LocalDateTime o) {
+        if(this.getDate().isBefore(o)) return -1;
+        else if(this.getDate().isAfter(o)) return 1;
+        else return this.compareTo(o);
+    }
 }
