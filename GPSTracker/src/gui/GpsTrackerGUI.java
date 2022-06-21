@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -574,6 +575,7 @@ public class GpsTrackerGUI extends JFrame {
 
     public static class BarChart extends ApplicationFrame {
 
+        @Serial
         private static final long serialVersionUID = 1L;
 
         static {
@@ -582,6 +584,7 @@ public class GpsTrackerGUI extends JFrame {
         }
 
         /**
+         *
          * Creates a new instance.
          */
         public BarChart(String title) {
@@ -589,14 +592,17 @@ public class GpsTrackerGUI extends JFrame {
         }
 
         /**
+         *
          * Creates a sample chart.
          */
         public static JFreeChart createChart(CategoryDataset dataset, String yAxis) {
             JFreeChart chart = ChartFactory.createBarChart(
                     " ", "Segment" /* x-axis label*/,
                     yAxis /* y-axis label */, dataset);
-            //    chart.addSubtitle(new TextTitle("Time to generate 1000 charts in SVG "
-            //          + "format (lower bars = better performance)"));
+            /*
+                chart.addSubtitle(new TextTitle("Time to generate 1000 charts in SVG "
+                     + "format (lower bars = better performance)"));
+            */
             chart.setBackgroundPaint(Color.white);
             CategoryPlot plot = (CategoryPlot) chart.getPlot();
             NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
