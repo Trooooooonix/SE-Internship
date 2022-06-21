@@ -23,6 +23,7 @@ public class TestGPSTracker{
 
     @Test
     public void testAnything(){
-
+        //assertThrows() wenn Exception geworfen wird
+        //assertEquals(expectedValue, actualValue) prüft auf gleichheit logischerweise
     }
 }
