@@ -1,5 +1,7 @@
 package gui;
 
+import enums.Period;
+import enums.SportType;
 import handlers.Loader;
 import handlers.Logging;
 import org.jfree.chart.ChartFactory;
@@ -164,9 +166,8 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *
      * @param aList: List of activities
-     * updates the View of the GUI
+     *               updates the View of the GUI
      */
     public void updateGUI(List<Activity> aList) {
         initiateMenuBar(this);
@@ -267,7 +268,7 @@ public class GpsTrackerGUI extends JFrame {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int option = fileChooser.showOpenDialog(new JFrame());
-            if(option == JFileChooser.APPROVE_OPTION){
+            if (option == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 try {
                     Loader.updateRootDirectory(file.toPath().toString());
@@ -292,11 +293,11 @@ public class GpsTrackerGUI extends JFrame {
         Logging.print("GUI Update ausgeführt");
     }
 
-    public void setCurrList (List<Activity> aList){
+    public void setCurrList(List<Activity> aList) {
         currList = aList;
     }
 
-    public List<Activity> getCurrList (){
+    public List<Activity> getCurrList() {
         return currList;
     }
 
@@ -324,7 +325,7 @@ public class GpsTrackerGUI extends JFrame {
         JMenu columnMenu = new JMenu("Hide Columns");
         menuBar.add(columnMenu);
         startTime = new JCheckBoxMenuItem("Start");
-        if(groupBy == Period.ACTIVITY){
+        if (groupBy == Period.ACTIVITY) {
             startTime.setSelected(true);
         }
         startTime.addActionListener(new MenuActionListener());
@@ -365,9 +366,8 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *
      * @param aList: List of activities
-     * creates and fills the TrackTable inside the GUI
+     *               creates and fills the TrackTable inside the GUI
      */
     private void createTrackTable(List<Activity> aList) {
         //Logging.print("aList size in TrackTable: " + aList.size());
@@ -412,7 +412,7 @@ public class GpsTrackerGUI extends JFrame {
                 new String[]{"Name", "Date", "Start", "Distance", "Time", "Pace", "avg. BPM", "max. BPM", "Altitude"}
         ));
 
-        if(groupBy == Period.YEAR || groupBy == Period.MONTH){
+        if (groupBy == Period.YEAR || groupBy == Period.MONTH) {
             trackTable.getColumnModel().getColumn(1).setMinWidth(0);
             trackTable.getColumnModel().getColumn(1).setPreferredWidth(0);
             trackTable.getColumnModel().getColumn(1).setMaxWidth(0);
@@ -421,7 +421,7 @@ public class GpsTrackerGUI extends JFrame {
             trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
             segmentPanel.setVisible(false);
             barChartPanel.setVisible(false);
-        } else{
+        } else {
             trackTable.getColumnModel().getColumn(1).setMinWidth(trackTableWidth);
             trackTable.getColumnModel().getColumn(1).setPreferredWidth(trackTableWidth);
             trackTable.getColumnModel().getColumn(1).setMaxWidth(trackTableWidth);
@@ -452,13 +452,14 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *
      * @param aList: List of activities
-     *  creates the segmentTable on the right side of the GUI
-     *
+     *               creates the segmentTable on the right side of the GUI
      */
     private void createSegmentTable(List<Activity> aList) {
-        if (trackTable.getRowCount() < 1) {segmentPanel.setVisible(false); return;} // Falls keine Daten vorhanden sind
+        if (trackTable.getRowCount() < 1) {
+            segmentPanel.setVisible(false);
+            return;
+        } // Falls keine Daten vorhanden sind
         //Logging.print("aList size in SegmentTable: " + aList.size());
         Object[][] data = new Object[aList.get(trackRow).getLaps().size()][7];
         int counter = 0;
@@ -498,16 +499,17 @@ public class GpsTrackerGUI extends JFrame {
         segmentTable.setColumnSelectionInterval(segmentColumn, segmentColumn);
 
 
-
     }
 
     /**
-     *
      * @param aList: List of activities
-     * creates the barChart at the bottom of the GUI
+     *               creates the barChart at the bottom of the GUI
      */
     private void createBarChart(List<Activity> aList) {
-        if (trackTable.getRowCount() < 1){barChartPanel.setVisible(false); return;} // Falls keine Daten vorhanden sind
+        if (trackTable.getRowCount() < 1) {
+            barChartPanel.setVisible(false);
+            return;
+        } // Falls keine Daten vorhanden sind
         DefaultCategoryDataset distanceDataset = new DefaultCategoryDataset();
         DefaultCategoryDataset timeDataset = new DefaultCategoryDataset();
         DefaultCategoryDataset paceDataset = new DefaultCategoryDataset();
@@ -584,7 +586,6 @@ public class GpsTrackerGUI extends JFrame {
         }
 
         /**
-         *
          * Creates a new instance.
          */
         public BarChart(String title) {
@@ -592,7 +593,6 @@ public class GpsTrackerGUI extends JFrame {
         }
 
         /**
-         *
          * Creates a sample chart.
          */
         public static JFreeChart createChart(CategoryDataset dataset, String yAxis) {
@@ -615,8 +615,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *
-     * @param aList: List of activities
+     * @param aList:     List of activities
      * @param sportType: ENUM SportType value
      * @return List of first selected sportTypes in the ENUM SportType (f.e. Running)
      */
@@ -627,8 +626,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *
-     * @param aList: List of activities
+     * @param aList:     List of activities
      * @param sportType: ENUM SportType value
      * @return returns a List<List<Activity>> with grouped items which is selected in the GUI, sorted by date
      */
@@ -648,8 +646,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *
-     * @param aList: List of activities
+     * @param aList:     List of activities
      * @param sportType: ENUM SportType value
      * @return an object[][] which contains the data to fill into the GUI-Tables in method createTrackTable(List<Activity> aList)
      */
@@ -675,8 +672,9 @@ public class GpsTrackerGUI extends JFrame {
                 totalAltitude += a.getActivityTotalAltitude();
             }
             avgBPM /= list.size();
-            if(groupBy == Period.YEAR) data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
-            else data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getMonth() + " [" + list.get(0).getLaps().get(0).getStartTime().getYear() + "]";
+            if (groupBy == Period.YEAR) data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
+            else
+                data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getMonth() + " [" + list.get(0).getLaps().get(0).getStartTime().getYear() + "]";
             data[counter][1] = -1;  //date
             data[counter][2] = -1;  //start
             data[counter][3] = distanceFormatter.format(totalDistance);

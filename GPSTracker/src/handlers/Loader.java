@@ -60,16 +60,31 @@ public class Loader {
     }
 
     private static String initFolder() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException, TransformerException {
+        String path = System.getProperty("user.home") + File.separator + "GPSTracker";
+
+        /*String os = System.getProperty("os.name");
         StringBuilder path = new StringBuilder();
-        path.append("C:\\Users\\");
-        path.append(System.getProperty("user.name"));
-        path.append("\\Documents\\GPSTracker");
-        File standardDir = new File(path.toString());
+        if (os.contains("win")) {
+            Logging.print("OS Windows detected");
+            path.append("C:\\Users\\");
+            path.append(System.getProperty("user.name"));
+            path.append("\\Documents\\GPSTracker");
+        } else if (os.contains("mac")) {
+            Logging.print("OS Mac detected");
+            path.append("~\\GPSTracker");
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            Logging.print("OS Linux detected");
+            path.append("\\opt\\GPSTracker");
+        } else {
+            Logging.print("not supported OS detected");
+            Logging.print("initiate application exit");
+        }*/
+        File standardDir = new File(path);
         standardDir.mkdirs();
-        createReadMe(path.toString());
-        createDemoTcx(path.toString());
-        updateRootDirectory(path.toString());
-        return path.toString();
+        createReadMe(path);
+        createDemoTcx(path);
+        updateRootDirectory(path);
+        return path;
     }
 
     public static void updateRootDirectory(String newRootDir) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
@@ -88,7 +103,6 @@ public class Loader {
         DOMSource domSource = new DOMSource(doc);
         StreamResult sr = new StreamResult(new File(PROPERTIES));
         tf.transform(domSource, sr);
-
     }
 
     private static String readProperties() throws ParserConfigurationException, SAXException, IOException {
@@ -108,7 +122,7 @@ public class Loader {
                 ActivityHandler ah = new ActivityHandler();
                 saxParser.parse(p.toString(), ah);
                 aList.add(ah.getActivity());
-                //TODO GPX Handler
+                //TODO GPX Handler, may be implemented in further releases
             } else if (p.toString().endsWith("gpx")) {
                 //GPXActivityHandler gh = new GPXActivityHandler();
                 //saxParser.parse(p.toString(),gh);
