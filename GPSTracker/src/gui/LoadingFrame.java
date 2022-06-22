@@ -7,14 +7,14 @@ public class LoadingFrame extends JFrame {
     private JLabel loadingText;
     private JLabel iconLabel;
 
-    public LoadingFrame(String title){
+    public LoadingFrame(String title) {
         super(title);
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         this.setContentPane(rootPanel);
         this.pack();
 
-        Icon icon = new ImageIcon("animations/RunningMan_small.gif");
+        Icon icon = new ImageIcon("GPSTracker/animations/RunningMan_small.gif");
         JLabel gif = new JLabel(icon);
         iconLabel.add(gif);
         this.getContentPane().add(gif);
@@ -22,13 +22,13 @@ public class LoadingFrame extends JFrame {
         this.setVisible(true);
     }
 
-    public void initFrame(){
+    public void initFrame() {
         this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
     }
 
-    public void deleteFrame(){
+    public void deleteFrame() {
         this.dispose();
     }
 }

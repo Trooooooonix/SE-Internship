@@ -27,9 +27,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Loader {
-    private static final String PROPERTIES = "GPSTracker/src/properties.xml";
-    private static final String DEMO = "GPSTracker/src/Demo.tcx";
+    private static final String PROPERTIES = "GPSTracker/files/properties.xml";
+    private static final String DEMO = "GPSTracker/files/Demo.tcx";
     private static GpsTrackerGUI ui;
+    private static SAXParserFactory saxParserFactory;
 
     public static void initLoading() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException {
         //loading window, so user does not open the app again
@@ -44,7 +45,7 @@ public class Loader {
         Logging.print(aList.size() + " Files eingelesen");
         ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
-        ui.setIconImage(new ImageIcon("icon.png").getImage());
+        ui.setIconImage(new ImageIcon("GPSTracker/icons/icon.png").getImage());
         lf.deleteFrame();
         ui.setVisible(true);
     }
@@ -60,8 +61,6 @@ public class Loader {
     }
 
     private static String initFolder() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException, TransformerException {
-        String path = System.getProperty("user.home") + File.separator + "GPSTracker";
-
         /*String os = System.getProperty("os.name");
         StringBuilder path = new StringBuilder();
         if (os.contains("win")) {
@@ -79,6 +78,7 @@ public class Loader {
             Logging.print("not supported OS detected");
             Logging.print("initiate application exit");
         }*/
+        String path = System.getProperty("user.home") + File.separator + "GPSTracker";
         File standardDir = new File(path);
         standardDir.mkdirs();
         createReadMe(path);
@@ -106,7 +106,7 @@ public class Loader {
     }
 
     private static String readProperties() throws ParserConfigurationException, SAXException, IOException {
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = saxParserFactory.newSAXParser();
         PropertiesHandler ph = new PropertiesHandler();
         saxParser.parse(PROPERTIES, ph);
@@ -116,7 +116,7 @@ public class Loader {
     private static List<Activity> loadData(List<Path> filePathList) throws IOException, SAXException, ParserConfigurationException {
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
             if (p.toString().endsWith("tcx")) {
                 ActivityHandler ah = new ActivityHandler();
