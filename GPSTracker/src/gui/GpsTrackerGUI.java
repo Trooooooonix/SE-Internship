@@ -646,7 +646,9 @@ public class GpsTrackerGUI extends JFrame {
                     .collect(groupingBy(a -> a.getDate().getYear()))
                     .values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
         } else if (groupBy == Period.MONTH) {
-            temp = filteredBySportList.stream().collect(Collectors.groupingBy(data1 -> data1.getDate().getMonth() + "-" + data1.getDate().getYear())).values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
+            temp = filteredBySportList.stream()
+                    .collect(Collectors.groupingBy(data1 -> data1.getDate().getMonth() + "-" + data1.getDate().getYear()))
+                    .values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
         }
         return temp;
     }
