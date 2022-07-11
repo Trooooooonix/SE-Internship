@@ -9,7 +9,7 @@ public class Activity implements Comparable<LocalDateTime> {
     private List<Lap> laps;
     private LocalDateTime date;
 
-
+    //test passed
     @Override
     public String toString() {
         return "Activity{" +
@@ -38,11 +38,11 @@ public class Activity implements Comparable<LocalDateTime> {
     public List<Lap> getLaps() {
         return laps;
     }
-
+    //test passed
     public double getActivityDistanceMeters(){
         return Math.round(this.laps.get(this.laps.size()-1).getDistanceMeters()*100.00)/100.00;
     }
-
+    //test passed
     public double getActivityTotalTimeSeconds(){
         double sum= 0;
         for(Lap l : laps){
@@ -50,10 +50,12 @@ public class Activity implements Comparable<LocalDateTime> {
         }
         return Math.round(sum*100.0)/100.0;
     }
+
     public String getTotalTimeHHmmSS(double seconds){
         return String.format("%02d:%02d:%02d", (int)seconds / 3600, ((int)seconds % 3600) / 60, ((int)seconds % 60));
     }
 
+    //test passed
     public double getActivityTotalAltitude(){
         double sum= 0;
         double prevAltitude = 0;
@@ -72,6 +74,7 @@ public class Activity implements Comparable<LocalDateTime> {
         return Math.round(sum*100.0)/100.0;
 
     }
+    //test passed
     public double getMaxBPM(){
         double max= 0;
         for(Lap l : laps){
@@ -79,7 +82,7 @@ public class Activity implements Comparable<LocalDateTime> {
         }
         return max;
     }
-
+    //test passed
     public double getAvgBPM(){
         double sum= 0;
         for(Lap l : laps){
@@ -87,7 +90,7 @@ public class Activity implements Comparable<LocalDateTime> {
         }
         return sum/ laps.size();
     }
-
+    //
     public void setDate(){
         this.date = laps.get(0).getStartTime();
     }

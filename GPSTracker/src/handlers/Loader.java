@@ -113,7 +113,8 @@ public class Loader {
         return ph.getFilePath();
     }
 
-    private static List<Activity> loadData(List<Path> filePathList) throws IOException, SAXException, ParserConfigurationException {
+    //while testing, this method was public
+    public static List<Activity> loadData(List<Path> filePathList) throws IOException, SAXException, ParserConfigurationException {
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
             saxParserFactory = SAXParserFactory.newInstance();

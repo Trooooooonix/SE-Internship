@@ -5126,7 +5126,7 @@
               <LongitudeDegrees>14.6705393</LongitudeDegrees>
             </Position>
             <AltitudeMeters>499.0000000</AltitudeMeters>
-            <DistanceMeters>4276.9199219</DistanceMeters>
+            <DistanceMeters>4400</DistanceMeters>
             <HeartRateBpm xsi:type="HeartRateInBeatsPerMinute_t">
               <Value>128</Value>
             </HeartRateBpm>
