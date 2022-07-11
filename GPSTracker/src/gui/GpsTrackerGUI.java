@@ -46,15 +46,6 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class GpsTrackerGUI extends JFrame {
     public String yAxis;
-    private JPanel rootPanel;
-    private JTable trackTable;
-    private JTable segmentTable;
-    private JPanel chartPanel;
-    private JPanel Tracks;      //needed
-    private JLabel nameLabel;
-    private JPanel segmentPanel;
-    private JPanel barChartPanel;
-    private List<Activity> currList;
     public int trackRow = 0;
     public int segmentColumn = 1;
     public DefaultCategoryDataset dataset;
@@ -65,99 +56,18 @@ public class GpsTrackerGUI extends JFrame {
     public int trackTableWidth = 85;
     public SportType sportType = SportType.all;
     public Period groupBy = Period.ACTIVITY;
-
-
     NumberFormat paceFormatter = new DecimalFormat("#0.00");
     NumberFormat distanceFormatter = new DecimalFormat("#0,000");
+    private JPanel rootPanel;
+    private JTable trackTable;
+    private JTable segmentTable;
+    private JPanel chartPanel;
+    private JPanel Tracks;      //needed
+    private JLabel nameLabel;
+    private JPanel segmentPanel;
+    private JPanel barChartPanel;
+    private List<Activity> currList;
 
-
-    class MenuActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            if (!startTime.isSelected()) {
-                trackTable.getColumnModel().getColumn(2).setMinWidth(0);
-                trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
-                trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
-                Logging.print("JMenuItemAction: startTime deselected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
-            } else {
-                trackTable.getColumnModel().getColumn(2).setMinWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(2).setMaxWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(2).setPreferredWidth(trackTableWidth);
-                Logging.print("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
-            }
-
-            if (!pace.isSelected()) {
-                trackTable.getColumnModel().getColumn(5).setMinWidth(0);
-                trackTable.getColumnModel().getColumn(5).setPreferredWidth(0);
-                trackTable.getColumnModel().getColumn(5).setMaxWidth(0);
-                segmentTable.getColumnModel().getColumn(3).setMinWidth(0);
-                segmentTable.getColumnModel().getColumn(3).setPreferredWidth(0);
-                segmentTable.getColumnModel().getColumn(3).setMaxWidth(0);
-                Logging.print("JMenuItemAction: pace deselected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
-            } else {
-                trackTable.getColumnModel().getColumn(5).setMinWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(5).setMaxWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(5).setPreferredWidth(trackTableWidth);
-                segmentTable.getColumnModel().getColumn(3).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(3).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(3).setPreferredWidth(segmentTableWidth);
-                Logging.print("JMenuItemAction: pace selected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
-            }
-
-            if (!averageBpm.isSelected()) {
-                trackTable.getColumnModel().getColumn(6).setMinWidth(0);
-                trackTable.getColumnModel().getColumn(6).setPreferredWidth(0);
-                trackTable.getColumnModel().getColumn(6).setMaxWidth(0);
-                segmentTable.getColumnModel().getColumn(5).setMinWidth(0);
-                segmentTable.getColumnModel().getColumn(5).setPreferredWidth(0);
-                segmentTable.getColumnModel().getColumn(5).setMaxWidth(0);
-                Logging.print("JMenuItemAction: averageBpm deselected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
-            } else {
-                trackTable.getColumnModel().getColumn(6).setMinWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(6).setMaxWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(6).setPreferredWidth(trackTableWidth);
-                segmentTable.getColumnModel().getColumn(5).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(5).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(5).setPreferredWidth(segmentTableWidth);
-                Logging.print("JMenuItemAction: averageBpm selected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
-            }
-
-            if (!maxBpm.isSelected()) {
-                trackTable.getColumnModel().getColumn(7).setMinWidth(0);
-                trackTable.getColumnModel().getColumn(7).setPreferredWidth(0);
-                trackTable.getColumnModel().getColumn(7).setMaxWidth(0);
-                segmentTable.getColumnModel().getColumn(6).setMinWidth(0);
-                segmentTable.getColumnModel().getColumn(6).setPreferredWidth(0);
-                segmentTable.getColumnModel().getColumn(6).setMaxWidth(0);
-                Logging.print("JMenuItemAction: maxBpm deselected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
-            } else {
-                trackTable.getColumnModel().getColumn(7).setMinWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(7).setMaxWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(7).setPreferredWidth(trackTableWidth);
-                segmentTable.getColumnModel().getColumn(6).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(6).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(6).setPreferredWidth(segmentTableWidth);
-                Logging.print("JMenuItemAction: maxBpm selected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
-            }
-
-            if (!heightLvl.isSelected()) {
-                trackTable.getColumnModel().getColumn(8).setMinWidth(0);
-                trackTable.getColumnModel().getColumn(8).setPreferredWidth(0);
-                trackTable.getColumnModel().getColumn(8).setMaxWidth(0);
-                segmentTable.getColumnModel().getColumn(4).setMinWidth(0);
-                segmentTable.getColumnModel().getColumn(4).setPreferredWidth(0);
-                segmentTable.getColumnModel().getColumn(4).setMaxWidth(0);
-                Logging.print("JMenuItemAction: heightLvl deselected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
-            } else {
-                trackTable.getColumnModel().getColumn(8).setMinWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(8).setMaxWidth(trackTableWidth);
-                trackTable.getColumnModel().getColumn(8).setPreferredWidth(trackTableWidth);
-                segmentTable.getColumnModel().getColumn(4).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(4).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(4).setPreferredWidth(segmentTableWidth);
-                Logging.print("JMenuItemAction: heightLvl selected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
-            }
-        }
-    }
 
     public GpsTrackerGUI(String title, List<Activity> aList) {
         super(title);
@@ -297,12 +207,12 @@ public class GpsTrackerGUI extends JFrame {
         Logging.print("GUI Update ausgeführt");
     }
 
-    public void setCurrList(List<Activity> aList) {
-        currList = aList;
-    }
-
     public List<Activity> getCurrList() {
         return currList;
+    }
+
+    public void setCurrList(List<Activity> aList) {
+        currList = aList;
     }
 
     public void initiateMenuBar(JFrame window) {
@@ -583,6 +493,91 @@ public class GpsTrackerGUI extends JFrame {
         chartPanel.updateUI();
     }
 
+    /**
+     * @param aList:     List of activities
+     * @param sportType: ENUM SportType value
+     * @return List of first selected sportTypes in the ENUM SportType (f.e. Running)
+     */
+    public List<Activity> getTrackListSports(List<Activity> aList, SportType sportType) {
+        if (sportType == SportType.all) return aList;
+        return aList.stream().filter(a -> a.getSport().equals(String.valueOf(sportType)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * @param aList:     List of activities
+     * @param sportType: ENUM SportType value
+     * @return returns a List<List<Activity>> with grouped items which is selected in the GUI, sorted by date
+     */
+    public List<List<Activity>> getListOfListSorted(List<Activity> aList, SportType sportType) {
+        List<Activity> filteredBySportList = getTrackListSports(aList, sportType);
+        List<List<Activity>> temp = new ArrayList<>();
+        if (groupBy == Period.YEAR) {
+            List<List<Activity>> list = new ArrayList<>();
+            for (List<Activity> activities : filteredBySportList.stream()
+                    .collect(groupingBy(a -> a.getDate().getYear()))
+                    .values()) {
+                list.add(activities);
+            }
+            list.sort(Comparator.comparing(o -> o.get(0).getDate()));
+            temp = list;
+        } else if (groupBy == Period.MONTH) {
+            List<List<Activity>> list = new ArrayList<>();
+            for (List<Activity> activities : filteredBySportList.stream()
+                    .collect(groupingBy(data1 -> data1.getDate().getMonth() + "-" + data1.getDate().getYear()))
+                    .values()) {
+                list.add(activities);
+            }
+            list.sort(Comparator.comparing(o -> o.get(0).getDate()));
+            temp = list;
+        }
+        return temp;
+    }
+
+    /**
+     * @param aList:     List of activities
+     * @param sportType: ENUM SportType value
+     * @return an object[][] which contains the data to fill into the GUI-Tables in method createTrackTable(List<Activity> aList)
+     */
+    public Object[][] groupingByPeriod(List<Activity> aList, SportType sportType) {
+        List<List<Activity>> temp = getListOfListSorted(aList, sportType);
+        Object[][] data = new Object[temp.size()][9];
+        int counter = 0;
+
+        for (List<Activity> list : temp) {
+            double totalDistance = 0;
+            double totalTime = 0;
+            double totalPace = 0;
+            int avgBPM = 0;
+            int maxBPM = Integer.MIN_VALUE;
+            double totalAltitude = 0;
+
+            for (Activity a : list) {
+                totalDistance += a.getActivityDistanceMeters();
+                totalTime += a.getActivityTotalTimeSeconds();
+                totalPace += totalDistance / totalTime;
+                avgBPM += a.getAvgBPM();
+                if (a.getMaxBPM() > maxBPM) maxBPM = (int) a.getMaxBPM();
+                totalAltitude += a.getActivityTotalAltitude();
+            }
+            avgBPM /= list.size();
+            if (groupBy == Period.YEAR) data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
+            else
+                data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getMonth() + " [" + list.get(0).getLaps().get(0).getStartTime().getYear() + "]";
+            data[counter][1] = -1;  //date
+            data[counter][2] = -1;  //start
+            data[counter][3] = String.format("%02d:%02d:%02d", (int) totalTime / 3600, ((int) totalTime % 3600) / 60, ((int) totalTime % 60));
+            data[counter][4] = distanceFormatter.format(totalDistance);
+            data[counter][5] = paceFormatter.format(totalPace);
+            data[counter][6] = avgBPM;
+            data[counter][7] = maxBPM;
+            if (totalAltitude >= 1000) data[counter][8] = distanceFormatter.format(totalAltitude);
+            else data[counter][8] = totalAltitude;
+            counter++;
+        }
+        return data;
+    }
+
     public static class BarChart extends ApplicationFrame {
 
         @Serial
@@ -622,77 +617,91 @@ public class GpsTrackerGUI extends JFrame {
         }
     }
 
-    /**
-     * @param aList:     List of activities
-     * @param sportType: ENUM SportType value
-     * @return List of first selected sportTypes in the ENUM SportType (f.e. Running)
-     */
-    public List<Activity> getTrackListSports(List<Activity> aList, SportType sportType) {
-        if (sportType == SportType.all) return aList;
-        return aList.stream().filter(a -> a.getSport().equals(String.valueOf(sportType)))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * @param aList:     List of activities
-     * @param sportType: ENUM SportType value
-     * @return returns a List<List<Activity>> with grouped items which is selected in the GUI, sorted by date
-     */
-    public List<List<Activity>> getListOfListSorted(List<Activity> aList, SportType sportType) {
-        List<Activity> filteredBySportList = getTrackListSports(aList, sportType);
-        List<List<Activity>> temp = new ArrayList<>();
-        if (groupBy == Period.YEAR) {
-            temp = filteredBySportList.stream()
-                    .collect(groupingBy(a -> a.getDate().getYear()))
-                    .values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
-        } else if (groupBy == Period.MONTH) {
-            temp = filteredBySportList.stream().collect(Collectors.groupingBy(data1 -> data1.getDate().getMonth() + "-" + data1.getDate().getYear())).values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
-        }
-        return temp;
-    }
-
-
-    /**
-     * @param aList:     List of activities
-     * @param sportType: ENUM SportType value
-     * @return an object[][] which contains the data to fill into the GUI-Tables in method createTrackTable(List<Activity> aList)
-     */
-    public Object[][] groupingByPeriod(List<Activity> aList, SportType sportType) {
-        List<List<Activity>> temp = getListOfListSorted(aList, sportType);
-        Object[][] data = new Object[temp.size()][9];
-        int counter = 0;
-
-        for (List<Activity> list : temp) {
-            double totalDistance = 0;
-            double totalTime = 0;
-            double totalPace = 0;
-            int avgBPM = 0;
-            int maxBPM = Integer.MIN_VALUE;
-            double totalAltitude = 0;
-
-            for (Activity a : list) {
-                totalDistance += a.getActivityDistanceMeters();
-                totalTime += a.getActivityTotalTimeSeconds();
-                totalPace += totalDistance / totalTime;
-                avgBPM += a.getAvgBPM();
-                if (a.getMaxBPM() > maxBPM) maxBPM = (int) a.getMaxBPM();
-                totalAltitude += a.getActivityTotalAltitude();
+    class MenuActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (!startTime.isSelected()) {
+                trackTable.getColumnModel().getColumn(2).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
+                Logging.print("JMenuItemAction: startTime deselected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
+            } else {
+                trackTable.getColumnModel().getColumn(2).setMinWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(2).setMaxWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(2).setPreferredWidth(trackTableWidth);
+                Logging.print("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
             }
-            avgBPM /= list.size();
-            if (groupBy == Period.YEAR) data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getYear();
-            else
-                data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getMonth() + " [" + list.get(0).getLaps().get(0).getStartTime().getYear() + "]";
-                data[counter][1] = -1;  //date
-                data[counter][2] = -1;  //start
-                data[counter][3] = String.format("%02d:%02d:%02d", (int) totalTime / 3600, ((int) totalTime % 3600) / 60, ((int) totalTime % 60));
-                data[counter][4] = distanceFormatter.format(totalDistance);
-                data[counter][5] = paceFormatter.format(totalPace);
-                data[counter][6] = avgBPM;
-                data[counter][7] = maxBPM;
-            if (totalAltitude >= 1000) data[counter][8] = distanceFormatter.format(totalAltitude);
-            else data[counter][8] = totalAltitude;
-            counter++;
+
+            if (!pace.isSelected()) {
+                trackTable.getColumnModel().getColumn(5).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(5).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(5).setMaxWidth(0);
+                segmentTable.getColumnModel().getColumn(3).setMinWidth(0);
+                segmentTable.getColumnModel().getColumn(3).setPreferredWidth(0);
+                segmentTable.getColumnModel().getColumn(3).setMaxWidth(0);
+                Logging.print("JMenuItemAction: pace deselected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
+            } else {
+                trackTable.getColumnModel().getColumn(5).setMinWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(5).setMaxWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(5).setPreferredWidth(trackTableWidth);
+                segmentTable.getColumnModel().getColumn(3).setMinWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(3).setMaxWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(3).setPreferredWidth(segmentTableWidth);
+                Logging.print("JMenuItemAction: pace selected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
+            }
+
+            if (!averageBpm.isSelected()) {
+                trackTable.getColumnModel().getColumn(6).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(6).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(6).setMaxWidth(0);
+                segmentTable.getColumnModel().getColumn(5).setMinWidth(0);
+                segmentTable.getColumnModel().getColumn(5).setPreferredWidth(0);
+                segmentTable.getColumnModel().getColumn(5).setMaxWidth(0);
+                Logging.print("JMenuItemAction: averageBpm deselected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
+            } else {
+                trackTable.getColumnModel().getColumn(6).setMinWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(6).setMaxWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(6).setPreferredWidth(trackTableWidth);
+                segmentTable.getColumnModel().getColumn(5).setMinWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(5).setMaxWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(5).setPreferredWidth(segmentTableWidth);
+                Logging.print("JMenuItemAction: averageBpm selected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
+            }
+
+            if (!maxBpm.isSelected()) {
+                trackTable.getColumnModel().getColumn(7).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(7).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(7).setMaxWidth(0);
+                segmentTable.getColumnModel().getColumn(6).setMinWidth(0);
+                segmentTable.getColumnModel().getColumn(6).setPreferredWidth(0);
+                segmentTable.getColumnModel().getColumn(6).setMaxWidth(0);
+                Logging.print("JMenuItemAction: maxBpm deselected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
+            } else {
+                trackTable.getColumnModel().getColumn(7).setMinWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(7).setMaxWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(7).setPreferredWidth(trackTableWidth);
+                segmentTable.getColumnModel().getColumn(6).setMinWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(6).setMaxWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(6).setPreferredWidth(segmentTableWidth);
+                Logging.print("JMenuItemAction: maxBpm selected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
+            }
+
+            if (!heightLvl.isSelected()) {
+                trackTable.getColumnModel().getColumn(8).setMinWidth(0);
+                trackTable.getColumnModel().getColumn(8).setPreferredWidth(0);
+                trackTable.getColumnModel().getColumn(8).setMaxWidth(0);
+                segmentTable.getColumnModel().getColumn(4).setMinWidth(0);
+                segmentTable.getColumnModel().getColumn(4).setPreferredWidth(0);
+                segmentTable.getColumnModel().getColumn(4).setMaxWidth(0);
+                Logging.print("JMenuItemAction: heightLvl deselected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
+            } else {
+                trackTable.getColumnModel().getColumn(8).setMinWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(8).setMaxWidth(trackTableWidth);
+                trackTable.getColumnModel().getColumn(8).setPreferredWidth(trackTableWidth);
+                segmentTable.getColumnModel().getColumn(4).setMinWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(4).setMaxWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(4).setPreferredWidth(segmentTableWidth);
+                Logging.print("JMenuItemAction: heightLvl selected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
+            }
         }
-        return data;
     }
 }

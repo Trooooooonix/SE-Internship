@@ -43,47 +43,32 @@ public class ActivityHandler extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes){
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+
         switch (qName) {
-            case ACTIVITY:
+            case ACTIVITY -> {
                 a.setSport(attributes.getValue(0));
                 a.setLaps(new ArrayList<>());
-                break;
-            case LAP:
+            }
+            case LAP -> {
                 currLap = new Lap();
                 currLap.setTracks(new ArrayList<>());
                 currLap.setStartTime(LocalDateTime.parse(attributes.getValue(0).substring(0, attributes.getValue(0).length() - 1)));
-                break;
-            case TRACK:
+            }
+            case TRACK -> {
                 currTrack = new Track();
                 currTrack.setTrackPoints(new ArrayList<>());
-                break;
-            case TRACKPOINT:
-                currTrackPoint = new TrackPoint();
-                break;
-            case MAXIMUMBPM:
-                maxBPM_bool = true;
-                break;
-            case AVERAGEBPM:
-                avgBPM_bool = true;
-                break;
-            case ID:
-            case TOTALTIMESECONDS:
-            case DISTANCEMETERS:
-            case MAXIMUMSPEED:
-            case CALORIES:
-            case TIME:
-            case LATITUDE:
-            case LONGITUDE:
-            case ALTITUDE:
-            case VALUE:
-                elementValue = new StringBuilder();
-                break;
+            }
+            case TRACKPOINT -> currTrackPoint = new TrackPoint();
+            case MAXIMUMBPM -> maxBPM_bool = true;
+            case AVERAGEBPM -> avgBPM_bool = true;
+            case ID, TOTALTIMESECONDS, DISTANCEMETERS, MAXIMUMSPEED, CALORIES, TIME, LATITUDE, LONGITUDE, ALTITUDE, VALUE -> elementValue = new StringBuilder();
         }
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName){
+    public void endElement(String uri, String localName, String qName) {
+
         switch (qName) {
             case ID:
                 a.setId(elementValue.toString());
@@ -113,10 +98,8 @@ public class ActivityHandler extends DefaultHandler {
                 maxBPM_bool = false;
                 break;
             case VALUE:
-                    if (maxBPM_bool)
-                        currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
-                    if (avgBPM_bool)
-                        currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
+                if (maxBPM_bool) currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
+                if (avgBPM_bool) currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
                 break;
             case TRACK:
                 currLap.addTrack(currTrack);
@@ -128,7 +111,7 @@ public class ActivityHandler extends DefaultHandler {
                 String eV = elementValue.toString();
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
-                } catch (Exception ignored){
+                } catch (Exception ignored) {
                 }
                 break;
             case LATITUDE:
@@ -141,6 +124,7 @@ public class ActivityHandler extends DefaultHandler {
                 currTrackPoint.setAltitude(Double.parseDouble(elementValue.toString()));
                 break;
         }
+
     }
 
     @Override
@@ -150,6 +134,13 @@ public class ActivityHandler extends DefaultHandler {
     }
 
     public Activity getActivity() {
-        return a;
+        if (a == null) {
+            Logging.print("File not added");
+            return null;
+        } else {
+            Logging.print("File added");
+            Logging.print(a.toString());
+            return a;
+        }
     }
 }

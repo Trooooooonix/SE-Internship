@@ -3,6 +3,7 @@ package handlers;
 import app.GPSTracker;
 import gui.LoadingFrame;
 import gui.GpsTrackerGUI;
+import org.jfree.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import tracks.Activity;
@@ -113,15 +114,20 @@ public class Loader {
         return ph.getFilePath();
     }
 
-    private static List<Activity> loadData(List<Path> filePathList) throws IOException, SAXException, ParserConfigurationException {
+    private static List<Activity> loadData(List<Path> filePathList) throws SAXException, ParserConfigurationException {
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
             saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
             if (p.toString().endsWith("tcx")) {
                 ActivityHandler ah = new ActivityHandler();
-                saxParser.parse(p.toString(), ah);
-                aList.add(ah.getActivity());
+                try {
+                    saxParser.parse(p.toString(), ah);
+                    aList.add(ah.getActivity());
+                } catch (Exception e) {
+                    //If a File does not contain the expected syntax, the file will not be added to the aList
+                    Logging.print("File is corrupted");
+                }
                 //TODO GPX Handler, may be implemented in further releases
             } else if (p.toString().endsWith("gpx")) {
                 //GPXActivityHandler gh = new GPXActivityHandler();

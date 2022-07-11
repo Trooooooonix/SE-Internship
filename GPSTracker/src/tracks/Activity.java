@@ -15,7 +15,7 @@ public class Activity implements Comparable<LocalDateTime> {
         return "Activity{" +
                 "id='" + id + '\'' +
                 ", \nsport='" + sport + '\'' +
-                ", \nlaps=" + laps +
+                ", \nlaps=" +
                 '}';
     }
 
@@ -39,28 +39,29 @@ public class Activity implements Comparable<LocalDateTime> {
         return laps;
     }
 
-    public double getActivityDistanceMeters(){
-        return Math.round(this.laps.get(this.laps.size()-1).getDistanceMeters()*100.00)/100.00;
+    public double getActivityDistanceMeters() {
+        return Math.round(this.laps.get(this.laps.size() - 1).getDistanceMeters() * 100.00) / 100.00;
     }
 
-    public double getActivityTotalTimeSeconds(){
-        double sum= 0;
-        for(Lap l : laps){
+    public double getActivityTotalTimeSeconds() {
+        double sum = 0;
+        for (Lap l : laps) {
             sum += l.getTotalTimeSeconds();
         }
-        return Math.round(sum*100.0)/100.0;
-    }
-    public String getTotalTimeHHmmSS(double seconds){
-        return String.format("%02d:%02d:%02d", (int)seconds / 3600, ((int)seconds % 3600) / 60, ((int)seconds % 60));
+        return Math.round(sum * 100.0) / 100.0;
     }
 
-    public double getActivityTotalAltitude(){
-        double sum= 0;
+    public String getTotalTimeHHmmSS(double seconds) {
+        return String.format("%02d:%02d:%02d", (int) seconds / 3600, ((int) seconds % 3600) / 60, ((int) seconds % 60));
+    }
+
+    public double getActivityTotalAltitude() {
+        double sum = 0;
         double prevAltitude = 0;
         boolean firstTrackpoint = true;
-        for(Lap l : laps){
-            for(Track t : l.getTracks()){
-                for(TrackPoint tp : t.getTrackPoints()){
+        for (Lap l : laps) {
+            for (Track t : l.getTracks()) {
+                for (TrackPoint tp : t.getTrackPoints()) {
                     if (!firstTrackpoint && (tp.getAltitude() > prevAltitude)) {
                         sum += tp.getAltitude() - prevAltitude;
                     }
@@ -69,30 +70,31 @@ public class Activity implements Comparable<LocalDateTime> {
                 }
             }
         }
-        return Math.round(sum*100.0)/100.0;
+        return Math.round(sum * 100.0) / 100.0;
 
     }
-    public double getMaxBPM(){
-        double max= 0;
-        for(Lap l : laps){
+
+    public double getMaxBPM() {
+        double max = 0;
+        for (Lap l : laps) {
             if (max < l.getMaxBPM()) max = l.getMaxBPM();
         }
         return max;
     }
 
-    public double getAvgBPM(){
-        double sum= 0;
-        for(Lap l : laps){
+    public double getAvgBPM() {
+        double sum = 0;
+        for (Lap l : laps) {
             sum += l.getAverageBPM();
         }
-        return sum/ laps.size();
+        return sum / laps.size();
     }
 
-    public void setDate(){
+    public void setDate() {
         this.date = laps.get(0).getStartTime();
     }
 
-    public LocalDateTime getDate(){
+    public LocalDateTime getDate() {
         return this.date;
     }
 
@@ -106,8 +108,8 @@ public class Activity implements Comparable<LocalDateTime> {
 
     @Override
     public int compareTo(LocalDateTime o) {
-        if(this.getDate().isBefore(o)) return -1;
-        else if(this.getDate().isAfter(o)) return 1;
+        if (this.getDate().isBefore(o)) return -1;
+        else if (this.getDate().isAfter(o)) return 1;
         else return this.compareTo(o);
     }
 }
