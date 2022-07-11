@@ -33,12 +33,16 @@ import java.io.IOException;
 import java.io.Serial;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static gui.GpsTrackerGUI.BarChart.createChart;
+import static java.util.stream.Collectors.groupingBy;
 
 public class GpsTrackerGUI extends JFrame {
     public String yAxis;
@@ -635,15 +639,14 @@ public class GpsTrackerGUI extends JFrame {
         List<List<Activity>> temp = new ArrayList<>();
         if (groupBy == Period.YEAR) {
             temp = filteredBySportList.stream()
-                    .collect(Collectors.groupingBy(a -> a.getDate().getYear()))
+                    .collect(groupingBy(a -> a.getDate().getYear()))
                     .values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
         } else if (groupBy == Period.MONTH) {
-            temp = filteredBySportList.stream()
-                    .collect(Collectors.groupingBy(a -> a.getDate().getMonth()))
-                    .values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
+            temp = filteredBySportList.stream().collect(Collectors.groupingBy(data1 -> data1.getDate().getMonth() + "-" + data1.getDate().getYear())).values().stream().sorted((a, b) -> a.get(0).getDate().compareTo(b.get(1).getDate())).toList();
         }
         return temp;
     }
+
 
     /**
      * @param aList:     List of activities
