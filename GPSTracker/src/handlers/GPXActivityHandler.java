@@ -46,14 +46,14 @@ public class GPXActivityHandler extends DefaultHandler {
     }*/
 
     @Override
-    public void startDocument() throws SAXException {
+    public void startDocument(){
         a = new Activity();
         a.setSport("no Sport identified");
         a.setLaps(new ArrayList<>());
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes){
         switch (qName) {
             case TRKSEG:
                 currLap = new Lap();
@@ -80,7 +80,7 @@ public class GPXActivityHandler extends DefaultHandler {
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName){
         switch (qName) {
             case NAME:
                 a.setId(elementValue.toString());
@@ -108,12 +108,10 @@ public class GPXActivityHandler extends DefaultHandler {
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length){
         if (elementValue == null) elementValue = new StringBuilder();
         else elementValue.append(ch, start, length);
     }
-
-    ;
 
     public Activity getActivity() {
         return a;

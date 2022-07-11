@@ -38,7 +38,7 @@ public class ActivityHandler extends DefaultHandler {
     private boolean avgBPM_bool = false;
 
     @Override
-    public void startDocument() throws SAXException {
+    public void startDocument(){
         a = new Activity();
     }
 
@@ -128,7 +128,7 @@ public class ActivityHandler extends DefaultHandler {
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length){
         if (elementValue == null) elementValue = new StringBuilder();
         else elementValue.append(ch, start, length);
     }

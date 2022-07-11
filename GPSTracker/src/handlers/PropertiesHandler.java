@@ -11,7 +11,7 @@ public class PropertiesHandler extends DefaultHandler {
     private StringBuilder elementValue;
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes){
         switch (qName) {
             case FILEPATH:
                 elementValue = new StringBuilder();
@@ -20,7 +20,7 @@ public class PropertiesHandler extends DefaultHandler {
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName){
         switch (qName){
             case FILEPATH:
                 filePath = elementValue.toString();
@@ -28,7 +28,7 @@ public class PropertiesHandler extends DefaultHandler {
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length){
         if (elementValue == null) elementValue = new StringBuilder();
         else elementValue.append(ch, start, length);
     }

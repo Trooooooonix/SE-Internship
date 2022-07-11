@@ -8,11 +8,7 @@ import org.xml.sax.SAXException;
 import tracks.Activity;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +24,7 @@ public class TestGPSTracker {
         try{
             l.add(Path.of("test-src/TestData.tcx"));
             listOfTestData = Loader.loadData(l);
-        } catch (IOException | ParserConfigurationException | SAXException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
     }
@@ -83,27 +79,6 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testSetDateOutput(){
-        PrintStream prevCon = System.out;
-        ByteArrayOutputStream stringCon = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(stringCon));
-        try {
-            Activity a = listOfTestData.get(0);
-            a.setDate();
-            System.out.println(a);
-            String printed = stringCon.toString().trim();
-            System.setOut(prevCon);
-            assertEquals("Activity{" +
-                    "id='" + a.getId() + '\'' +
-                    ", \nsport='" + a.getSport() + '\'' +
-                    ", \nlaps=" + a.getLaps() +
-                    '}', printed);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    @Test
     public void testGetId(){
         Activity a = listOfTestData.get(0);
         assertEquals("Bad Zell", a.getId());
@@ -113,7 +88,5 @@ public class TestGPSTracker {
         assertNotEquals("Bad1 Zell", a.getId());
         assertNotEquals("Bad 1Zell", a.getId());
     }
-
-
 
 }

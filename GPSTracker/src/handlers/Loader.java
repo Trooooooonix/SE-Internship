@@ -114,7 +114,7 @@ public class Loader {
         return ph.getFilePath();
     }
 
-    private static List<Activity> loadData(List<Path> filePathList) throws SAXException, ParserConfigurationException {
+    public static List<Activity> loadData(List<Path> filePathList) throws SAXException, ParserConfigurationException {
         List<Activity> aList = new ArrayList<>();
         for (Path p : filePathList) {
             saxParserFactory = SAXParserFactory.newInstance();
@@ -138,7 +138,7 @@ public class Loader {
         return aList;
     }
 
-    private static List<Path> getFilePaths(String rootDir) throws IOException {
+    private static List<Path> getFilePaths(String rootDir){
         List<Path> filePathList = new ArrayList<>();
         try (Stream<Path> paths = Files.walk(Paths.get(rootDir))) {
             filePathList = paths.filter(Files::isRegularFile).toList();
