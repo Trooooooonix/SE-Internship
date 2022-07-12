@@ -300,7 +300,24 @@ public class GpsTrackerGUI extends JFrame {
         ));
 
         setColumnVisibility(groupBy != Period.YEAR && groupBy != Period.MONTH);
-        renderCells();
+        //renderCells();
+        TableColumnModel columns = trackTable.getColumnModel();
+        columns.getColumn(0).setMinWidth(100);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer rightBound = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer leftBound = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        rightBound.setHorizontalAlignment(JLabel.RIGHT);
+        leftBound.setHorizontalAlignment(JLabel.LEFT);
+
+        columns.getColumn(1).setCellRenderer(centerRenderer);
+        columns.getColumn(2).setCellRenderer(centerRenderer);
+        columns.getColumn(3).setCellRenderer(centerRenderer);
+        columns.getColumn(4).setCellRenderer(rightBound);
+        columns.getColumn(5).setCellRenderer(rightBound);
+        columns.getColumn(6).setCellRenderer(rightBound);
+        columns.getColumn(7).setCellRenderer(rightBound);
+        columns.getColumn(8).setCellRenderer(rightBound);
         if (trackTable.getRowCount() > 0) trackTable.setRowSelectionInterval(0, 0);
         trackRow = 0;
 
@@ -324,35 +341,6 @@ public class GpsTrackerGUI extends JFrame {
         }
         segmentPanel.setVisible(b);
         barChartPanel.setVisible(b);
-    }
-
-    private void renderCells() {
-        TableColumnModel columns = trackTable.getColumnModel();
-        columns.getColumn(0).setMinWidth(100);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer rightBound = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer leftBound = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        rightBound.setHorizontalAlignment(JLabel.RIGHT);
-        leftBound.setHorizontalAlignment(JLabel.LEFT);
-
-        columns.getColumn(1).setCellRenderer(centerRenderer);
-        columns.getColumn(2).setCellRenderer(centerRenderer);
-        columns.getColumn(3).setCellRenderer(centerRenderer);
-        columns.getColumn(4).setCellRenderer(rightBound);
-        columns.getColumn(5).setCellRenderer(rightBound);
-        columns.getColumn(6).setCellRenderer(rightBound);
-        columns.getColumn(7).setCellRenderer(rightBound);
-        columns.getColumn(8).setCellRenderer(rightBound);
-
-        columns = segmentTable.getColumnModel();
-        columns.getColumn(0).setCellRenderer(centerRenderer);
-        columns.getColumn(1).setCellRenderer(centerRenderer);
-        columns.getColumn(2).setCellRenderer(rightBound);
-        columns.getColumn(3).setCellRenderer(rightBound);
-        columns.getColumn(4).setCellRenderer(rightBound);
-        columns.getColumn(5).setCellRenderer(rightBound);
-        columns.getColumn(6).setCellRenderer(rightBound);
     }
 
     /**
@@ -387,11 +375,26 @@ public class GpsTrackerGUI extends JFrame {
                 data,
                 new String[]{"Segment", "Time", "Distance", "Pace", "Altitude", "avg. BPM", "max. BPM"}
         ));
-        renderCells();
+        //renderCells();
+        TableColumnModel columns = segmentTable.getColumnModel();
+        columns.getColumn(0).setMinWidth(100);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer rightBound = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer leftBound = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        rightBound.setHorizontalAlignment(JLabel.RIGHT);
+        leftBound.setHorizontalAlignment(JLabel.LEFT);
+
+        columns = segmentTable.getColumnModel();
+        columns.getColumn(0).setCellRenderer(centerRenderer);
+        columns.getColumn(1).setCellRenderer(centerRenderer);
+        columns.getColumn(2).setCellRenderer(rightBound);
+        columns.getColumn(3).setCellRenderer(rightBound);
+        columns.getColumn(4).setCellRenderer(rightBound);
+        columns.getColumn(5).setCellRenderer(rightBound);
+        columns.getColumn(6).setCellRenderer(rightBound);
         segmentColumn = 1;
         segmentTable.setColumnSelectionInterval(segmentColumn, segmentColumn);
-
-
     }
 
     /**

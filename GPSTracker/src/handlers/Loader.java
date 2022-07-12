@@ -1,24 +1,27 @@
 package handlers;
 
-import app.GPSTracker;
-import gui.LoadingFrame;
 import gui.GpsTrackerGUI;
-import org.jfree.util.Log;
+import gui.LoadingFrame;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import tracks.Activity;
 import org.xml.sax.SAXException;
+import tracks.Activity;
 
 import javax.swing.*;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,10 +31,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Loader {
-    private static final String PROPERTIES = "GPSTracker/files/properties.xml";
-    private static final String DEMO = "GPSTracker/files/Demo.tcx";
+    private static final String PROPERTIES = "files/properties.xml";
+    private static final String DEMO = "files/Demo.tcx";
     private static GpsTrackerGUI ui;
     private static SAXParserFactory saxParserFactory;
+
 
     public static void initLoading() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException {
         //loading window, so user does not open the app again
@@ -46,10 +50,20 @@ public class Loader {
         Logging.print(aList.size() + " Files eingelesen");
         ui = new GpsTrackerGUI("GPS-Viewer", aList);
         ui.setLocationRelativeTo(null);
-        ui.setIconImage(new ImageIcon("GPSTracker/icons/icon.png").getImage());
+
+        Loader l = new Loader();
+        ui.setIconImage(l.getIcon().getImage());
         lf.deleteFrame();
         ui.setVisible(true);
     }
+
+    public ImageIcon getIcon() {
+        System.out.println(this.getClass().getResource("icons/icon.png"));
+
+        ImageIcon icon = new ImageIcon(this.getClass().getResource("icons/icon.png"));
+        return icon;
+    }
+
 
     public static void reloadData() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
         String rootDir = readProperties();
@@ -88,10 +102,17 @@ public class Loader {
         return path;
     }
 
+    public File getProperties() {
+        System.out.println(this.getClass().getResource(PROPERTIES));
+        File properties = new File((this.getClass().getResource(PROPERTIES)).getFile());
+        return properties;
+    }
+
     public static void updateRootDirectory(String newRootDir) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(new File(PROPERTIES));
+        Loader l = new Loader();
+        Document doc = db.parse(l.getProperties());
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node filePath = (Node) xPath.compile("/filePath").evaluate(doc, XPathConstants.NODE);
         filePath.setTextContent(newRootDir);
@@ -102,7 +123,7 @@ public class Loader {
         tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         DOMSource domSource = new DOMSource(doc);
-        StreamResult sr = new StreamResult(new File(PROPERTIES));
+        StreamResult sr = new StreamResult((l.getProperties()));
         tf.transform(domSource, sr);
     }
 
@@ -110,7 +131,8 @@ public class Loader {
         saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = saxParserFactory.newSAXParser();
         PropertiesHandler ph = new PropertiesHandler();
-        saxParser.parse(PROPERTIES, ph);
+        Loader l = new Loader();
+        saxParser.parse(l.getProperties(), ph);
         return ph.getFilePath();
     }
 

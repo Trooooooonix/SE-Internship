@@ -14,7 +14,7 @@ public class LoadingFrame extends JFrame {
         this.setContentPane(rootPanel);
         this.pack();
 
-        Icon icon = new ImageIcon("GPSTracker/animations/RunningMan_small.gif");
+        Icon icon = new ImageIcon(this.getClass().getResource("animations/RunningMan_small.gif"));
         JLabel gif = new JLabel(icon);
         iconLabel.add(gif);
         this.getContentPane().add(gif);
@@ -31,4 +31,5 @@ public class LoadingFrame extends JFrame {
     public void deleteFrame() {
         this.dispose();
     }
+
 }
