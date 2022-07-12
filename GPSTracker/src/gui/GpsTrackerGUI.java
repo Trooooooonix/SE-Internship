@@ -2,9 +2,11 @@ package gui;
 
 import enums.Period;
 import enums.SportType;
+import handlers.Formatter;
 import handlers.Loader;
 import handlers.Logging;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.NumberAxis;
@@ -12,12 +14,11 @@ import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.xml.sax.SAXException;
 import tracks.Activity;
 import tracks.Lap;
-import org.jfree.chart.ChartPanel;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -27,18 +28,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serial;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static gui.GpsTrackerGUI.BarChart.createChart;
@@ -56,8 +55,7 @@ public class GpsTrackerGUI extends JFrame {
     public int trackTableWidth = 85;
     public SportType sportType = SportType.all;
     public Period groupBy = Period.ACTIVITY;
-    NumberFormat paceFormatter = new DecimalFormat("#0.00");
-    NumberFormat distanceFormatter = new DecimalFormat("#0,000");
+
     private JPanel rootPanel;
     private JTable trackTable;
     private JTable segmentTable;
@@ -76,7 +74,6 @@ public class GpsTrackerGUI extends JFrame {
         this.setContentPane(rootPanel);
         this.pack();
         updateGUI(aList);
-
     }
 
     /**
@@ -88,7 +85,6 @@ public class GpsTrackerGUI extends JFrame {
         trackRow = 0;
         segmentColumn = 1;
         setCurrList(aList);
-
         trackTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,7 +97,6 @@ public class GpsTrackerGUI extends JFrame {
                 }
             }
         });
-
         segmentTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -123,55 +118,46 @@ public class GpsTrackerGUI extends JFrame {
             sportType = SportType.all;
             updateGUI(aList);
         });
-
         cycling.addActionListener(ev -> {
             Logging.print("Cycling selected");
             sportType = SportType.Cycling;
             updateGUI(aList);
         });
-
         driving.addActionListener(ev -> {
             Logging.print("Driving selected");
             sportType = SportType.Driving;
             updateGUI(aList);
         });
-
         flying.addActionListener(ev -> {
             Logging.print("Flying selected");
             sportType = SportType.Flying;
             updateGUI(aList);
         });
-
         hiking.addActionListener(ev -> {
             Logging.print("Hiking selected");
             sportType = SportType.Hiking;
             updateGUI(aList);
         });
-
         running.addActionListener(ev -> {
             Logging.print("Running selected");
             sportType = SportType.Running;
             updateGUI(aList);
         });
-
         skiing.addActionListener(ev -> {
             Logging.print("Skiing selected");
             sportType = SportType.Skiing;
             updateGUI(aList);
         });
-
         year.addActionListener(ev -> {
             Logging.print("Group by Year selected");
             groupBy = Period.YEAR;
             updateGUI(aList);
         });
-
         month.addActionListener(ev -> {
             Logging.print("Group by Month selected");
             groupBy = Period.MONTH;
             updateGUI(aList);
         });
-
         activity.addActionListener(ev -> {
             Logging.print("Group by Activity selected");
             groupBy = Period.ACTIVITY;
@@ -193,8 +179,8 @@ public class GpsTrackerGUI extends JFrame {
                     e.printStackTrace();
                 }
             }
+            Logging.print("root path changed");
         });
-
         refresh.addActionListener(ev -> {
             try {
                 Loader.reloadData();
@@ -204,7 +190,7 @@ public class GpsTrackerGUI extends JFrame {
                 e.printStackTrace();
             }
         });
-        Logging.print("GUI Update ausgeführt");
+        Logging.print("gui updated");
     }
 
     public List<Activity> getCurrList() {
@@ -284,13 +270,7 @@ public class GpsTrackerGUI extends JFrame {
      *               creates and fills the TrackTable inside the GUI
      */
     private void createTrackTable(List<Activity> aList) {
-        //Logging.print("aList size in TrackTable: " + aList.size());
-        for (Activity a : aList) {
-            a.setDate();
-        }
-        final DateTimeFormatter viewDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        final DateTimeFormatter viewStartTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
+        Logging.print("aList size in TrackTable: " + aList.size());
         List<Activity> bList = getTrackListSports(aList, sportType);
         Object[][] data = new Object[bList.size()][9];
 
@@ -298,26 +278,19 @@ public class GpsTrackerGUI extends JFrame {
             data = groupingByPeriod(aList, sportType);
         } else {
             int counter = 0;
-            double activityDistanceMeters;
-            double activityTotalTimeSeconds;
-
             for (Activity a : bList) {
                 data[counter][0] = a.getId();
-                data[counter][1] = a.getLaps().get(0).getStartTime().format(viewDateFormatter);
-                data[counter][2] = a.getLaps().get(0).getStartTime().format(viewStartTimeFormatter);
-                activityTotalTimeSeconds = a.getActivityTotalTimeSeconds();
-                data[counter][3] = a.getTotalTimeHHmmSS(activityTotalTimeSeconds);
-                activityDistanceMeters = Math.round(a.getActivityDistanceMeters());
-                if (activityDistanceMeters >= 1000) data[counter][4] = distanceFormatter.format(activityDistanceMeters);
-                else data[counter][4] = activityDistanceMeters;
-                data[counter][5] = paceFormatter.format(activityDistanceMeters / activityTotalTimeSeconds);
-                data[counter][6] = Math.round(a.getAvgBPM());
-                data[counter][7] = Math.round(a.getMaxBPM());
-                data[counter][8] = Math.round(a.getActivityTotalAltitude());
+                data[counter][1] = Formatter.formatDate(a.getLaps().get(0).getStartTime());
+                data[counter][2] = Formatter.formatTime(a.getLaps().get(0).getStartTime());
+                data[counter][3] = Formatter.formatTotalTimeSeconds(a.getActivityTotalTimeSeconds());
+                data[counter][4] = Formatter.formatDistance(a.getActivityDistanceMeters());
+                data[counter][5] = Formatter.formatPace(a.getActivityDistanceMeters() / a.getActivityTotalTimeSeconds());
+                data[counter][6] = Formatter.formatWithoutDecimalPlaces(a.getAvgBPM());
+                data[counter][7] = Formatter.formatWithoutDecimalPlaces(a.getMaxBPM());
+                data[counter][8] = Formatter.formatWithoutDecimalPlaces(a.getActivityTotalAltitude());
                 counter++;
             }
         }
-        // trackTable.setIntercellSpacing(new Dimension(5, 0));
         trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         trackTable.setRowSelectionAllowed(true);
         trackTable.setColumnSelectionAllowed(false);
@@ -326,15 +299,21 @@ public class GpsTrackerGUI extends JFrame {
                 new String[]{"Name", "Date", "Start", "Time", "Distance", "Pace", "avg. BPM", "max. BPM", "Altitude"}
         ));
 
-        if (groupBy == Period.YEAR || groupBy == Period.MONTH) {
+        setColumnVisibility(groupBy != Period.YEAR && groupBy != Period.MONTH);
+        renderCells();
+        if (trackTable.getRowCount() > 0) trackTable.setRowSelectionInterval(0, 0);
+        trackRow = 0;
+
+    }
+
+    private void setColumnVisibility(boolean b) {
+        if (b) {
             trackTable.getColumnModel().getColumn(1).setMinWidth(0);
             trackTable.getColumnModel().getColumn(1).setPreferredWidth(0);
             trackTable.getColumnModel().getColumn(1).setMaxWidth(0);
             trackTable.getColumnModel().getColumn(2).setMinWidth(0);
             trackTable.getColumnModel().getColumn(2).setPreferredWidth(0);
             trackTable.getColumnModel().getColumn(2).setMaxWidth(0);
-            segmentPanel.setVisible(false);
-            barChartPanel.setVisible(false);
         } else {
             trackTable.getColumnModel().getColumn(1).setMinWidth(trackTableWidth);
             trackTable.getColumnModel().getColumn(1).setPreferredWidth(trackTableWidth);
@@ -342,17 +321,21 @@ public class GpsTrackerGUI extends JFrame {
             trackTable.getColumnModel().getColumn(2).setMinWidth(trackTableWidth);
             trackTable.getColumnModel().getColumn(2).setPreferredWidth(trackTableWidth);
             trackTable.getColumnModel().getColumn(2).setMaxWidth(trackTableWidth);
-            segmentPanel.setVisible(true);
-            barChartPanel.setVisible(true);
         }
+        segmentPanel.setVisible(b);
+        barChartPanel.setVisible(b);
+    }
 
+    private void renderCells() {
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
-
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         DefaultTableCellRenderer rightBound = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer leftBound = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         rightBound.setHorizontalAlignment(JLabel.RIGHT);
+        leftBound.setHorizontalAlignment(JLabel.LEFT);
+
         columns.getColumn(1).setCellRenderer(centerRenderer);
         columns.getColumn(2).setCellRenderer(centerRenderer);
         columns.getColumn(3).setCellRenderer(centerRenderer);
@@ -362,9 +345,14 @@ public class GpsTrackerGUI extends JFrame {
         columns.getColumn(7).setCellRenderer(rightBound);
         columns.getColumn(8).setCellRenderer(rightBound);
 
-        if (trackTable.getRowCount() > 0) trackTable.setRowSelectionInterval(0, 0);
-        trackRow = 0;
-
+        columns = segmentTable.getColumnModel();
+        columns.getColumn(0).setCellRenderer(centerRenderer);
+        columns.getColumn(1).setCellRenderer(centerRenderer);
+        columns.getColumn(2).setCellRenderer(rightBound);
+        columns.getColumn(3).setCellRenderer(rightBound);
+        columns.getColumn(4).setCellRenderer(rightBound);
+        columns.getColumn(5).setCellRenderer(rightBound);
+        columns.getColumn(6).setCellRenderer(rightBound);
     }
 
     /**
@@ -383,14 +371,12 @@ public class GpsTrackerGUI extends JFrame {
         double prevDistanceMeters = 0.0;
         for (Lap l : aList.get(trackRow).getLaps()) {
             data[counter][0] = counter + 1;
-            data[counter][1] = l.getTotalTimeHHmmSS(aList.get(trackRow).getLaps().get(counter).getTotalTimeSeconds());
-            if ((l.getDistanceMeters() - prevDistanceMeters) >= 1000)
-                data[counter][2] = distanceFormatter.format(Math.round((l.getDistanceMeters() - prevDistanceMeters)));
-            else data[counter][2] = Math.round((l.getDistanceMeters() - prevDistanceMeters));
-            data[counter][3] = paceFormatter.format(Math.round(((l.getTotalTimeSeconds() / 60) / ((l.getDistanceMeters() - prevDistanceMeters) / 1000)) * 100.0) / 100.0);
-            data[counter][4] = Math.round(l.getLapTotalAltitude());
-            data[counter][5] = Math.round(l.getAverageBPM());
-            data[counter][6] = Math.round(l.getMaxBPM());
+            data[counter][1] = Formatter.formatTotalTimeSeconds(aList.get(trackRow).getLaps().get(counter).getTotalTimeSeconds());
+            data[counter][2] = Formatter.formatDistance((l.getDistanceMeters() - prevDistanceMeters));
+            data[counter][3] = Formatter.formatPace(Math.round(((l.getTotalTimeSeconds() / 60) / ((l.getDistanceMeters() - prevDistanceMeters) / 1000)) * 100.0) / 100.0);
+            data[counter][4] = Formatter.formatWithoutDecimalPlaces(l.getLapTotalAltitude());
+            data[counter][5] = Formatter.formatWithoutDecimalPlaces(l.getAverageBPM());
+            data[counter][6] = Formatter.formatWithoutDecimalPlaces(l.getMaxBPM());
             counter++;
             prevDistanceMeters = Math.round(l.getDistanceMeters());
         }
@@ -401,18 +387,7 @@ public class GpsTrackerGUI extends JFrame {
                 data,
                 new String[]{"Segment", "Time", "Distance", "Pace", "Altitude", "avg. BPM", "max. BPM"}
         ));
-        TableColumnModel columns = segmentTable.getColumnModel();
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        DefaultTableCellRenderer rightBound = new DefaultTableCellRenderer();
-        rightBound.setHorizontalAlignment(JLabel.RIGHT);
-        columns.getColumn(0).setCellRenderer(centerRenderer);
-        columns.getColumn(1).setCellRenderer(centerRenderer);
-        columns.getColumn(2).setCellRenderer(rightBound);
-        columns.getColumn(3).setCellRenderer(rightBound);
-        columns.getColumn(4).setCellRenderer(rightBound);
-        columns.getColumn(5).setCellRenderer(rightBound);
-        columns.getColumn(6).setCellRenderer(rightBound);
+        renderCells();
         segmentColumn = 1;
         segmentTable.setColumnSelectionInterval(segmentColumn, segmentColumn);
 
@@ -566,13 +541,12 @@ public class GpsTrackerGUI extends JFrame {
                 data[counter][0] = list.get(0).getLaps().get(0).getStartTime().getMonth() + " [" + list.get(0).getLaps().get(0).getStartTime().getYear() + "]";
             data[counter][1] = -1;  //date
             data[counter][2] = -1;  //start
-            data[counter][3] = String.format("%02d:%02d:%02d", (int) totalTime / 3600, ((int) totalTime % 3600) / 60, ((int) totalTime % 60));
-            data[counter][4] = distanceFormatter.format(totalDistance);
-            data[counter][5] = paceFormatter.format(totalPace);
+            data[counter][3] = Formatter.formatTotalTimeSeconds(totalTime);
+            data[counter][4] = Formatter.formatDistance(totalDistance);
+            data[counter][5] = Formatter.formatPace(totalPace);
             data[counter][6] = avgBPM;
             data[counter][7] = maxBPM;
-            if (totalAltitude >= 1000) data[counter][8] = distanceFormatter.format(totalAltitude);
-            else data[counter][8] = totalAltitude;
+            data[counter][8] = Formatter.formatDistance(totalAltitude);
             counter++;
         }
         return data;
