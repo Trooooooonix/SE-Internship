@@ -1,12 +1,11 @@
 package handlers;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
 import tracks.Activity;
 import tracks.Lap;
 import tracks.Track;
 import tracks.TrackPoint;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -139,7 +138,7 @@ public class ActivityHandler extends DefaultHandler {
             return null;
         } else {
             Logging.print("File added");
-            Logging.print(a.toString());
+            //Logging.print(a.toString());
             a.setDate();
             return a;
         }

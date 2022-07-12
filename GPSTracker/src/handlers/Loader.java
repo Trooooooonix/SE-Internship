@@ -58,7 +58,7 @@ public class Loader {
     }
 
     public ImageIcon getIcon() {
-        System.out.println(this.getClass().getResource("icons/icon.png"));
+        Logging.print(String.valueOf(this.getClass().getResource("icons/icon.png")));
 
         ImageIcon icon = new ImageIcon(this.getClass().getResource("icons/icon.png"));
         return icon;
@@ -76,23 +76,6 @@ public class Loader {
     }
 
     private static String initFolder() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException, TransformerException {
-        /*String os = System.getProperty("os.name");
-        StringBuilder path = new StringBuilder();
-        if (os.contains("win")) {
-            Logging.print("OS Windows detected");
-            path.append("C:\\Users\\");
-            path.append(System.getProperty("user.name"));
-            path.append("\\Documents\\GPSTracker");
-        } else if (os.contains("mac")) {
-            Logging.print("OS Mac detected");
-            path.append("~\\GPSTracker");
-        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-            Logging.print("OS Linux detected");
-            path.append("\\opt\\GPSTracker");
-        } else {
-            Logging.print("not supported OS detected");
-            Logging.print("initiate application exit");
-        }*/
         String path = System.getProperty("user.home") + File.separator + "GPSTracker";
         File standardDir = new File(path);
         standardDir.mkdirs();
@@ -102,8 +85,13 @@ public class Loader {
         return path;
     }
 
+    public String getPropertiesAsString() {
+        String properties = (this.getClass().getResource(PROPERTIES).toString());
+        return properties;
+    }
+
     public File getProperties() {
-        System.out.println(this.getClass().getResource(PROPERTIES));
+        Logging.print(String.valueOf(this.getClass().getResource(PROPERTIES)));
         File properties = new File((this.getClass().getResource(PROPERTIES)).getFile());
         return properties;
     }
@@ -112,7 +100,7 @@ public class Loader {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Loader l = new Loader();
-        Document doc = db.parse(l.getProperties());
+        Document doc = db.parse(new File(String.valueOf(l.getProperties().toPath())));
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node filePath = (Node) xPath.compile("/filePath").evaluate(doc, XPathConstants.NODE);
         filePath.setTextContent(newRootDir);
@@ -132,7 +120,7 @@ public class Loader {
         SAXParser saxParser = saxParserFactory.newSAXParser();
         PropertiesHandler ph = new PropertiesHandler();
         Loader l = new Loader();
-        saxParser.parse(l.getProperties(), ph);
+        saxParser.parse(l.getPropertiesAsString(), ph);
         return ph.getFilePath();
     }
 
@@ -206,7 +194,21 @@ public class Loader {
         sb.append("\\Demo.tcx");
         File demoTcx = new File(sb.toString());
         demoTcx.createNewFile();
-        Files.copy(new File(DEMO).toPath(), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Loader l = new Loader();
 
+        Files.copy((l.getDemo().toPath()), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        //Files.copy(new File(DEMO       ).toPath(), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public File getDemo() {
+        // Logging.print(String.valueOf(this.getClass().getResource(DEMO)));
+        System.out.println(new File((this.getClass().getResource(DEMO)).getFile()).toPath());
+        System.out.println((this.getClass().getResource(DEMO)).getFile());
+        System.out.println(this.getClass().getResource(DEMO));
+
+        File demo = new File(this.getClass().getResource(DEMO).getFile());
+
+
+        return demo;
     }
 }

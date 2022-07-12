@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,10 +78,13 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
+     * updates the View of the GUI
+     *
      * @param aList: List of activities
-     *               updates the View of the GUI
      */
     public void updateGUI(List<Activity> aList) {
+        aList.sort(Comparator.comparing(o -> o.getDate()));
+        Collections.reverse(aList);
         initiateMenuBar(this);
         trackRow = 0;
         segmentColumn = 1;
@@ -266,8 +270,8 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     * @param aList: List of activities
      *               creates and fills the TrackTable inside the GUI
+     * @param aList: List of activities
      */
     private void createTrackTable(List<Activity> aList) {
         Logging.print("aList size in TrackTable: " + aList.size());
@@ -324,7 +328,7 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     private void setColumnVisibility(boolean b) {
-        if (b) {
+        if (!b) {
             trackTable.getColumnModel().getColumn(1).setMinWidth(0);
             trackTable.getColumnModel().getColumn(1).setPreferredWidth(0);
             trackTable.getColumnModel().getColumn(1).setMaxWidth(0);
