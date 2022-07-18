@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import tracks.Activity;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,10 @@ public class TestGPSTracker {
     @BeforeEach
     public void init() {
         List<Path> l = new ArrayList<>();
-        try{
+        try {
             l.add(Path.of("test-src/TestData.tcx"));
             listOfTestData = Loader.loadData(l);
-        } catch (ParserConfigurationException | SAXException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -63,7 +64,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetMaxBPM(){
+    public void testGetMaxBPM() {
         Activity a = listOfTestData.get(0);
         assertEquals(1500, a.getMaxBPM());
         assertNotEquals(1501, a.getMaxBPM());
@@ -71,7 +72,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetAvgBPM(){
+    public void testGetAvgBPM() {
         Activity a = listOfTestData.get(0);
         assertEquals(135.6, a.getAvgBPM());
         assertNotEquals(134, a.getAvgBPM());
@@ -79,7 +80,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetId(){
+    public void testGetId() {
         Activity a = listOfTestData.get(0);
         assertEquals("Bad Zell", a.getId());
         assertNotEquals("Eisenstadt", a.getId());
