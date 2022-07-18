@@ -22,6 +22,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,9 +33,10 @@ import java.util.stream.Stream;
 
 public class Loader {
     private static final String PROPERTIES = "files/properties.xml";
-    private static final String DEMO = "files/Demo.tcx";
+    private static final String DEMO = "files/demo.tcx";
     private static GpsTrackerGUI ui;
     private static SAXParserFactory saxParserFactory;
+    private static String pathToProperties = System.getProperty("user.home") + File.separator + "GPSTracker" + "\\properties.xml";
 
 
     public static void initLoading() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException {
@@ -66,6 +68,7 @@ public class Loader {
 
 
     public static void reloadData() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
+
         String rootDir = readProperties();
         if (rootDir.equals("empty") || !new File(rootDir).exists())
             rootDir = initFolder();
@@ -79,7 +82,9 @@ public class Loader {
         String path = System.getProperty("user.home") + File.separator + "GPSTracker";
         File standardDir = new File(path);
         standardDir.mkdirs();
-        createReadMe(path);
+        Loader l = new Loader();
+        l.copyResource(PROPERTIES, pathToProperties);
+        //createReadMe(path);
         createDemoTcx(path);
         updateRootDirectory(path);
         return path;
@@ -97,10 +102,11 @@ public class Loader {
     }
 
     public static void updateRootDirectory(String newRootDir) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Loader l = new Loader();
-        Document doc = db.parse(new File(String.valueOf(l.getProperties().toPath())));
+        Document doc = db.parse(new File(pathToProperties));
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node filePath = (Node) xPath.compile("/filePath").evaluate(doc, XPathConstants.NODE);
         filePath.setTextContent(newRootDir);
@@ -111,7 +117,7 @@ public class Loader {
         tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         DOMSource domSource = new DOMSource(doc);
-        StreamResult sr = new StreamResult((l.getProperties()));
+        StreamResult sr = new StreamResult((pathToProperties));
         tf.transform(domSource, sr);
     }
 
@@ -120,7 +126,9 @@ public class Loader {
         SAXParser saxParser = saxParserFactory.newSAXParser();
         PropertiesHandler ph = new PropertiesHandler();
         Loader l = new Loader();
-        saxParser.parse(l.getPropertiesAsString(), ph);
+        System.out.println("-----------------" + l.getPropertiesAsString());
+        System.out.println("-----------------" + pathToProperties);
+        saxParser.parse(new File(pathToProperties), ph);
         return ph.getFilePath();
     }
 
@@ -191,24 +199,38 @@ public class Loader {
     private static void createDemoTcx(String path) throws IOException {
         StringBuilder sb = new StringBuilder();
         sb.append(path);
-        sb.append("\\Demo.tcx");
+        sb.append("\\demo.tcx");
         File demoTcx = new File(sb.toString());
         demoTcx.createNewFile();
         Loader l = new Loader();
+        System.out.println(" +++++ neues Demo File:" + new File(sb.toString()).toPath());
+        // Path demo = l.getDemo();
 
-        Files.copy((l.getDemo().toPath()), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-        //Files.copy(new File(DEMO       ).toPath(), new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println(" +++++ neues Demo File:" + new File(sb.toString()).toPath());
+        //System.out.println(" +++++ altes Demo File:" + demo);
+
+        l.copyResource(DEMO, sb.toString());
+        //Files.copy(demo, new File(sb.toString()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
     }
 
-    public File getDemo() {
+    public void copyResource(String res, String dest) throws IOException {
+        InputStream src = this.getClass().getResourceAsStream(res);
+        Files.copy(src, Paths.get(dest), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public Path getDemo() {
         // Logging.print(String.valueOf(this.getClass().getResource(DEMO)));
-        System.out.println(new File((this.getClass().getResource(DEMO)).getFile()).toPath());
-        System.out.println((this.getClass().getResource(DEMO)).getFile());
-        System.out.println(this.getClass().getResource(DEMO));
+        // System.out.println(new File((this.getClass().getResource(DEMO)).getFile()).toPath());
+        // System.out.println((this.getClass().getResource(DEMO)).getFile());
+        // System.out.println(this.getClass().getResource(DEMO));
 
-        File demo = new File(this.getClass().getResource(DEMO).getFile());
-
+        Path demo = Path.of(this.getClass().getResource(DEMO).toString());
 
         return demo;
     }
+
+
+
+
 }
