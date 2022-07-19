@@ -81,7 +81,7 @@ public class Loader {
         List<Path> filePaths = getFilePaths(readProperties());
         List<Activity> aList = loadData(filePaths);
         Logging.print(aList.size() + " Files read");
-        ui = new GpsTrackerGUI("GPS-Viewer", aList);
+        ui = new GpsTrackerGUI("myTracks", aList);
         ui.setLocationRelativeTo(null);
         Loader l = new Loader();
         ui.setIconImage(new ImageIcon(Objects.requireNonNull(l.getClass().getResource("icons/icon.png"))).getImage());
