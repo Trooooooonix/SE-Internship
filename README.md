@@ -1,3 +1,3 @@
 # SE-Internship
-08-March-2022: initial commit
+This project was created for a course at the JKU University in Linz.
 
