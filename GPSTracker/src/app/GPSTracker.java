@@ -9,6 +9,9 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 public class GPSTracker {
+    /**
+     * This Method starts the application GPSTracker.
+     */
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException {
         Loader.initLoading();
     }
