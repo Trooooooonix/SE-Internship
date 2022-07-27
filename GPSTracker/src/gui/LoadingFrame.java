@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public class LoadingFrame extends JFrame {
     private JPanel rootPanel;
@@ -14,7 +15,7 @@ public class LoadingFrame extends JFrame {
         this.setContentPane(rootPanel);
         this.pack();
 
-        Icon icon = new ImageIcon(this.getClass().getResource("animations/RunningMan_small.gif"));
+        Icon icon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("animations/RunningMan_small.gif")));
         JLabel gif = new JLabel(icon);
         iconLabel.add(gif);
         this.getContentPane().add(gif);

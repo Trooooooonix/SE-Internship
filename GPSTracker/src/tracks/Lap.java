@@ -3,14 +3,41 @@ package tracks;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * This class illustrates a lap. Laps are part of an activity.
+ */
 public class Lap {
+    /**
+     * Contains the time and date of this lap
+     */
     private LocalDateTime startTime;
+    /**
+     * Contains the seconds needed for this lap
+     */
     private double totalTimeSeconds;
+    /**
+     * Contains the meters travelled in this lap
+     */
     private double distanceMeters;
+    /**
+     * Contains the maximum speed reached in this lap
+     */
     private double maxSpeed;
+    /**
+     * Contains the calories burned in this lap
+     */
     private double calories;
+    /**
+     * Contains the average beats per minute (BPM) in this lap
+     */
     private double averageBPM;
+    /**
+     * Contains the maximum beats per minute (BPM) in this lap
+     */
     private double maxBPM;
+    /**
+     * Contains a list of tracks
+     */
     private List<Track> tracks;
 
     public void addTrack(Track track) {
@@ -63,10 +90,6 @@ public class Lap {
         this.totalTimeSeconds = totalTimeSeconds;
     }
 
-    public String getTotalTimeHHmmSS(double seconds) {
-        return String.format("%02d:%02d:%02d", (int) seconds / 3600, ((int) seconds % 3600) / 60, ((int) seconds % 60));
-    }
-
     public double getDistanceMeters() {
         return distanceMeters;
     }
@@ -99,6 +122,11 @@ public class Lap {
         this.averageBPM = averageBPM;
     }
 
+    /**
+     * This method calculates the total altitude of this lap and returns it.
+     *
+     * @return altitude of this lap
+     */
     public double getLapTotalAltitude() {
         double sum = 0;
         double prevAltitude = 0;

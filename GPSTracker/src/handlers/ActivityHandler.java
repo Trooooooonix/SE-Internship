@@ -10,6 +10,9 @@ import tracks.TrackPoint;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for reading the data from the tcx files. Activities are stored in tcx files.
+ */
 public class ActivityHandler extends DefaultHandler {
     private static final String ACTIVITY = "Activity";
     private static final String ID = "Id";
@@ -132,13 +135,16 @@ public class ActivityHandler extends DefaultHandler {
         else elementValue.append(ch, start, length);
     }
 
+    /**
+     * @return the activity which was read
+     */
     public Activity getActivity() {
         if (a == null) {
             Logging.print("File not added");
             return null;
         } else {
             Logging.print("File added");
-            //Logging.print(a.toString());
+            Logging.print(a.toString());
             a.setDate();
             return a;
         }

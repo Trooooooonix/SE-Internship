@@ -2,10 +2,25 @@ package tracks;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class illustrates a TrackPoint. TrackPoints are part of a track.
+ */
 public class TrackPoint {
+    /**
+     * Contains the exact date and time of this TrackPoint
+     */
     private LocalDateTime time;
+    /**
+     * Contains the latitude where this TrackPoint was recorded
+     */
     private double latitude;
+    /**
+     * Contains the longitude where this TrackPoint was recorded
+     */
     private double longitude;
+    /**
+     * Contains the altitude where this TrackPoint was recorded
+     */
     private double altitude;
 
     public LocalDateTime getTime() {
