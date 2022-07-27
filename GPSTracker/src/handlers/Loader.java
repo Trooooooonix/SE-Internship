@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import tracks.Activity;
 
 import javax.swing.*;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -46,11 +47,11 @@ public class Loader {
     /**
      * Contains the absolute path to the properties.xml file in user directory
      */
-    private static final String pathToPropertiesFile = System.getProperty("user.home") + File.separator + "GPSTracker" + File.separator + "properties.xml";
+    private static final String PATH_TO_PROPERTIES_FILE = System.getProperty("user.home") + File.separator + "GPSTracker" + File.separator + "properties.xml";
     /**
      * Contains the absolute standard path where properties.xml is located and standard path to tcx files.
      */
-    private static final String standardDirectory = System.getProperty("user.home") + File.separator + "GPSTracker";
+    private static final String STANDARD_DIRECTORY = System.getProperty("user.home") + File.separator + "GPSTracker";
     /**
      * user interface
      */
@@ -75,16 +76,15 @@ public class Loader {
         lf.initFrame();
         if (propertiesNotExist()) {
             createFolderAndProperties();
-            createDemoTcx(standardDirectory);
-            updateRootDirectory(standardDirectory);
+            createDemoTcx(STANDARD_DIRECTORY);
+            updateRootDirectory(STANDARD_DIRECTORY);
         }
         List<Path> filePaths = getFilePaths(readProperties());
         List<Activity> aList = loadData(filePaths);
         Logging.print(aList.size() + " Files read");
         ui = new GpsTrackerGUI("myTracks", aList);
         ui.setLocationRelativeTo(null);
-        Loader l = new Loader();
-        ui.setIconImage(new ImageIcon(Objects.requireNonNull(l.getClass().getResource("icons/icon.png"))).getImage());
+        ui.setIconImage(new ImageIcon(Objects.requireNonNull(Loader.class.getResource("icons/icon.png"))).getImage());
         lf.deleteFrame();
         Logging.print("Loading frame stop");
         ui.setVisible(true);
@@ -96,10 +96,11 @@ public class Loader {
      * @throws IOException if properties.xml is not found
      */
     private static void createFolderAndProperties() throws IOException {
-        if (new File(standardDirectory).mkdirs()) Logging.print("Standard directory: " + standardDirectory + "created");
-        else Logging.print("Standard directory: " + standardDirectory + "was not created");
+        if (new File(STANDARD_DIRECTORY).mkdirs())
+            Logging.print("Standard directory: " + STANDARD_DIRECTORY + "created");
+        else Logging.print("Standard directory: " + STANDARD_DIRECTORY + "was not created");
         Loader l = new Loader();
-        l.copyResource(PROPERTIES, pathToPropertiesFile);
+        l.copyResource(PROPERTIES, PATH_TO_PROPERTIES_FILE);
     }
 
     /**
@@ -108,7 +109,7 @@ public class Loader {
      * @return true if the properties.xml does not exist. Otherwise, returns false.
      */
     private static boolean propertiesNotExist() {
-        return !new File(pathToPropertiesFile).exists();
+        return !new File(PATH_TO_PROPERTIES_FILE).exists();
     }
 
     /**
@@ -117,14 +118,12 @@ public class Loader {
      * @throws ParserConfigurationException if a parser cannot be created which satisfies the requested configuration
      * @throws IOException                  if properties.xml is not found
      * @throws SAXException                 for SAX errors
-     * @throws XPathExpressionException     if the expression cannot be evaluated
-     * @throws TransformerException         if an unrecoverable error occurs during the writing of properties.xml file
      */
-    public static void reloadData() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
+    public static void reloadData() throws ParserConfigurationException, IOException, SAXException {
         String rootDir = readProperties();
         if (propertiesNotExist()) {
             createFolderAndProperties();
-            createDemoTcx(standardDirectory);
+            createDemoTcx(STANDARD_DIRECTORY);
         }
         List<Path> filePaths = getFilePaths(rootDir);
         List<Activity> aList = loadData(filePaths);
@@ -143,18 +142,23 @@ public class Loader {
      */
     public static void updateRootDirectory(String newRootDir) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException, TransformerException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(new File(pathToPropertiesFile));
+        Document doc = db.parse(new File(PATH_TO_PROPERTIES_FILE));
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node filePath = (Node) xPath.compile("/filePath").evaluate(doc, XPathConstants.NODE);
         filePath.setTextContent(newRootDir);
 
-        Transformer tf = TransformerFactory.newInstance().newTransformer();
+        TransformerFactory tff = TransformerFactory.newInstance();
+        tff.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tff.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+
+        Transformer tf = tff.newTransformer();
         tf.setOutputProperty(OutputKeys.INDENT, "yes");
         tf.setOutputProperty(OutputKeys.METHOD, "xml");
 
         DOMSource domSource = new DOMSource(doc);
-        StreamResult sr = new StreamResult((pathToPropertiesFile));
+        StreamResult sr = new StreamResult((PATH_TO_PROPERTIES_FILE));
         tf.transform(domSource, sr);
     }
 
@@ -170,7 +174,7 @@ public class Loader {
         saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = saxParserFactory.newSAXParser();
         PropertiesHandler ph = new PropertiesHandler();
-        saxParser.parse(new File(pathToPropertiesFile), ph);
+        saxParser.parse(new File(PATH_TO_PROPERTIES_FILE), ph);
         return ph.getFilePath();
     }
 

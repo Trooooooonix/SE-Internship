@@ -36,8 +36,8 @@ public class ActivityHandler extends DefaultHandler {
     private Track currTrack;
     private TrackPoint currTrackPoint;
     private StringBuilder elementValue;
-    private boolean maxBPM_bool = false;
-    private boolean avgBPM_bool = false;
+    private boolean maxBpmBool = false;
+    private boolean avgBpmBool = false;
 
     @Override
     public void startDocument() {
@@ -62,9 +62,10 @@ public class ActivityHandler extends DefaultHandler {
                 currTrack.setTrackPoints(new ArrayList<>());
             }
             case TRACKPOINT -> currTrackPoint = new TrackPoint();
-            case MAXIMUMBPM -> maxBPM_bool = true;
-            case AVERAGEBPM -> avgBPM_bool = true;
+            case MAXIMUMBPM -> maxBpmBool = true;
+            case AVERAGEBPM -> avgBpmBool = true;
             case ID, TOTALTIMESECONDS, DISTANCEMETERS, MAXIMUMSPEED, CALORIES, TIME, LATITUDE, LONGITUDE, ALTITUDE, VALUE -> elementValue = new StringBuilder();
+            default -> Logging.print("Default case in ActivityHandler startElement detected");
         }
     }
 
@@ -72,61 +73,38 @@ public class ActivityHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) {
 
         switch (qName) {
-            case ID:
-                a.setId(elementValue.toString());
-                break;
-            case LAP:
-                a.addLap(currLap);
-                break;
-            case TOTALTIMESECONDS:
-                currLap.setTotalTimeSeconds(Double.parseDouble(elementValue.toString()));
-                break;
-            case DISTANCEMETERS:
+            case ID -> a.setId(elementValue.toString());
+            case LAP -> a.addLap(currLap);
+            case TOTALTIMESECONDS -> currLap.setTotalTimeSeconds(Double.parseDouble(elementValue.toString()));
+            case DISTANCEMETERS -> {
                 // look at lesbos for || argument
-                if (currLap.getTracks().size() == 0 || !currLap.getTracks().contains(currTrack)) {
+                if (currLap.getTracks().isEmpty() || !currLap.getTracks().contains(currTrack)) {
                     currLap.setDistanceMeters(Double.parseDouble(elementValue.toString()));
                 }
-                break;
-            case MAXIMUMSPEED:
-                currLap.setMaxSpeed(Double.parseDouble(elementValue.toString()));
-                break;
-            case CALORIES:
-                currLap.setCalories(Double.parseDouble(elementValue.toString()));
-                break;
-            case AVERAGEBPM:
-                avgBPM_bool = false;
-                break;
-            case MAXIMUMBPM:
-                maxBPM_bool = false;
-                break;
-            case VALUE:
-                if (maxBPM_bool) currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
-                if (avgBPM_bool) currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
-                break;
-            case TRACK:
-                currLap.addTrack(currTrack);
-                break;
-            case TRACKPOINT:
-                currTrack.addTrackPoint(currTrackPoint);
-                break;
-            case TIME:
+            }
+            case MAXIMUMSPEED -> currLap.setMaxSpeed(Double.parseDouble(elementValue.toString()));
+            case CALORIES -> currLap.setCalories(Double.parseDouble(elementValue.toString()));
+            case AVERAGEBPM -> avgBpmBool = false;
+            case MAXIMUMBPM -> maxBpmBool = false;
+            case VALUE -> {
+                if (maxBpmBool) currLap.setMaxBPM(Double.parseDouble(elementValue.toString()));
+                if (avgBpmBool) currLap.setAverageBPM(Double.parseDouble(elementValue.toString()));
+            }
+            case TRACK -> currLap.addTrack(currTrack);
+            case TRACKPOINT -> currTrack.addTrackPoint(currTrackPoint);
+            case TIME -> {
                 String eV = elementValue.toString();
                 try {
                     currTrackPoint.setTime(LocalDateTime.parse(eV.substring(0, eV.length() - 1)));
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    Logging.print(e.toString());
                 }
-                break;
-            case LATITUDE:
-                currTrackPoint.setLatitude(Double.parseDouble(elementValue.toString()));
-                break;
-            case LONGITUDE:
-                currTrackPoint.setLongitude(Double.parseDouble(elementValue.toString()));
-                break;
-            case ALTITUDE:
-                currTrackPoint.setAltitude(Double.parseDouble(elementValue.toString()));
-                break;
+            }
+            case LATITUDE -> currTrackPoint.setLatitude(Double.parseDouble(elementValue.toString()));
+            case LONGITUDE -> currTrackPoint.setLongitude(Double.parseDouble(elementValue.toString()));
+            case ALTITUDE -> currTrackPoint.setAltitude(Double.parseDouble(elementValue.toString()));
+            default -> Logging.print("Default case in ActivityHandler endElement detected");
         }
-
     }
 
     @Override

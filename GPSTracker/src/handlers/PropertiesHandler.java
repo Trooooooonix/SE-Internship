@@ -10,7 +10,7 @@ public class PropertiesHandler extends DefaultHandler {
     /**
      * Contains the tag in which the filepath is saved
      */
-    private static final String FILEPATH = "filePath";
+    private static final String TAGTOFILEPATH = "filePath";
 
 
     private String filePath;
@@ -20,7 +20,7 @@ public class PropertiesHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         // if is here also possible, but we stayed here using switch to keep space for further properties
         switch (qName) {
-            case FILEPATH -> elementValue = new StringBuilder();
+            case TAGTOFILEPATH -> elementValue = new StringBuilder();
         }
     }
 
@@ -28,7 +28,7 @@ public class PropertiesHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) {
         // if is here also possible, but we stayed here using switch to keep space for further properties
         switch (qName) {
-            case FILEPATH -> filePath = elementValue.toString();
+            case TAGTOFILEPATH -> filePath = elementValue.toString();
         }
     }
 

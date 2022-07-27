@@ -14,6 +14,10 @@ public class Formatter {
     private static final NumberFormat paceFormatter = new DecimalFormat("#0.00");
     private static final NumberFormat distanceFormatter = new DecimalFormat("#0,000");
 
+    private Formatter() {
+        Logging.print("A formatter is used");
+    }
+
     /**
      * This method formats a LocalDateTime to a string within this format: dd.MM.yyyy.
      *

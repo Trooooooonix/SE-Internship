@@ -189,8 +189,7 @@ public class GpsTrackerGUI extends JFrame {
             try {
                 Loader.reloadData();
             } catch (IOException | ParserConfigurationException
-                    | SAXException | XPathExpressionException
-                    | TransformerException e) {
+                    | SAXException e) {
                 e.printStackTrace();
             }
         });
@@ -270,7 +269,8 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
-     *               creates and fills the TrackTable inside the GUI
+     * creates and fills the TrackTable inside the GUI
+     *
      * @param aList: List of activities
      */
     private void createTrackTable(List<Activity> aList) {
