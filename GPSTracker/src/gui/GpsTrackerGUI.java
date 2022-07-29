@@ -66,6 +66,7 @@ public class GpsTrackerGUI extends JFrame {
     private static JMenuItem hiking;
     private static JMenuItem skiing;
     private static final int TRACK_TABLE_WIDTH = 85;
+    private static final int SEGMENT_TABLE_WIDTH = 75;
     private static SportType sportType = SportType.all;
     private static Period groupBy = Period.ACTIVITY;
 
@@ -80,6 +81,12 @@ public class GpsTrackerGUI extends JFrame {
     private List<Activity> currList;
 
 
+    /**
+     * Constructor for the GUI
+     *
+     * @param title title of window
+     * @param aList activities shown in gui
+     */
     public GpsTrackerGUI(String title, List<Activity> aList) {
         super(title);
         initiateMenuBar(this);
@@ -619,7 +626,7 @@ public class GpsTrackerGUI extends JFrame {
                 Logging.print("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
             }
 
-            int segmentTableWidth = 100;
+
             if (!pace.isSelected()) {
                 trackTable.getColumnModel().getColumn(5).setMinWidth(0);
                 trackTable.getColumnModel().getColumn(5).setPreferredWidth(0);
@@ -632,9 +639,9 @@ public class GpsTrackerGUI extends JFrame {
                 trackTable.getColumnModel().getColumn(5).setMinWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(5).setMaxWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(5).setPreferredWidth(TRACK_TABLE_WIDTH);
-                segmentTable.getColumnModel().getColumn(3).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(3).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(3).setPreferredWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(3).setMinWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(3).setMaxWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(3).setPreferredWidth(SEGMENT_TABLE_WIDTH);
                 Logging.print("JMenuItemAction: pace selected - Width:" + trackTable.getColumnModel().getColumn(5).getWidth());
             }
 
@@ -650,9 +657,9 @@ public class GpsTrackerGUI extends JFrame {
                 trackTable.getColumnModel().getColumn(6).setMinWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(6).setMaxWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(6).setPreferredWidth(TRACK_TABLE_WIDTH);
-                segmentTable.getColumnModel().getColumn(5).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(5).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(5).setPreferredWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(5).setMinWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(5).setMaxWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(5).setPreferredWidth(SEGMENT_TABLE_WIDTH);
                 Logging.print("JMenuItemAction: averageBpm selected - Width:" + trackTable.getColumnModel().getColumn(6).getWidth());
             }
 
@@ -668,9 +675,9 @@ public class GpsTrackerGUI extends JFrame {
                 trackTable.getColumnModel().getColumn(7).setMinWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(7).setMaxWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(7).setPreferredWidth(TRACK_TABLE_WIDTH);
-                segmentTable.getColumnModel().getColumn(6).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(6).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(6).setPreferredWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(6).setMinWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(6).setMaxWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(6).setPreferredWidth(SEGMENT_TABLE_WIDTH);
                 Logging.print("JMenuItemAction: maxBpm selected - Width:" + trackTable.getColumnModel().getColumn(7).getWidth());
             }
 
@@ -686,9 +693,9 @@ public class GpsTrackerGUI extends JFrame {
                 trackTable.getColumnModel().getColumn(8).setMinWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(8).setMaxWidth(TRACK_TABLE_WIDTH);
                 trackTable.getColumnModel().getColumn(8).setPreferredWidth(TRACK_TABLE_WIDTH);
-                segmentTable.getColumnModel().getColumn(4).setMinWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(4).setMaxWidth(segmentTableWidth);
-                segmentTable.getColumnModel().getColumn(4).setPreferredWidth(segmentTableWidth);
+                segmentTable.getColumnModel().getColumn(4).setMinWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(4).setMaxWidth(SEGMENT_TABLE_WIDTH);
+                segmentTable.getColumnModel().getColumn(4).setPreferredWidth(SEGMENT_TABLE_WIDTH);
                 Logging.print("JMenuItemAction: heightLvl selected - Width:" + trackTable.getColumnModel().getColumn(8).getWidth());
             }
         }
