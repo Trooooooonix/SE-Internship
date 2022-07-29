@@ -1,7 +1,6 @@
 package UnitTests;
 
 import handlers.Loader;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -15,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestGPSTracker {
+class TestGPSTracker {
 
     private List<Activity> listOfTestData;
 
@@ -48,7 +47,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetActivityDistanceMeters() {
+    void testGetActivityDistanceMeters() {
         Activity a = listOfTestData.get(0);
         assertEquals(4400, a.getActivityDistanceMeters());
         assertNotEquals(2401, a.getActivityDistanceMeters());
@@ -56,7 +55,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetActivityTotalAltitude() {
+    void testGetActivityTotalAltitude() {
         Activity a = listOfTestData.get(0);
         assertEquals(320.4, a.getActivityTotalAltitude());
         assertNotEquals(321, a.getActivityTotalAltitude());
@@ -64,7 +63,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetMaxBPM() {
+    void testGetMaxBPM() {
         Activity a = listOfTestData.get(0);
         assertEquals(1500, a.getMaxBPM());
         assertNotEquals(1501, a.getMaxBPM());
@@ -72,7 +71,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetAvgBPM() {
+    void testGetAvgBPM() {
         Activity a = listOfTestData.get(0);
         assertEquals(135.6, a.getAvgBPM());
         assertNotEquals(134, a.getAvgBPM());
@@ -80,7 +79,7 @@ public class TestGPSTracker {
     }
 
     @Test
-    public void testGetId() {
+    void testGetId() {
         Activity a = listOfTestData.get(0);
         assertEquals("Bad Zell", a.getId());
         assertNotEquals("Eisenstadt", a.getId());
