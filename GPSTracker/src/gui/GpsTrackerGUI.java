@@ -43,10 +43,26 @@ import java.util.List;
 import static gui.GpsTrackerGUI.BarChart.createChart;
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * This class is responsible for creating and keeping the UI up-to-date
+ */
 public class GpsTrackerGUI extends JFrame {
+    /**
+     * Contains the Text that is shown on the y-Axis of the BarChart
+     */
     private static String yAxis;
+    /**
+     * Contains the current selected Row in the Track Table
+     */
     private static int trackRow = 0;
+    /**
+     * Contains the current selected Column in the Segment Table
+     */
     private static int segmentColumn = 1;
+    /**
+     * Contains the current Dataset that is shown in the BarChart
+     */
+
     private static DefaultCategoryDataset dataset;
     private static JCheckBoxMenuItem startTime;
     private static JCheckBoxMenuItem pace;
@@ -65,21 +81,33 @@ public class GpsTrackerGUI extends JFrame {
     private static JMenuItem flying;
     private static JMenuItem hiking;
     private static JMenuItem skiing;
+
+    /**
+     * Contains the static width of Columns in the TrackTable
+     */
     private static final int TRACK_TABLE_WIDTH = 85;
+    /**
+     * Contains the static width of Columns in the SegementTable
+     */
     private static final int SEGMENT_TABLE_WIDTH = 75;
+    /**
+     * Contains the current selected SportType
+     */
     private static SportType sportType = SportType.all;
+    /**
+     * Contains the current selected Period
+     */
     private static Period groupBy = Period.ACTIVITY;
 
     private JPanel rootPanel;
     private JTable trackTable;
     private JTable segmentTable;
     private JPanel chartPanel;
-    private JPanel Tracks;      //needed
+    private JPanel tracks;      //needed for form
     private JLabel nameLabel;
     private JPanel segmentPanel;
     private JPanel barChartPanel;
     private List<Activity> currList;
-
 
     /**
      * Constructor for the GUI
@@ -215,14 +243,28 @@ public class GpsTrackerGUI extends JFrame {
         Logging.print("gui updated");
     }
 
+    /**
+     * @return the current List of Activities
+     */
     public List<Activity> getCurrList() {
         return currList;
     }
 
+    /**
+     * Sets the current List of Activities
+     *
+     * @param aList activities shown in gui
+     */
     public void setCurrList(List<Activity> aList) {
         currList = aList;
     }
 
+
+    /**
+     * Inititates the JMenu- Bar
+     *
+     * @param window
+     */
     public void initiateMenuBar(JFrame window) {
         JMenuBar menuBar = new JMenuBar();
         window.setJMenuBar(menuBar);
@@ -325,7 +367,7 @@ public class GpsTrackerGUI extends JFrame {
         ));
 
         setColumnVisibility(groupBy != Period.YEAR && groupBy != Period.MONTH);
-        //renderCells();
+
         TableColumnModel columns = trackTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -369,8 +411,8 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
+     * Creates the segmentTable on the right side of the GUI
      * @param aList: List of activities
-     *               creates the segmentTable on the right side of the GUI
      */
     private void createSegmentTable(List<Activity> aList) {
         if (trackTable.getRowCount() < 1) {
@@ -402,7 +444,7 @@ public class GpsTrackerGUI extends JFrame {
                 data,
                 new String[]{"Segment", "Time", "Distance", "Pace", "Altitude", "avg. BPM", "max. BPM"}
         ));
-        //renderCells();
+
         TableColumnModel columns = segmentTable.getColumnModel();
         columns.getColumn(0).setMinWidth(100);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -425,8 +467,8 @@ public class GpsTrackerGUI extends JFrame {
     }
 
     /**
+     * Creates the barChart at the bottom of the GUI
      * @param aList: List of activities
-     *               creates the barChart at the bottom of the GUI
      */
     private void createBarChart(List<Activity> aList) {
         if (trackTable.getRowCount() < 1) {
@@ -577,6 +619,9 @@ public class GpsTrackerGUI extends JFrame {
         return data;
     }
 
+    /**
+     * This class is responsible for creating and keeping the BarChart up-to-date
+     */
     public static class BarChart extends ApplicationFrame {
 
         @Serial
@@ -601,10 +646,7 @@ public class GpsTrackerGUI extends JFrame {
             JFreeChart chart = ChartFactory.createBarChart(
                     " ", "Segment" /* x-axis label*/,
                     yAxis /* y-axis label */, dataset);
-            /*
-                chart.addSubtitle(new TextTitle("Time to generate 1000 charts in SVG "
-                     + "format (lower bars = better performance)"));
-            */
+
             chart.setBackgroundPaint(Color.white);
             CategoryPlot plot = (CategoryPlot) chart.getPlot();
             NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
@@ -616,7 +658,16 @@ public class GpsTrackerGUI extends JFrame {
         }
     }
 
+    /**
+     * This class implements the ActionListeners of the JMenuItems
+     */
     class MenuActionListener implements ActionListener {
+
+        /**
+         * Reacts on MenuBar-Mouse Actions
+         *
+         * @param e
+         */
         public void actionPerformed(ActionEvent e) {
             if (!startTime.isSelected()) {
                 trackTable.getColumnModel().getColumn(2).setMinWidth(0);
@@ -629,7 +680,6 @@ public class GpsTrackerGUI extends JFrame {
                 trackTable.getColumnModel().getColumn(2).setPreferredWidth(TRACK_TABLE_WIDTH);
                 Logging.print("JMenuItemAction: startTime selected - Width:" + trackTable.getColumnModel().getColumn(2).getWidth());
             }
-
 
             if (!pace.isSelected()) {
                 trackTable.getColumnModel().getColumn(5).setMinWidth(0);
