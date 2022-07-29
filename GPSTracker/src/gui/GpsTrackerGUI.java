@@ -555,7 +555,7 @@ public class GpsTrackerGUI extends JFrame {
     /**
      * @param aList:     List of activities
      * @param sportType: ENUM SportType value
-     * @return returns a List<List<Activity>> with grouped items which is selected in the GUI, sorted by date
+     * @return  a List of a List of Activities with grouped items which is selected in the GUI, sorted by date
      */
     public List<List<Activity>> getListOfListSorted(List<Activity> aList, SportType sportType) {
         List<Activity> filteredBySportList = getTrackListSports(aList, sportType);
@@ -579,7 +579,7 @@ public class GpsTrackerGUI extends JFrame {
     /**
      * @param aList:     List of activities
      * @param sportType: ENUM SportType value
-     * @return an object[][] which contains the data to fill into the GUI-Tables in method createTrackTable(List<Activity> aList)
+     * @return an object[][] which contains the data to fill into the GUI-Tables in method createTrackTable()
      */
     public Object[][] groupingByPeriod(List<Activity> aList, SportType sportType) {
         List<List<Activity>> temp = getListOfListSorted(aList, sportType);
