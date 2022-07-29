@@ -1,112 +1,103 @@
 
-l
-java:S1192¼"IDefine a constant instead of duplicating this literal "Distance" 3 times.(ó‰øöùÿÿÿÿ8‰”…„¤0
+e
+java:S1192»"IDefine a constant instead of duplicating this literal "Distance" 3 times.(ó‰øöùÿÿÿÿ
 `
-java:S1192…"IDefine a constant instead of duplicating this literal "Altitude" 4 times.(Ã—™•
-f	java:S116M"QRename this field "Tracks" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(á ÂÊ
+java:S1192„"IDefine a constant instead of duplicating this literal "Altitude" 4 times.(Ã—™•
+f	java:S116L"QRename this field "Tracks" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(á ÂÊ
 E
-java:S1948Q"*Make "currList" transient or serializable.(±ó‡¢şÿÿÿÿ
-S
-java:S2696f"6Make the enclosing method "static" or remove this set.(Å‡ß8ÁúœÎ¤0
-S
-java:S2696g"6Make the enclosing method "static" or remove this set.(ìªÓİ8Œ¢Î¤0
-S
-java:S2696m"6Make the enclosing method "static" or remove this set.(Æ÷÷–8ÃúœÎ¤0
-S
-java:S2696y"6Make the enclosing method "static" or remove this set.(òï¼ş8¢Î¤0
-Y
-java:S2696‡"6Make the enclosing method "static" or remove this set.(Õ¡²şÿÿÿÿ8£™¡Î¤0
-T
-java:S2696Œ"6Make the enclosing method "static" or remove this set.(´Ş•Ì8£™¡Î¤0
-S
-java:S2696‘"6Make the enclosing method "static" or remove this set.(Ò®™8¤™¡Î¤0
-Y
-java:S2696–"6Make the enclosing method "static" or remove this set.(à±ÿûûÿÿÿÿ8¤™¡Î¤0
-S
-java:S2696›"6Make the enclosing method "static" or remove this set.(ıŠ‡*8¤™¡Î¤0
-T
-java:S2696 "6Make the enclosing method "static" or remove this set.(‹äÜİ8¥™¡Î¤0
-T
-java:S2696¥"6Make the enclosing method "static" or remove this set.(ªò¸ÿ8¥™¡Î¤0
-S
-java:S2696ª"6Make the enclosing method "static" or remove this set.(üĞùX8¦™¡Î¤0
-T
-java:S2696¯"6Make the enclosing method "static" or remove this set.(°¼øÚ8¦™¡Î¤0
-T
-java:S2696´"6Make the enclosing method "static" or remove this set.(»£øº8§™¡Î¤0
-Y
-java:S2696â"6Make the enclosing method "static" or remove this set.(’÷Ã¦ùÿÿÿÿ8 ” Î¤0
-Y
-java:S2696ä"6Make the enclosing method "static" or remove this set.(ô×´øÿÿÿÿ8¡” Î¤0
-Y
-java:S2696é"6Make the enclosing method "static" or remove this set.(öŠ£ôıÿÿÿÿ8¡” Î¤0
-Y
-java:S2696ë"6Make the enclosing method "static" or remove this set.(³éüÿÿÿÿ8¢” Î¤0
-Y
-java:S2696í"6Make the enclosing method "static" or remove this set.(ÄÃõÍùÿÿÿÿ8¢” Î¤0
-T
-java:S2696ó"6Make the enclosing method "static" or remove this set.(Ë£Ğ®8ÈĞÎ¤0
-T
-java:S2696ù"6Make the enclosing method "static" or remove this set.(ğîè´8ÈĞÎ¤0
-Y
-java:S2696ı"6Make the enclosing method "static" or remove this set.(Ìø˜©ùÿÿÿÿ8ÉĞÎ¤0
-Y
-java:S2696"6Make the enclosing method "static" or remove this set.(Ô·Ÿ‡ûÿÿÿÿ8ÉĞÎ¤0
-T
-java:S2696…"6Make the enclosing method "static" or remove this set.(Ã—™•8ÊĞÎ¤0
-Y
-java:S2696Œ"6Make the enclosing method "static" or remove this set.(çüŠıÿÿÿÿ8›ê Î¤0
-Y
-java:S2696"6Make the enclosing method "static" or remove this set.(’Ç—ûÿÿÿÿ8›ê Î¤0
-T
-java:S2696"6Make the enclosing method "static" or remove this set.(öÏæ­8›ê Î¤0
-T
-java:S2696’"6Make the enclosing method "static" or remove this set.(ó­¤€8›ê Î¤0
-T
-java:S2696”"6Make the enclosing method "static" or remove this set.(òÑº8œê Î¤0
-T
-java:S2696–"6Make the enclosing method "static" or remove this set.(ú–ûØ8œê Î¤0
-Y
-java:S2696˜"6Make the enclosing method "static" or remove this set.(õòÖşÿÿÿÿ8œê Î¤0
-^	java:S125À"<This block of commented-out lines of code should be removed.(êáÈúÿÿÿÿ8áš…„¤0
-T
-java:S2696Ó"6Make the enclosing method "static" or remove this set.(Å‡ß8ÔúœÎ¤0
-Y	java:S125ô"<This block of commented-out lines of code should be removed.(õ­»¦8›…„¤0
-^	java:S125‹"<This block of commented-out lines of code should be removed.(êáÈúÿÿÿÿ8’›…„¤0
-]
-java:S3252‘"AUse static access with "javax.swing.SwingConstants" for "CENTER".(¦™œĞÿÿÿÿÿ
-W
-java:S3252’"@Use static access with "javax.swing.SwingConstants" for "RIGHT".(Ë¬†³
-]
-java:S3252“"?Use static access with "javax.swing.SwingConstants" for "LEFT".(æòÛŒ8”›…„¤0
-T
-java:S2696"6Make the enclosing method "static" or remove this set.(ìªÓİ8¨¢Î¤0
-Y
-java:S2696Á"6Make the enclosing method "static" or remove this set.(˜÷œÆüÿÿÿÿ8˜Î¤0
-T
-java:S2696Â"6Make the enclosing method "static" or remove this set.(¢È™ò8¡•—Î¤0
-Y
-java:S2696Æ"6Make the enclosing method "static" or remove this set.(¿ŠáÍüÿÿÿÿ8˜Î¤0
-T
-java:S2696Ç"6Make the enclosing method "static" or remove this set.(æáÄŸ8¢•—Î¤0
-T
-java:S2696Ë"6Make the enclosing method "static" or remove this set.(Ë¾Œ8˜Î¤0
-Y
-java:S2696Ì"6Make the enclosing method "static" or remove this set.(µ¥¢´şÿÿÿÿ8¢•—Î¤0
-Y
-java:S2696Ğ"6Make the enclosing method "static" or remove this set.( ï‹òşÿÿÿÿ8™Î¤0
-Y
-java:S2696Ñ"6Make the enclosing method "static" or remove this set.(ÀƒÔÓúÿÿÿÿ8£•—Î¤0
-S
-java:S2696Õ"6Make the enclosing method "static" or remove this set.(‚ŸD8™Î¤0
-Y
-java:S2696Ö"6Make the enclosing method "static" or remove this set.(ò†ú·şÿÿÿÿ8£•—Î¤0
-T
-java:S2696Ú"6Make the enclosing method "static" or remove this set.(¸æØ¶8™Î¤0
-S
-java:S2696Û"6Make the enclosing method "static" or remove this set.(­ËåG8£•—Î¤0
-X	java:S125Ú"<This block of commented-out lines of code should be removed.(š§±#8«›…„¤0
-S
-java:S1128&"1Remove this unused import 'java.io.Serializable'.(èãîÂÿÿÿÿÿ8ò®Î¤0
+java:S1948P"*Make "currList" transient or serializable.(±ó‡¢şÿÿÿÿ
+L
+java:S2696e"6Make the enclosing method "static" or remove this set.(Å‡ß
+L
+java:S2696f"6Make the enclosing method "static" or remove this set.(ìªÓİ
+L
+java:S2696l"6Make the enclosing method "static" or remove this set.(Æ÷÷–
+L
+java:S2696x"6Make the enclosing method "static" or remove this set.(òï¼ş
+R
+java:S2696†"6Make the enclosing method "static" or remove this set.(Õ¡²şÿÿÿÿ
+M
+java:S2696‹"6Make the enclosing method "static" or remove this set.(´Ş•Ì
+L
+java:S2696"6Make the enclosing method "static" or remove this set.(Ò®™
+R
+java:S2696•"6Make the enclosing method "static" or remove this set.(à±ÿûûÿÿÿÿ
+L
+java:S2696š"6Make the enclosing method "static" or remove this set.(ıŠ‡*
+M
+java:S2696Ÿ"6Make the enclosing method "static" or remove this set.(‹äÜİ
+M
+java:S2696¤"6Make the enclosing method "static" or remove this set.(ªò¸ÿ
+L
+java:S2696©"6Make the enclosing method "static" or remove this set.(üĞùX
+M
+java:S2696®"6Make the enclosing method "static" or remove this set.(°¼øÚ
+M
+java:S2696³"6Make the enclosing method "static" or remove this set.(»£øº
+R
+java:S2696á"6Make the enclosing method "static" or remove this set.(’÷Ã¦ùÿÿÿÿ
+R
+java:S2696ã"6Make the enclosing method "static" or remove this set.(ô×´øÿÿÿÿ
+R
+java:S2696è"6Make the enclosing method "static" or remove this set.(öŠ£ôıÿÿÿÿ
+R
+java:S2696ê"6Make the enclosing method "static" or remove this set.(³éüÿÿÿÿ
+R
+java:S2696ì"6Make the enclosing method "static" or remove this set.(ÄÃõÍùÿÿÿÿ
+M
+java:S2696ò"6Make the enclosing method "static" or remove this set.(Ë£Ğ®
+M
+java:S2696ø"6Make the enclosing method "static" or remove this set.(ğîè´
+R
+java:S2696ü"6Make the enclosing method "static" or remove this set.(Ìø˜©ùÿÿÿÿ
+R
+java:S2696€"6Make the enclosing method "static" or remove this set.(Ô·Ÿ‡ûÿÿÿÿ
+M
+java:S2696„"6Make the enclosing method "static" or remove this set.(Ã—™•
+R
+java:S2696‹"6Make the enclosing method "static" or remove this set.(çüŠıÿÿÿÿ
+R
+java:S2696"6Make the enclosing method "static" or remove this set.(’Ç—ûÿÿÿÿ
+M
+java:S2696"6Make the enclosing method "static" or remove this set.(öÏæ­
+M
+java:S2696‘"6Make the enclosing method "static" or remove this set.(ó­¤€
+M
+java:S2696“"6Make the enclosing method "static" or remove this set.(òÑº
+M
+java:S2696•"6Make the enclosing method "static" or remove this set.(ú–ûØ
+R
+java:S2696—"6Make the enclosing method "static" or remove this set.(õòÖşÿÿÿÿ
+W	java:S125¿"<This block of commented-out lines of code should be removed.(êáÈúÿÿÿÿ
+M
+java:S2696Ò"6Make the enclosing method "static" or remove this set.(Å‡ß
+W	java:S125Š"<This block of commented-out lines of code should be removed.(êáÈúÿÿÿÿ
+M
+java:S2696œ"6Make the enclosing method "static" or remove this set.(ìªÓİ
+R
+java:S2696À"6Make the enclosing method "static" or remove this set.(˜÷œÆüÿÿÿÿ
+M
+java:S2696Á"6Make the enclosing method "static" or remove this set.(¢È™ò
+R
+java:S2696Å"6Make the enclosing method "static" or remove this set.(¿ŠáÍüÿÿÿÿ
+M
+java:S2696Æ"6Make the enclosing method "static" or remove this set.(æáÄŸ
+M
+java:S2696Ê"6Make the enclosing method "static" or remove this set.(Ë¾Œ
+R
+java:S2696Ë"6Make the enclosing method "static" or remove this set.(µ¥¢´şÿÿÿÿ
+R
+java:S2696Ï"6Make the enclosing method "static" or remove this set.( ï‹òşÿÿÿÿ
+R
+java:S2696Ğ"6Make the enclosing method "static" or remove this set.(ÀƒÔÓúÿÿÿÿ
+L
+java:S2696Ô"6Make the enclosing method "static" or remove this set.(‚ŸD
+R
+java:S2696Õ"6Make the enclosing method "static" or remove this set.(ò†ú·şÿÿÿÿ
+M
+java:S2696Ù"6Make the enclosing method "static" or remove this set.(¸æØ¶
+L
+java:S2696Ú"6Make the enclosing method "static" or remove this set.(­ËåG
+Q	java:S125Ó"<This block of commented-out lines of code should be removed.(š§±#
 @
-java:S1068M"*Remove this unused "Tracks" private field.(á ÂÊ
+java:S1068L"*Remove this unused "Tracks" private field.(á ÂÊ
