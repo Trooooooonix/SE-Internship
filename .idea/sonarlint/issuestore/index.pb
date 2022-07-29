@@ -19,5 +19,3 @@ S
 #GPSTracker/src/tracks/Activity.java,e\1\e19e7839278715ee23d038b162fa3447ff95c071
 ^
 .GPSTracker/src/handlers/PropertiesHandler.java,f\0\f0d91bc99b5c0cd97a70b4013609bce85fe34757
-U
-%GPSTracker/src/gui/GpsTrackerGUI.java,1\3\13fae627eac9e0d0f4b2fe73ecebfcd253d2e8ee

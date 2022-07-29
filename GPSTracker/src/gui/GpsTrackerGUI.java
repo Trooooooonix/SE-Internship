@@ -317,6 +317,8 @@ public class GpsTrackerGUI extends JFrame {
         trackTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         trackTable.setRowSelectionAllowed(true);
         trackTable.setColumnSelectionAllowed(false);
+        trackTable.getTableHeader().setReorderingAllowed(false);
+        trackTable.getTableHeader().setResizingAllowed(false);
         trackTable.setModel(new DefaultTableModel(
                 data,
                 new String[]{"Name", "Date", "Start", "Time", "Distance", "Pace", "avg. BPM", "max. BPM", "Altitude"}
@@ -394,6 +396,8 @@ public class GpsTrackerGUI extends JFrame {
         segmentTable.setDefaultEditor(Object.class, null);  // um Werte zu fixieren
         segmentTable.setRowSelectionAllowed(false);
         segmentTable.setColumnSelectionAllowed(true);
+        segmentTable.getTableHeader().setReorderingAllowed(false);
+        segmentTable.getTableHeader().setResizingAllowed(false);
         segmentTable.setModel(new DefaultTableModel(
                 data,
                 new String[]{"Segment", "Time", "Distance", "Pace", "Altitude", "avg. BPM", "max. BPM"}
